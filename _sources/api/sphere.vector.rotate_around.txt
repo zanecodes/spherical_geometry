@@ -1,0 +1,8 @@
+
+
+rotate_around
+===========================
+
+.. currentmodule:: sphere.vector
+
+.. autofunction:: rotate_around

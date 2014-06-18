@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API Documentation &mdash; sphere v0.0.dev18</title>
+    <title>API Documentation &mdash; sphere v0.0.dev23</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.dev18',
+        VERSION:     '0.0.dev23',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,8 +26,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
-    <link rel="top" title="sphere v0.0.dev18" href="../index.html" />
+    <link rel="top" title="sphere v0.0.dev23" href="../index.html" />
     <link rel="up" title="Welcome to Spherical Geometry Toolkit’s documentation!" href="index.html" />
+    <link rel="next" title="radec_to_vector" href="../api/sphere.vector.radec_to_vector.html" />
     <link rel="prev" title="User documentation" href="user.html" />
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../_static/copybutton.js"></script>
@@ -58,13 +59,18 @@
     <h3>Navigation</h3>
     <ul>
       <li class="right">
+	<a href="../api/sphere.vector.radec_to_vector.html" title="radec_to_vector">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
 	<a href="user.html" title="User documentation">
 	  &laquo; previous
 	</a>
-	
+	 |
       </li>
       <li>
-	<a href="../index.html">sphere v0.0.dev18</a>
+	<a href="../index.html">sphere v0.0.dev23</a>
 	 &raquo;
       </li>
       <li><a href="index.html" accesskey="U">Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
@@ -81,1202 +87,125 @@
             
   <div class="section" id="api-documentation">
 <h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="vectors">
+<h2>Vectors<a class="headerlink" href="#vectors" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="module-sphere.vector">
-<span id="vectors"></span><h2>Vectors<a class="headerlink" href="#module-sphere.vector" title="Permalink to this headline">¶</a></h2>
+<span id="sphere-vector-module"></span><h2>sphere.vector Module<a class="headerlink" href="#module-sphere.vector" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#module-sphere.vector" title="sphere.vector"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.vector</span></tt></a> module contains the basic operations for handling
 vectors and converting them to and from other representations.</p>
-<dl class="function">
-<dt id="sphere.vector.radec_to_vector">
-<tt class="descclassname">sphere.vector.</tt><tt class="descname">radec_to_vector</tt><big>(</big><em>ra</em>, <em>dec</em>, <em>degrees=True</em><big>)</big><a class="reference internal" href="../_modules/sphere/vector.html#radec_to_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.vector.radec_to_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a location on the unit sphere from right-ascension and
-declination to an <em>x</em>, <em>y</em>, <em>z</em> vector.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>ra, dec</strong> : scalars or 1-D arrays</p>
-<p><strong>degrees</strong> : bool, optional</p>
-<blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, (default) <em>ra</em> and <em>dec</em> are in decimal degrees,
-otherwise in radians.</p>
-</div></blockquote>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.vector.radec_to_vector.html#sphere.vector.radec_to_vector" title="sphere.vector.radec_to_vector"><tt class="xref py py-obj docutils literal"><span class="pre">radec_to_vector</span></tt></a>(ra,&nbsp;dec[,&nbsp;degrees])</td>
+<td>Converts a location on the unit sphere from right-ascension and declination to an <em>x</em>, <em>y</em>, <em>z</em> vector.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>x, y, z</strong> : tuple of scalars or 1-D arrays of the same length</p>
-</td>
+<tr class="row-even"><td><a class="reference internal" href="../api/sphere.vector.vector_to_radec.html#sphere.vector.vector_to_radec" title="sphere.vector.vector_to_radec"><tt class="xref py py-obj docutils literal"><span class="pre">vector_to_radec</span></tt></a>(x,&nbsp;y,&nbsp;z[,&nbsp;degrees])</td>
+<td>Converts a vector to right-ascension and declination.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.vector.normalize_vector.html#sphere.vector.normalize_vector" title="sphere.vector.normalize_vector"><tt class="xref py py-obj docutils literal"><span class="pre">normalize_vector</span></tt></a>(xyz[,&nbsp;output])</td>
+<td>Normalizes a vector so it falls on the unit sphere.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/sphere.vector.rotate_around.html#sphere.vector.rotate_around" title="sphere.vector.rotate_around"><tt class="xref py py-obj docutils literal"><span class="pre">rotate_around</span></tt></a>(x,&nbsp;y,&nbsp;z,&nbsp;u,&nbsp;v,&nbsp;w,&nbsp;theta[,&nbsp;degrees])</td>
+<td>Rotates the vector (<em>x</em>, <em>y</em>, <em>z</em>) around the arbitrary axis defined by vector (<em>u</em>, <em>v</em>, <em>w</em>) by <em>theta</em>.</td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Notes</p>
-<p>Where right-ascension is <em>α</em> and declination is <em>δ</em>:</p>
-<div class="math">
-<p><img src="../_images/math/cc9fa6b0b8b4cf7c5381924b022896fe481eb5ca.png" alt="x = \cos\alpha \cos\delta
-
-y = \sin\alpha \cos\delta
-
-z = \sin\delta"/></p>
-</div></dd></dl>
-
-<dl class="function">
-<dt id="sphere.vector.vector_to_radec">
-<tt class="descclassname">sphere.vector.</tt><tt class="descname">vector_to_radec</tt><big>(</big><em>x</em>, <em>y</em>, <em>z</em>, <em>degrees=True</em><big>)</big><a class="reference internal" href="../_modules/sphere/vector.html#vector_to_radec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.vector.vector_to_radec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a vector to right-ascension and declination.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x, y, z</strong> : scalars or 1-D arrays</p>
-<blockquote>
-<div><p>The input vectors</p>
-</div></blockquote>
-<p><strong>degrees</strong> : bool, optional</p>
-<blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> (default) the result is returned in decimal degrees,
-otherwise radians.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>ra, dec</strong> : tuple of scalars or arrays of the same length</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>Where right-ascension is <em>α</em> and declination is
-<em>δ</em>:</p>
-<div class="math">
-<p><img src="../_images/math/eab072ac37829c8ebc89ab88120cb114b5d49014.png" alt="\alpha = \arctan2(y, x)
-
-\delta = \arctan2(z, \sqrt{x^2 + y^2})"/></p>
-</div></dd></dl>
-
-<dl class="function">
-<dt id="sphere.vector.normalize_vector">
-<tt class="descclassname">sphere.vector.</tt><tt class="descname">normalize_vector</tt><big>(</big><em>xyz</em>, <em>output=None</em><big>)</big><a class="reference internal" href="../_modules/sphere/vector.html#normalize_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.vector.normalize_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Normalizes a vector so it falls on the unit sphere.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>xyz</strong> : Nx3 array of vectors</p>
-<blockquote>
-<div><p>The input vectors</p>
-</div></blockquote>
-<p><strong>output</strong> : Nx3 array of vectors, optional</p>
-<blockquote>
-<div><p>The array to store the results in.  If <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, a new array
-will be created and returned.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>output</strong> : Nx3 array of vectors</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sphere.vector.rotate_around">
-<tt class="descclassname">sphere.vector.</tt><tt class="descname">rotate_around</tt><big>(</big><em>x</em>, <em>y</em>, <em>z</em>, <em>u</em>, <em>v</em>, <em>w</em>, <em>theta</em>, <em>degrees=True</em><big>)</big><a class="reference internal" href="../_modules/sphere/vector.html#rotate_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.vector.rotate_around" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotates the vector (<em>x</em>, <em>y</em>, <em>z</em>) around the arbitrary axis defined by
-vector (<em>u</em>, <em>v</em>, <em>w</em>) by <em>theta</em>.</p>
-<p>It is assumed that both (<em>x</em>, <em>y</em>, <em>z</em>) and (<em>u</em>, <em>v</em>, <em>w</em>) are
-already normalized.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x, y, z</strong> : doubles</p>
-<blockquote>
-<div><p>The normalized vector to rotate</p>
-</div></blockquote>
-<p><strong>u, v, w</strong> : doubles</p>
-<blockquote>
-<div><p>The normalized vector to rotate around</p>
-</div></blockquote>
-<p><strong>theta</strong> : double, or array of doubles</p>
-<blockquote>
-<div><p>The amount to rotate</p>
-</div></blockquote>
-<p><strong>degrees</strong> : bool, optional</p>
-<blockquote>
-<div><p>When <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, <em>theta</em> is given in degrees, otherwise radians.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>X, Y, Z</strong> : doubles</p>
-<blockquote class="last">
-<div><p>The rotated vector</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+</div>
+</div>
+<div class="section" id="great-circle-arcs">
+<h2>Great circle arcs<a class="headerlink" href="#great-circle-arcs" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-sphere.great_circle_arc">
-<span id="great-circle-arcs"></span><h2>Great circle arcs<a class="headerlink" href="#module-sphere.great_circle_arc" title="Permalink to this headline">¶</a></h2>
+<span id="sphere-great-circle-arc-module"></span><h2>sphere.great_circle_arc Module<a class="headerlink" href="#module-sphere.great_circle_arc" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#module-sphere.great_circle_arc" title="sphere.great_circle_arc"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.great_circle_arc</span></tt></a> module contains functions for computing
 the length, intersection, angle and midpoint of great circle arcs.</p>
 <p>Great circles are circles on the unit sphere whose center is
 coincident with the center of the sphere.  Great circle arcs are the
 section of those circles between two points on the unit sphere.</p>
-<dl class="function">
-<dt id="sphere.great_circle_arc.angle">
-<tt class="descclassname">sphere.great_circle_arc.</tt><tt class="descname">angle</tt><big>(</big><em>A</em>, <em>B</em>, <em>C</em>, <em>degrees=True</em><big>)</big><a class="reference internal" href="../_modules/sphere/great_circle_arc.html#angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.great_circle_arc.angle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the angle at <em>B</em> between <em>AB</em> and <em>BC</em>.</p>
-<p>This always returns the shortest angle &lt; π.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<div class="section" id="id1">
+<h3>Functions<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B, C</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>Points on sphere.</p>
-</div></blockquote>
-<p><strong>degrees</strong> : bool, optional</p>
-<blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> (default) the result is returned in decimal degrees,
-otherwise radians.</p>
-</div></blockquote>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.great_circle_arc.angle.html#sphere.great_circle_arc.angle" title="sphere.great_circle_arc.angle"><tt class="xref py py-obj docutils literal"><span class="pre">angle</span></tt></a>(A,&nbsp;B,&nbsp;C[,&nbsp;degrees])</td>
+<td>Returns the angle at <em>B</em> between <em>AB</em> and <em>BC</em>.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>angle</strong> : float or array of floats</p>
-<blockquote class="last">
-<div><p>The angle at <em>B</em> between <em>AB</em> and <em>BC</em>.</p>
-</div></blockquote>
-</td>
+<tr class="row-even"><td><a class="reference internal" href="../api/sphere.great_circle_arc.intersection.html#sphere.great_circle_arc.intersection" title="sphere.great_circle_arc.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>(A,&nbsp;B,&nbsp;C,&nbsp;D)</td>
+<td>Returns the point of intersection between two great circle arcs.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.great_circle_arc.intersects.html#sphere.great_circle_arc.intersects" title="sphere.great_circle_arc.intersects"><tt class="xref py py-obj docutils literal"><span class="pre">intersects</span></tt></a>(A,&nbsp;B,&nbsp;C,&nbsp;D)</td>
+<td>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the great circle arcs between <em>AB</em> and <em>CD</em> intersect.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/sphere.great_circle_arc.length.html#sphere.great_circle_arc.length" title="sphere.great_circle_arc.length"><tt class="xref py py-obj docutils literal"><span class="pre">length</span></tt></a>(A,&nbsp;B[,&nbsp;degrees])</td>
+<td>Returns the angular distance between two points (in vector space) on the unit sphere.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.great_circle_arc.midpoint.html#sphere.great_circle_arc.midpoint" title="sphere.great_circle_arc.midpoint"><tt class="xref py py-obj docutils literal"><span class="pre">midpoint</span></tt></a>(A,&nbsp;B)</td>
+<td>Returns the midpoint on the great circle arc between <em>A</em> and <em>B</em>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/sphere.great_circle_arc.interpolate.html#sphere.great_circle_arc.interpolate" title="sphere.great_circle_arc.interpolate"><tt class="xref py py-obj docutils literal"><span class="pre">interpolate</span></tt></a>(A,&nbsp;B[,&nbsp;steps])</td>
+<td>Interpolate along the great circle arc.</td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R1]</a></td><td>Miller, Robert D.  Computing the area of a spherical
-polygon.  Graphics Gems IV.  1994.  Academic Press.</td></tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sphere.great_circle_arc.intersection">
-<tt class="descclassname">sphere.great_circle_arc.</tt><tt class="descname">intersection</tt><big>(</big><em>A</em>, <em>B</em>, <em>C</em>, <em>D</em><big>)</big><a class="reference internal" href="../_modules/sphere/great_circle_arc.html#intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.great_circle_arc.intersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the point of intersection between two great circle arcs.
-The arcs are defined between the points <em>AB</em> and <em>CD</em>.  Either <em>A</em>
-and <em>B</em> or <em>C</em> and <em>D</em> may be arrays of points, but not both.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>Endpoints of the first great circle arc.</p>
-</div></blockquote>
-<p><strong>C, D</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>Endpoints of the second great circle arc.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>T</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote class="last">
-<div><p>If the given arcs intersect, the intersection is returned.  If
-the arcs do not intersect, the triple is set to all NaNs.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>The basic intersection is computed using linear algebra as follows
-<a class="reference internal" href="#r2">[R2]</a>:</p>
-<div class="math">
-<p><img src="../_images/math/0a4c95a9748e927fc9f0cc5fb24d900df39753a1.png" alt="T = \lVert(A × B) × (C × D)\rVert"/></p>
-</div><p>To determine the correct sign (i.e. hemisphere) of the
-intersection, the following four values are computed:</p>
-<div class="math">
-<p><img src="../_images/math/52376971949f4aebb4188537ae54c3eee71ea48b.png" alt="s_1 = ((A × B) × A) · T
-
-s_2 = (B × (A × B)) · T
-
-s_3 = ((C × D) × C) · T
-
-s_4 = (D × (C × D)) · T"/></p>
-</div><p>For <img class="math" src="../_images/math/d24f09efdef5385985d3f51f9163958f3aaa64a3.png" alt="s_n"/>, if all positive <img class="math" src="../_images/math/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png" alt="T"/> is returned as-is.  If
-all negative, <img class="math" src="../_images/math/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png" alt="T"/> is multiplied by <img class="math" src="../_images/math/bae5aba07d37ff6ff813107e76260fb31ad5794e.png" alt="-1"/>.  Otherwise
-the intersection does not exist and is undefined.</p>
-<p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="r2" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[R2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Method explained in an <a class="reference external" href="http://www.mathworks.com/matlabcentral/newsreader/view_thread/276271">e-mail</a>
-by Roger Stafford.</td></tr>
-</tbody>
-</table>
-<p><a class="reference external" href="http://www.mathworks.com/matlabcentral/newsreader/view_thread/276271">http://www.mathworks.com/matlabcentral/newsreader/view_thread/276271</a></p>
-</dd></dl>
-
-<dl class="function">
-<dt id="sphere.great_circle_arc.intersects">
-<tt class="descclassname">sphere.great_circle_arc.</tt><tt class="descname">intersects</tt><big>(</big><em>A</em>, <em>B</em>, <em>C</em>, <em>D</em><big>)</big><a class="reference internal" href="../_modules/sphere/great_circle_arc.html#intersects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.great_circle_arc.intersects" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the great circle arcs between <em>AB</em> and <em>CD</em>
-intersect.  Either <em>A</em> and <em>B</em> or <em>C</em> and <em>D</em> may be arrays of
-points, but not both.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>Endpoints of the first great circle arc.</p>
-</div></blockquote>
-<p><strong>C, D</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>Endpoints of the second great circle arc.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>intersects</strong> : bool or array of bool</p>
-<blockquote class="last">
-<div><p>If the given arcs intersect, the intersection is returned as
-<a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sphere.great_circle_arc.length">
-<tt class="descclassname">sphere.great_circle_arc.</tt><tt class="descname">length</tt><big>(</big><em>A</em>, <em>B</em>, <em>degrees=True</em><big>)</big><a class="reference internal" href="../_modules/sphere/great_circle_arc.html#length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.great_circle_arc.length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the angular distance between two points (in vector space)
-on the unit sphere.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>The endpoints of the great circle arc, in vector space.</p>
-</div></blockquote>
-<p><strong>degrees</strong> : bool, optional</p>
-<blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> (default) the result is returned in decimal degrees,
-otherwise radians.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>length</strong> : scalar or array of scalars</p>
-<blockquote class="last">
-<div><p>The angular length of the great circle arc.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>The length is computed using the following:</p>
-<div class="math">
-<p><img src="../_images/math/8d4659292d30a826947cadc03d10dae6f0a5b2e4.png" alt="\Delta = \arccos(A \dot B)"/></p>
-</div></dd></dl>
-
-<dl class="function">
-<dt id="sphere.great_circle_arc.midpoint">
-<tt class="descclassname">sphere.great_circle_arc.</tt><tt class="descname">midpoint</tt><big>(</big><em>A</em>, <em>B</em><big>)</big><a class="reference internal" href="../_modules/sphere/great_circle_arc.html#midpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.great_circle_arc.midpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the midpoint on the great circle arc between <em>A</em> and <em>B</em>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>The endpoints of the great circle arc.  It is assumed that
-these points are already normalized.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>midpoint</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triple or Nx3 arrays of triples</p>
-<blockquote class="last">
-<div><p>The midpoint between <em>A</em> and <em>B</em>, normalized on the unit
-sphere.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sphere.great_circle_arc.interpolate">
-<tt class="descclassname">sphere.great_circle_arc.</tt><tt class="descname">interpolate</tt><big>(</big><em>A</em>, <em>B</em>, <em>steps=50</em><big>)</big><a class="reference internal" href="../_modules/sphere/great_circle_arc.html#interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.great_circle_arc.interpolate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interpolate along the great circle arc.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
-<blockquote>
-<div><p>The endpoints of the great circle arc.  It is assumed thats
-these points are already normalized.</p>
-</div></blockquote>
-<p><strong>steps</strong> : int</p>
-<blockquote>
-<div><p>The number of interpolation steps</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>array</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples</p>
-<blockquote class="last">
-<div><p>The points interpolated along the great circle arc</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>This uses Slerp interpolation where <em>Ω</em> is the angle subtended by
-the arc, and <em>t</em> is the parameter 0 &lt;= <em>t</em> &lt;= 1.</p>
-<div class="math">
-<p><img src="../_images/math/90ae936ca9a7c774a45220f9168007e1b5895198.png" alt="\frac{\sin((1 - t)\Omega)}{\sin \Omega}A + \frac{\sin(t \Omega)}{\sin \Omega}B"/></p>
-</div></dd></dl>
-
+</div>
+</div>
+<div class="section" id="spherical-polygons">
+<h2>Spherical polygons<a class="headerlink" href="#spherical-polygons" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-sphere.polygon">
-<span id="spherical-polygons"></span><h2>Spherical polygons<a class="headerlink" href="#module-sphere.polygon" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="xref py py-obj docutils literal"><span class="pre">polygon</span></tt> module defines the <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> class for managing
+<span id="sphere-polygon-module"></span><h2>sphere.polygon Module<a class="headerlink" href="#module-sphere.polygon" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">polygon</span></tt> module defines the <a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> class for managing
 polygons on the unit sphere.</p>
-<dl class="class">
-<dt id="sphere.polygon.SphericalPolygon">
-<em class="property">class </em><tt class="descclassname">sphere.polygon.</tt><tt class="descname">SphericalPolygon</tt><big>(</big><em>points</em>, <em>inside=None</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Polygons are represented by both a set of points (in Cartesian
-(<em>x</em>, <em>y</em>, <em>z</em>) normalized on the unit sphere), and an inside
-point.  The inside point is necessary, because both the inside and
-outside of the polygon are finite areas on the great sphere, and
-therefore we need a way of specifying which is which.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>points</strong> : An Nx3 array of (<em>x</em>, <em>y</em>, <em>z</em>) triples in vector space</p>
-<blockquote>
-<div><p>These points define the boundary of the polygon.  It must
-be &#8220;closed&#8221;, i.e., the last point is the same as the first.</p>
-<p>It may contain zero points, in which it defines the null
-polygon.  It may not contain one, two or three points.
-Four points are needed to define a triangle, since the
-polygon must be closed.</p>
-</div></blockquote>
-<p><strong>inside</strong> : An (<em>x</em>, <em>y</em>, <em>z</em>) triple, optional</p>
-<blockquote class="last">
-<div><p>This point must be inside the polygon.  If not provided, the
-mean of the points will be used.</p>
-</div></blockquote>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>(points[,&nbsp;inside])</td>
+<td>Polygons are represented by both a set of points (in Cartesian (<em>x</em>, <em>y</em>, <em>z</em>) normalized on the unit sphere), and an inside point.</td>
 </tr>
 </tbody>
 </table>
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.area">
-<tt class="descname">area</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.area" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the area of the polygon on the unit sphere.</p>
-<p>The algorithm is not able to compute the area of polygons
-that are larger than half of the sphere.  Therefore, the
-area will always be less than 2π.</p>
-<p>The area is computed by transforming the polygon to two
-dimensions using the <a class="reference external" href="http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area projection</a></p>
-<div class="math">
-<p><img src="../_images/math/6a2cab26a22220eb11625acddff081725e79123b.png" alt="X = \sqrt{\frac{2}{1-z}}x"/></p>
-</div><div class="math">
-<p><img src="../_images/math/c0a5e463fc88065604c34f25a4967de6bb5baa8e.png" alt="Y = \sqrt{\frac{2}{1-z}}y"/></p>
-</div><p>The individual great arc circle segments are interpolated
-before doing the transformation so that the curves are not
-straightened in the process.</p>
-<p>It then uses a standard 2D algorithm to compute the area.</p>
-<div class="math">
-<p><img src="../_images/math/6f4893607ff3fb82129746be7fcada48b385fb44.png" alt="A = \left| \sum^n_{i=0} X_i Y_{i+1} - X_{i+1}Y_i \right|"/></p>
-</div></dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.contains_arc">
-<tt class="descname">contains_arc</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="headerlink" href="#sphere.polygon.SphericalPolygon.contains_arc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the polygon fully encloses the arc given by a
-and b.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.contains_point">
-<tt class="descname">contains_point</tt><big>(</big><em>point</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.contains_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.contains_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> contains a given point.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>point</strong> : an (<em>x</em>, <em>y</em>, <em>z</em>) triple</p>
-<blockquote>
-<div><p>The point to test.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>contains</strong> : bool</p>
-<blockquote class="last">
-<div><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the polygon contains the given <em>point</em>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.draw">
-<tt class="descname">draw</tt><big>(</big><em>m</em>, <em>**plot_args</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draws the polygon in a matplotlib.Basemap axes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>m</strong> : Basemap axes object</p>
-<p class="last"><strong>**plot_args</strong> : Any plot arguments to pass to basemap</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="sphere.polygon.SphericalPolygon.from_cone">
-<em class="property">classmethod </em><tt class="descname">from_cone</tt><big>(</big><em>ra</em>, <em>dec</em>, <em>radius</em>, <em>degrees=True</em>, <em>steps=16.0</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.from_cone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.from_cone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from a cone (otherwise known
-as a &#8220;small circle&#8221;) defined using (<em>ra</em>, <em>dec</em>, <em>radius</em>).</p>
-<p>The cone is not represented as an ideal circle on the sphere,
-but as a series of great circle arcs.  The resolution of this
-conversion can be controlled using the <em>steps</em> parameter.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>ra, dec</strong> : float scalars</p>
-<blockquote>
-<div><p>This defines the center of the cone</p>
-</div></blockquote>
-<p><strong>radius</strong> : float scalar</p>
-<blockquote>
-<div><p>The radius of the cone</p>
-</div></blockquote>
-<p><strong>degrees</strong> : bool, optional</p>
-<blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, (default) <em>ra</em>, <em>dec</em> and <em>radius</em> are in
-decimal degrees, otherwise in radians.</p>
-</div></blockquote>
-<p><strong>steps</strong> : int, optional</p>
-<blockquote>
-<div><p>The number of steps to use when converting the small
-circle to a polygon.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="sphere.polygon.SphericalPolygon.from_radec">
-<em class="property">classmethod </em><tt class="descname">from_radec</tt><big>(</big><em>ra</em>, <em>dec</em>, <em>center=None</em>, <em>degrees=True</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.from_radec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.from_radec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from a list of (<em>ra</em>, <em>dec</em>)
-points.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>ra, dec</strong> : 1-D arrays of the same length</p>
-<blockquote>
-<div><p>The vertices of the polygon in right-ascension and
-declination.  It must be &#8220;closed&#8221;, i.e., that is, the
-last point is the same as the first.</p>
-</div></blockquote>
-<p><strong>center</strong> : (<em>ra</em>, <em>dec</em>) pair, optional</p>
-<blockquote>
-<div><p>A point inside of the polygon to define its inside.  If no
-<em>center</em> point is provided, the mean of the polygon&#8217;s
-points in vector space will be used.  That approach may
-not work for concave polygons.</p>
-</div></blockquote>
-<p><strong>degrees</strong> : bool, optional</p>
-<blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, (default) <em>ra</em> and <em>dec</em> are in decimal degrees,
-otherwise in radians.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="sphere.polygon.SphericalPolygon.from_wcs">
-<em class="property">classmethod </em><tt class="descname">from_wcs</tt><big>(</big><em>fitspath</em>, <em>steps=1</em>, <em>crval=None</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.from_wcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.from_wcs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from the footprint of a FITS
-WCS specification.</p>
-<p>This method requires having <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> installed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fitspath</strong> : path to a FITS file, <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v0.3.2)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a>, or <tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS</span></tt></p>
-<blockquote>
-<div><p>Refers to a FITS header containing a WCS specification.</p>
-</div></blockquote>
-<p><strong>steps</strong> : int, optional</p>
-<blockquote>
-<div><p>The number of steps along each edge to convert into
-polygon edges.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="sphere.polygon.SphericalPolygon.inside">
-<tt class="descname">inside</tt><a class="headerlink" href="#sphere.polygon.SphericalPolygon.inside" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the inside point of the polygon.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.intersection">
-<tt class="descname">intersection</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.intersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the intersection of
-<em>self</em> and <em>other</em>.</p>
-<p>If the intersection is empty, a <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> with zero
-points will be returned.</p>
-<p>If the result is disjoint, the pieces will be connected using
-cut lines.  For example:</p>
-<div class="highlight-python"><pre>: o---------o
-: |         |
-: o---------o=====o----------o
-:                 |          |
-:                 o----------o</pre>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>For implementation details, see the <a class="reference internal" href="#module-sphere.graph" title="sphere.graph"><tt class="xref py py-mod docutils literal"><span class="pre">graph</span></tt></a>
-module.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.intersects_arc">
-<tt class="descname">intersects_arc</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.intersects_arc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.intersects_arc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> intersects or contains
-the given arc.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.intersects_poly">
-<tt class="descname">intersects_poly</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.intersects_poly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.intersects_poly" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> intersects another
-<a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>.</p>
-<p>This method is much faster than actually computing the
-intersection region between two polygons.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>intersects</strong> : bool</p>
-<blockquote class="last">
-<div><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if this polygon intersects the <em>other</em>
-polygon.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>The algorithm proceeds as follows:</p>
-<blockquote>
-<div><ol class="arabic">
-<li><p class="first">Determine if any single point of one polygon is contained
-within the other.</p>
-</li>
-<li><p class="first">Deal with the case where only the edges overlap as in:</p>
-<div class="highlight-python"><pre>:       o---------o
-:  o----+---------+----o
-:  |    |         |    |
-:  o----+---------+----o
-:       o---------o</pre>
+<div class="section" id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
 </div>
-<p>In this case, an edge from one polygon must cross an
-edge from the other polygon.</p>
-</li>
-</ol>
-</div></blockquote>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="sphere.polygon.SphericalPolygon.multi_intersection">
-<em class="property">classmethod </em><tt class="descname">multi_intersection</tt><big>(</big><em>polygons</em>, <em>method=u'parallel'</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.multi_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.multi_intersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the intersection of
-all of the polygons in <em>polygons</em>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>polygons</strong> : sequence of <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
-<p><strong>method</strong> : &#8216;parallel&#8217; or &#8216;serial&#8217;, optional</p>
-<blockquote>
-<div><p>Specifies the method that is used to perform the
-intersections:</p>
-<blockquote>
-<div><ul class="simple">
-<li>&#8216;parallel&#8217; (default): A graph is built using all of
-the polygons, and the intersection operation is computed on
-the entire thing globally.</li>
-<li>&#8216;serial&#8217;: The polygon is built in steps by adding one
-polygon at a time and computing the intersection at
-each step.</li>
-</ul>
-</div></blockquote>
-<p>This option is provided because one may be faster than the
-other depending on context, but it primarily exposed for
-testing reasons.  Both modes should theoretically provide
-equivalent results.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="sphere.polygon.SphericalPolygon.multi_union">
-<em class="property">classmethod </em><tt class="descname">multi_union</tt><big>(</big><em>polygons</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.multi_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.multi_union" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the union of all of the
-polygons in <em>polygons</em>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>polygons</strong> : sequence of <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition-see-also admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#sphere.polygon.SphericalPolygon.union" title="sphere.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a></p>
 </div>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.overlap">
-<tt class="descname">overlap</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.overlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.overlap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the fraction of <em>self</em> that is overlapped by <em>other</em>.</p>
-<p>Let <em>self</em> be <em>a</em> and <em>other</em> be <em>b</em>, then the overlap is
-defined as:</p>
-<div class="math">
-<p><img src="../_images/math/0f42b8b79bfc2e37db58ce58816908452a695ad5.png" alt="\frac{S_a}{S_{a \cap b}}"/></p>
-</div><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>frac</strong> : float</p>
-<blockquote class="last">
-<div><p>The fraction of <em>self</em> that is overlapped by <em>other</em>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="sphere.polygon.SphericalPolygon.points">
-<tt class="descname">points</tt><a class="headerlink" href="#sphere.polygon.SphericalPolygon.points" title="Permalink to this definition">¶</a></dt>
-<dd><p>The points defining the polygon.  It is an Nx3 array of
-(<em>x</em>, <em>y</em>, <em>z</em>) vectors.  The polygon will be explicitly
-closed, i.e., the first and last points are the same.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.same_points_as">
-<tt class="descname">same_points_as</tt><big>(</big><em>other</em>, <em>do_sort=True</em>, <em>thres=0.01</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.same_points_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.same_points_as" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> points are the same
-as the other. Number of points and areas are also compared.</p>
-<p>When <tt class="xref py py-obj docutils literal"><span class="pre">do_sort</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, even when <em>self</em> and <em>other</em>
-have same points, they might not be equivalent because
-the order of the points defines the polygon.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
-<p><strong>do_sort</strong> : bool</p>
-<blockquote>
-<div><p>Compare sorted unique points.</p>
-</div></blockquote>
-<p><strong>thres</strong> : float</p>
-<blockquote>
-<div><p>Fraction of area to use in equality decision.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>is_eq</strong> : bool</p>
-<blockquote class="last">
-<div><p><a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> or <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.to_radec">
-<tt class="descname">to_radec</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.to_radec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.to_radec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> footprint to RA and DEC.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>ra, dec</strong> : list of float</p>
-<blockquote class="last">
-<div><p>List of <em>ra</em> and <em>dec</em> in degrees corresponding
-to <a class="reference internal" href="#sphere.polygon.SphericalPolygon.points" title="sphere.polygon.SphericalPolygon.points"><tt class="xref py py-obj docutils literal"><span class="pre">points</span></tt></a>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.polygon.SphericalPolygon.union">
-<tt class="descname">union</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.union" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the union of <em>self</em>
-and <em>other</em>.</p>
-<p>If the polygons are disjoint, they result will be connected
-using cut lines.  For example:</p>
-<div class="highlight-python"><pre>: o---------o
-: |         |
-: o---------o=====o----------o
-:                 |          |
-:                 o----------o</pre>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition-see-also admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#sphere.polygon.SphericalPolygon.multi_union" title="sphere.polygon.SphericalPolygon.multi_union"><tt class="xref py py-obj docutils literal"><span class="pre">multi_union</span></tt></a></p>
-</div>
-<p class="rubric">Notes</p>
-<p>For implementation details, see the <a class="reference internal" href="#module-sphere.graph" title="sphere.graph"><tt class="xref py py-mod docutils literal"><span class="pre">graph</span></tt></a>
-module.</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="graph-operations-on-polygons">
+<h2>Graph operations on polygons<a class="headerlink" href="#graph-operations-on-polygons" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-sphere.graph">
-<span id="graph-operations-on-polygons"></span><h2>Graph operations on polygons<a class="headerlink" href="#module-sphere.graph" title="Permalink to this headline">¶</a></h2>
+<span id="sphere-graph-module"></span><h2>sphere.graph Module<a class="headerlink" href="#module-sphere.graph" title="Permalink to this headline">¶</a></h2>
 <p>This contains the code that does the actual unioning of regions.</p>
-<dl class="class">
-<dt id="sphere.graph.Graph">
-<em class="property">class </em><tt class="descclassname">sphere.graph.</tt><tt class="descname">Graph</tt><big>(</big><em>polygons</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>A graph of nodes connected by edges.  The graph is used to build
-unions between polygons.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This class is not meant to be used directly.  Instead, use
-<a class="reference internal" href="#sphere.polygon.SphericalPolygon.union" title="sphere.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> and
-<a class="reference internal" href="#sphere.polygon.SphericalPolygon.intersection" title="sphere.polygon.SphericalPolygon.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>.</p>
+<div class="section" id="id2">
+<h3>Classes<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.graph.Graph.html#sphere.graph.Graph" title="sphere.graph.Graph"><tt class="xref py py-obj docutils literal"><span class="pre">Graph</span></tt></a>(polygons)</td>
+<td>A graph of nodes connected by edges.</td>
+</tr>
+</tbody>
+</table>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>polygons</strong> : sequence of <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instances</p>
-<blockquote class="last">
-<div><p>Build a graph from this initial set of polygons.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="class">
-<dt id="sphere.graph.Graph.Edge">
-<em class="property">class </em><tt class="descname">Edge</tt><big>(</big><em>A</em>, <em>B</em>, <em>source_polygons=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.Edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.Edge" title="Permalink to this definition">¶</a></dt>
-<dd><p>An <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> represents a connection between exactly two
-<a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> objects.  This <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> class has no direction.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instances</p>
-<p><strong>source_polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance, optional</p>
-<blockquote class="last">
-<div><p>The polygon this edge came from.  Used for bookkeeping.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="sphere.graph.Graph.Edge.equals">
-<tt class="descname">equals</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.Edge.equals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.Edge.equals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the other edge is between the same two nodes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instance</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><strong>equals</strong> : bool</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.Edge.follow">
-<tt class="descname">follow</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.Edge.follow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.Edge.follow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Follow along the edge from the given <em>node</em> to the other
-node.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>node</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instance</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instance</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="sphere.graph.Graph.Node">
-<em class="property">class </em><tt class="descclassname">Graph.</tt><tt class="descname">Node</tt><big>(</big><em>point</em>, <em>source_polygons=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.Node" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> represents a single point, connected by an arbitrary
-number of <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> objects to other <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> objects.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>point</strong> : 3-sequence (<em>x</em>, <em>y</em>, <em>z</em>) coordinate</p>
-<p><strong>source_polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance, optional</p>
-<blockquote class="last">
-<div><p>The polygon(s) this node came from.  Used for bookkeeping.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="sphere.graph.Graph.Node.equals">
-<tt class="descname">equals</tt><big>(</big><em>other</em>, <em>thres=2e-08</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.Node.equals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.Node.equals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the location of this and the <em>other</em>
-<a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> are the same.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instance</p>
-<blockquote>
-<div><p>The other node.</p>
-</div></blockquote>
-<p><strong>thres</strong> : float</p>
-<blockquote class="last">
-<div><p>If difference is smaller than this, points are equal.
-The default value of 2e-8 radians is set based on
-empirical test cases. Relative threshold based on
-the actual sizes of polygons is not implemented.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.Node.follow">
-<tt class="descname">follow</tt><big>(</big><em>edge</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.Node.follow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.Node.follow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Follows from one edge to another across this node.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>edge</strong> : <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instance</p>
-<blockquote>
-<div><p>The edge to follow away from.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instance</p>
-<blockquote class="last">
-<div><p>The other edge.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.add_edge">
-<tt class="descclassname">Graph.</tt><tt class="descname">add_edge</tt><big>(</big><em>A</em>, <em>B</em>, <em>source_polygons=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_edge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add an edge between two nodes.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">It is assumed both nodes already belong to the graph.</p>
+<div class="section" id="id3">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instances</p>
-<p><strong>source_polygons</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance, optional</p>
-<blockquote>
-<div><p>The polygon(s) this edge came from.  Used for bookkeeping.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>edge</strong> : <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instance</p>
-<blockquote class="last">
-<div><p>The new edge</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.add_node">
-<tt class="descclassname">Graph.</tt><tt class="descname">add_node</tt><big>(</big><em>point</em>, <em>source_polygons=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_node" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a node to the graph.  It will be disconnected until used
-in a call to <a class="reference internal" href="#sphere.graph.Graph.add_edge" title="sphere.graph.Graph.add_edge"><tt class="xref py py-obj docutils literal"><span class="pre">add_edge</span></tt></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>point</strong> : 3-sequence (<em>x</em>, <em>y</em>, <em>z</em>) coordinate</p>
-<p><strong>source_polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance, optional</p>
-<blockquote>
-<div><p>The polygon this node came from.  Used for bookkeeping.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>node</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instance</p>
-<blockquote class="last">
-<div><p>The new node</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.add_polygon">
-<tt class="descclassname">Graph.</tt><tt class="descname">add_polygon</tt><big>(</big><em>polygon</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_polygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_polygon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a single polygon to the graph.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Must be called before <a class="reference internal" href="#sphere.graph.Graph.union" title="sphere.graph.Graph.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> or <a class="reference internal" href="#sphere.graph.Graph.intersection" title="sphere.graph.Graph.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>polygon</strong> : <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance</p>
-<blockquote class="last">
-<div><p>Polygon to add to the graph</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.add_polygons">
-<tt class="descclassname">Graph.</tt><tt class="descname">add_polygons</tt><big>(</big><em>polygons</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_polygons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_polygons" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add more polygons to the graph.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Must be called before <a class="reference internal" href="#sphere.graph.Graph.union" title="sphere.graph.Graph.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> or <a class="reference internal" href="#sphere.graph.Graph.intersection" title="sphere.graph.Graph.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>polygons</strong> : sequence of <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instances</p>
-<blockquote class="last">
-<div><p>Set of polygons to add to the graph</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.intersection">
-<tt class="descclassname">Graph.</tt><tt class="descname">intersection</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.intersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Once all of the polygons have been added to the graph,
-calculate the intersection.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>points</strong> : Nx3 array of (<em>x</em>, <em>y</em>, <em>z</em>) points</p>
-<blockquote class="last">
-<div><p>This is a list of points outlining the intersection of the
-polygons that were given to the constructor.  If the
-resulting polygons are disjunct or contain holes, cut lines
-will be included in the output.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.remove_edge">
-<tt class="descclassname">Graph.</tt><tt class="descname">remove_edge</tt><big>(</big><em>edge</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.remove_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.remove_edge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove an edge from the graph.  The nodes it points to remain intact.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">It is assumed that <em>edge</em> is already a part of the graph.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>edge</strong> : <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instance</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.remove_node">
-<tt class="descclassname">Graph.</tt><tt class="descname">remove_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.remove_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.remove_node" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes a node and all of the edges that touch it.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">It is assumed that <em>Node</em> is already a part of the graph.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>node</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instance</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.split_edge">
-<tt class="descclassname">Graph.</tt><tt class="descname">split_edge</tt><big>(</big><em>edge</em>, <em>node</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.split_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.split_edge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Splits an <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> <em>edge</em> at <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> <em>node</em>, removing
-<em>edge</em> and replacing it with two new <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instances.
-It is intended that <em>E</em> is along the original edge, but that is
-not enforced.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>edge</strong> : <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instance</p>
-<blockquote>
-<div><p>The edge to split</p>
-</div></blockquote>
-<p><strong>node</strong> : <a class="reference internal" href="#sphere.graph.Graph.Node" title="sphere.graph.Graph.Node"><tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt></a> instance</p>
-<blockquote>
-<div><p>The node to insert</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>edgeA, edgeB</strong> : <a class="reference internal" href="#sphere.graph.Graph.Edge" title="sphere.graph.Graph.Edge"><tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt></a> instances</p>
-<blockquote class="last">
-<div><p>The two new edges on either side of <em>node</em>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="sphere.graph.Graph.union">
-<tt class="descclassname">Graph.</tt><tt class="descname">union</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.union" title="Permalink to this definition">¶</a></dt>
-<dd><p>Once all of the polygons have been added to the graph,
-join the polygons together.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>points</strong> : Nx3 array of (<em>x</em>, <em>y</em>, <em>z</em>) points</p>
-<blockquote class="last">
-<div><p>This is a list of points outlining the union of the
-polygons that were given to the constructor.  If the
-original polygons are disjunct or contain holes, cut lines
-will be included in the output.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 
@@ -1288,10 +217,36 @@ will be included in the output.</p>
         <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
 <ul>
 <li><a class="reference internal" href="#">API Documentation</a><ul>
-<li><a class="reference internal" href="#module-sphere.vector">Vectors</a></li>
-<li><a class="reference internal" href="#module-sphere.great_circle_arc">Great circle arcs</a></li>
-<li><a class="reference internal" href="#module-sphere.polygon">Spherical polygons</a></li>
-<li><a class="reference internal" href="#module-sphere.graph">Graph operations on polygons</a></li>
+<li><a class="reference internal" href="#vectors">Vectors</a></li>
+<li><a class="reference internal" href="#module-sphere.vector">sphere.vector Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#great-circle-arcs">Great circle arcs</a></li>
+<li><a class="reference internal" href="#module-sphere.great_circle_arc">sphere.great_circle_arc Module</a><ul>
+<li><a class="reference internal" href="#id1">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#spherical-polygons">Spherical polygons</a></li>
+<li><a class="reference internal" href="#module-sphere.polygon">sphere.polygon Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graph-operations-on-polygons">Graph operations on polygons</a></li>
+<li><a class="reference internal" href="#module-sphere.graph">sphere.graph Module</a><ul>
+<li><a class="reference internal" href="#id2">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">Class Inheritance Diagram</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

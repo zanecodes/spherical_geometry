@@ -1,0 +1,386 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Graph &mdash; sphere v0.0.dev23</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.dev23',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="sphere v0.0.dev23" href="../index.html" />
+    <link rel="up" title="API Documentation" href="../sphere/api.html" />
+    <link rel="prev" title="SphericalPolygon" href="sphere.polygon.SphericalPolygon.html" />
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="sphere.polygon.SphericalPolygon.html" title="SphericalPolygon">
+	  &laquo; previous
+	</a>
+	
+      </li>
+      <li>
+	<a href="../index.html">sphere v0.0.dev23</a>
+	 &raquo;
+      </li>
+      <li><a href="../sphere/index.html" >Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
+      <li><a href="../sphere/api.html" accesskey="U">API Documentation</a> &raquo;</li>
+      
+      <li>Graph</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="graph">
+<h1>Graph<a class="headerlink" href="#graph" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="sphere.graph.Graph">
+<em class="property">class </em><tt class="descclassname">sphere.graph.</tt><tt class="descname">Graph</tt><big>(</big><em>polygons</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>A graph of nodes connected by edges.  The graph is used to build
+unions between polygons.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is not meant to be used directly.  Instead, use
+<a class="reference internal" href="sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.union" title="sphere.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> and
+<a class="reference internal" href="sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.intersection" title="sphere.polygon.SphericalPolygon.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>polygons</strong> : sequence of <a class="reference internal" href="sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instances</p>
+<blockquote class="last">
+<div><p>Build a graph from this initial set of polygons.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#sphere.graph.Graph.add_edge" title="sphere.graph.Graph.add_edge"><tt class="xref py py-obj docutils literal"><span class="pre">add_edge</span></tt></a>(A,&nbsp;B[,&nbsp;source_polygons])</td>
+<td>Add an edge between two nodes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#sphere.graph.Graph.add_node" title="sphere.graph.Graph.add_node"><tt class="xref py py-obj docutils literal"><span class="pre">add_node</span></tt></a>(point[,&nbsp;source_polygons])</td>
+<td>Add a node to the graph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#sphere.graph.Graph.add_polygon" title="sphere.graph.Graph.add_polygon"><tt class="xref py py-obj docutils literal"><span class="pre">add_polygon</span></tt></a>(polygon)</td>
+<td>Add a single polygon to the graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#sphere.graph.Graph.add_polygons" title="sphere.graph.Graph.add_polygons"><tt class="xref py py-obj docutils literal"><span class="pre">add_polygons</span></tt></a>(polygons)</td>
+<td>Add more polygons to the graph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#sphere.graph.Graph.intersection" title="sphere.graph.Graph.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>()</td>
+<td>Once all of the polygons have been added to the graph, calculate the intersection.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#sphere.graph.Graph.remove_edge" title="sphere.graph.Graph.remove_edge"><tt class="xref py py-obj docutils literal"><span class="pre">remove_edge</span></tt></a>(edge)</td>
+<td>Remove an edge from the graph.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#sphere.graph.Graph.remove_node" title="sphere.graph.Graph.remove_node"><tt class="xref py py-obj docutils literal"><span class="pre">remove_node</span></tt></a>(node)</td>
+<td>Removes a node and all of the edges that touch it.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#sphere.graph.Graph.split_edge" title="sphere.graph.Graph.split_edge"><tt class="xref py py-obj docutils literal"><span class="pre">split_edge</span></tt></a>(edge,&nbsp;node)</td>
+<td>Splits an <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> <em>edge</em> at <tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt> <em>node</em>, removing <em>edge</em> and replacing it with two new <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> instances.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#sphere.graph.Graph.union" title="sphere.graph.Graph.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a>()</td>
+<td>Once all of the polygons have been added to the graph, join the polygons together.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="sphere.graph.Graph.add_edge">
+<tt class="descname">add_edge</tt><big>(</big><em>A</em>, <em>B</em>, <em>source_polygons=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an edge between two nodes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is assumed both nodes already belong to the graph.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt> instances</p>
+<p><strong>source_polygons</strong> : <a class="reference internal" href="sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance, optional</p>
+<blockquote>
+<div><p>The polygon(s) this edge came from.  Used for bookkeeping.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>edge</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> instance</p>
+<blockquote class="last">
+<div><p>The new edge</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.add_node">
+<tt class="descname">add_node</tt><big>(</big><em>point</em>, <em>source_polygons=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a node to the graph.  It will be disconnected until used
+in a call to <a class="reference internal" href="#sphere.graph.Graph.add_edge" title="sphere.graph.Graph.add_edge"><tt class="xref py py-obj docutils literal"><span class="pre">add_edge</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>point</strong> : 3-sequence (<em>x</em>, <em>y</em>, <em>z</em>) coordinate</p>
+<p><strong>source_polygon</strong> : <a class="reference internal" href="sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance, optional</p>
+<blockquote>
+<div><p>The polygon this node came from.  Used for bookkeeping.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>node</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt> instance</p>
+<blockquote class="last">
+<div><p>The new node</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.add_polygon">
+<tt class="descname">add_polygon</tt><big>(</big><em>polygon</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_polygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_polygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a single polygon to the graph.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Must be called before <a class="reference internal" href="#sphere.graph.Graph.union" title="sphere.graph.Graph.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> or <a class="reference internal" href="#sphere.graph.Graph.intersection" title="sphere.graph.Graph.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>polygon</strong> : <a class="reference internal" href="sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instance</p>
+<blockquote class="last">
+<div><p>Polygon to add to the graph</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.add_polygons">
+<tt class="descname">add_polygons</tt><big>(</big><em>polygons</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.add_polygons"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.add_polygons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add more polygons to the graph.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Must be called before <a class="reference internal" href="#sphere.graph.Graph.union" title="sphere.graph.Graph.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> or <a class="reference internal" href="#sphere.graph.Graph.intersection" title="sphere.graph.Graph.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>polygons</strong> : sequence of <a class="reference internal" href="sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instances</p>
+<blockquote class="last">
+<div><p>Set of polygons to add to the graph</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.intersection">
+<tt class="descname">intersection</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once all of the polygons have been added to the graph,
+calculate the intersection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>points</strong> : Nx3 array of (<em>x</em>, <em>y</em>, <em>z</em>) points</p>
+<blockquote class="last">
+<div><p>This is a list of points outlining the intersection of the
+polygons that were given to the constructor.  If the
+resulting polygons are disjunct or contain holes, cut lines
+will be included in the output.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.remove_edge">
+<tt class="descname">remove_edge</tt><big>(</big><em>edge</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.remove_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.remove_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an edge from the graph.  The nodes it points to remain intact.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is assumed that <em>edge</em> is already a part of the graph.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>edge</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.remove_node">
+<tt class="descname">remove_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.remove_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.remove_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a node and all of the edges that touch it.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is assumed that <em>Node</em> is already a part of the graph.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>node</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt> instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.split_edge">
+<tt class="descname">split_edge</tt><big>(</big><em>edge</em>, <em>node</em><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.split_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.split_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits an <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> <em>edge</em> at <tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt> <em>node</em>, removing
+<em>edge</em> and replacing it with two new <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> instances.
+It is intended that <em>E</em> is along the original edge, but that is
+not enforced.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>edge</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> instance</p>
+<blockquote>
+<div><p>The edge to split</p>
+</div></blockquote>
+<p><strong>node</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Node</span></tt> instance</p>
+<blockquote>
+<div><p>The node to insert</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>edgeA, edgeB</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Edge</span></tt> instances</p>
+<blockquote class="last">
+<div><p>The two new edges on either side of <em>node</em>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sphere.graph.Graph.union">
+<tt class="descname">union</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/sphere/graph.html#Graph.union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.graph.Graph.union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once all of the polygons have been added to the graph,
+join the polygons together.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>points</strong> : Nx3 array of (<em>x</em>, <em>y</em>, <em>z</em>) points</p>
+<blockquote class="last">
+<div><p>This is a list of points outlining the union of the
+polygons that were given to the constructor.  If the
+original polygons are disjunct or contain holes, cut lines
+will be included in the output.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Graph</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/api/sphere.graph.Graph.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2014, Michael Droettboom.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
+    Last built 18 Jun 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

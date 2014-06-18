@@ -1,0 +1,8 @@
+
+
+intersects
+==================================
+
+.. currentmodule:: sphere.great_circle_arc
+
+.. autofunction:: intersects

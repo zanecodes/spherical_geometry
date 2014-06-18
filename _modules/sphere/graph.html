@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sphere.graph &mdash; sphere v0.0.dev18</title>
+    <title>sphere.graph &mdash; sphere v0.0.dev23</title>
     
     <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.dev18',
+        VERSION:     '0.0.dev23',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
-    <link rel="top" title="sphere v0.0.dev18" href="../../index.html" />
+    <link rel="top" title="sphere v0.0.dev23" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../../_static/copybutton.js"></script>
@@ -57,7 +57,7 @@
     <h3>Navigation</h3>
     <ul>
       <li>
-	<a href="../../index.html">sphere v0.0.dev18</a>
+	<a href="../../index.html">sphere v0.0.dev23</a>
 	 &raquo;
       </li>
       <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li>
@@ -128,7 +128,7 @@
 <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
 
 
-<div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+<div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A graph of nodes connected by edges.  The graph is used to build</span>
 <span class="sd">    unions between polygons.</span>
@@ -281,7 +281,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_polygons</span><span class="p">(</span><span class="n">polygons</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.add_polygons"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.add_polygons">[docs]</a>    <span class="k">def</span> <span class="nf">add_polygons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygons</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.add_polygons"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.add_polygons">[docs]</a>    <span class="k">def</span> <span class="nf">add_polygons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygons</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add more polygons to the graph.</span>
 
@@ -296,7 +296,7 @@
         <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Graph.add_polygon"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.add_polygon">[docs]</a>    <span class="k">def</span> <span class="nf">add_polygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.add_polygon"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.add_polygon">[docs]</a>    <span class="k">def</span> <span class="nf">add_polygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygon</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a single polygon to the graph.</span>
 
@@ -327,7 +327,7 @@
         <span class="c"># Close the polygon</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">nodeA</span><span class="p">,</span> <span class="n">start_node</span><span class="p">,</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Graph.add_node"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.add_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="Graph.add_node"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.add_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a node to the graph.  It will be disconnected until used</span>
 <span class="sd">        in a call to `add_edge`.</span>
@@ -356,7 +356,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_node</span>
 </div>
-<div class="viewcode-block" id="Graph.remove_node"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.remove_node">[docs]</a>    <span class="k">def</span> <span class="nf">remove_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.remove_node"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.remove_node">[docs]</a>    <span class="k">def</span> <span class="nf">remove_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes a node and all of the edges that touch it.</span>
 
@@ -375,7 +375,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Graph.add_edge"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="Graph.add_edge"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add an edge between two nodes.</span>
 
@@ -414,7 +414,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_edge</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_edge</span>
 </div>
-<div class="viewcode-block" id="Graph.remove_edge"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.remove_edge">[docs]</a>    <span class="k">def</span> <span class="nf">remove_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.remove_edge"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.remove_edge">[docs]</a>    <span class="k">def</span> <span class="nf">remove_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove an edge from the graph.  The nodes it points to remain intact.</span>
 
@@ -437,7 +437,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Graph.split_edge"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.split_edge">[docs]</a>    <span class="k">def</span> <span class="nf">split_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.split_edge"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.split_edge">[docs]</a>    <span class="k">def</span> <span class="nf">split_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Splits an `~Graph.Edge` *edge* at `~Graph.Node` *node*, removing</span>
 <span class="sd">        *edge* and replacing it with two new `~Graph.Edge` instances.</span>
@@ -545,7 +545,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Graph.union"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.union"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Once all of the polygons have been added to the graph,</span>
 <span class="sd">        join the polygons together.</span>
@@ -570,7 +570,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_sanity_check</span><span class="p">(</span><span class="s">&quot;union - remove orphan nodes&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trace</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Graph.intersection"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.intersection">[docs]</a>    <span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.intersection"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.intersection">[docs]</a>    <span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Once all of the polygons have been added to the graph,</span>
 <span class="sd">        calculate the intersection.</span>

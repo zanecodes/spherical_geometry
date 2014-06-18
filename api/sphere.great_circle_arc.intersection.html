@@ -1,0 +1,178 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>intersection &mdash; sphere v0.0.dev23</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.dev23',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="sphere v0.0.dev23" href="../index.html" />
+    <link rel="up" title="API Documentation" href="../sphere/api.html" />
+    <link rel="next" title="intersects" href="sphere.great_circle_arc.intersects.html" />
+    <link rel="prev" title="angle" href="sphere.great_circle_arc.angle.html" />
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="sphere.great_circle_arc.intersects.html" title="intersects">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="sphere.great_circle_arc.angle.html" title="angle">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">sphere v0.0.dev23</a>
+	 &raquo;
+      </li>
+      <li><a href="../sphere/index.html" >Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
+      <li><a href="../sphere/api.html" accesskey="U">API Documentation</a> &raquo;</li>
+      
+      <li>intersection</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="intersection">
+<h1>intersection<a class="headerlink" href="#intersection" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="sphere.great_circle_arc.intersection">
+<tt class="descclassname">sphere.great_circle_arc.</tt><tt class="descname">intersection</tt><big>(</big><em>A</em>, <em>B</em>, <em>C</em>, <em>D</em><big>)</big><a class="reference internal" href="../_modules/sphere/great_circle_arc.html#intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.great_circle_arc.intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the point of intersection between two great circle arcs.
+The arcs are defined between the points <em>AB</em> and <em>CD</em>.  Either <em>A</em>
+and <em>B</em> or <em>C</em> and <em>D</em> may be arrays of points, but not both.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
+<blockquote>
+<div><p>Endpoints of the first great circle arc.</p>
+</div></blockquote>
+<p><strong>C, D</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
+<blockquote>
+<div><p>Endpoints of the second great circle arc.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>T</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
+<blockquote class="last">
+<div><p>If the given arcs intersect, the intersection is returned.  If
+the arcs do not intersect, the triple is set to all NaNs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The basic intersection is computed using linear algebra as follows
+<a class="reference internal" href="#r2">[R2]</a>:</p>
+<div class="math">
+<p><img src="../_images/math/0a4c95a9748e927fc9f0cc5fb24d900df39753a1.png" alt="T = \lVert(A × B) × (C × D)\rVert"/></p>
+</div><p>To determine the correct sign (i.e. hemisphere) of the
+intersection, the following four values are computed:</p>
+<div class="math">
+<p><img src="../_images/math/52376971949f4aebb4188537ae54c3eee71ea48b.png" alt="s_1 = ((A × B) × A) · T
+
+s_2 = (B × (A × B)) · T
+
+s_3 = ((C × D) × C) · T
+
+s_4 = (D × (C × D)) · T"/></p>
+</div><p>For <img class="math" src="../_images/math/d24f09efdef5385985d3f51f9163958f3aaa64a3.png" alt="s_n"/>, if all positive <img class="math" src="../_images/math/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png" alt="T"/> is returned as-is.  If
+all negative, <img class="math" src="../_images/math/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png" alt="T"/> is multiplied by <img class="math" src="../_images/math/bae5aba07d37ff6ff813107e76260fb31ad5794e.png" alt="-1"/>.  Otherwise
+the intersection does not exist and is undefined.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R2]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Method explained in an <a class="reference external" href="http://www.mathworks.com/matlabcentral/newsreader/view_thread/276271">e-mail</a>
+by Roger Stafford.</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="http://www.mathworks.com/matlabcentral/newsreader/view_thread/276271">http://www.mathworks.com/matlabcentral/newsreader/view_thread/276271</a></p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">intersection</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/api/sphere.great_circle_arc.intersection.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2014, Michael Droettboom.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
+    Last built 18 Jun 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

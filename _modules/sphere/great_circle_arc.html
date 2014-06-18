@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sphere.great_circle_arc &mdash; sphere v0.0.dev18</title>
+    <title>sphere.great_circle_arc &mdash; sphere v0.0.dev23</title>
     
     <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.dev18',
+        VERSION:     '0.0.dev23',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="../../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
-    <link rel="top" title="sphere v0.0.dev18" href="../../index.html" />
+    <link rel="top" title="sphere v0.0.dev23" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../../_static/copybutton.js"></script>
@@ -57,7 +57,7 @@
     <h3>Navigation</h3>
     <ul>
       <li>
-	<a href="../../index.html">sphere v0.0.dev18</a>
+	<a href="../../index.html">sphere v0.0.dev23</a>
 	 &raquo;
       </li>
       <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li>
@@ -172,7 +172,7 @@
     <span class="k">return</span> <span class="n">TN</span>
 
 
-<div class="viewcode-block" id="intersection"><a class="viewcode-back" href="../../sphere/api.html#sphere.great_circle_arc.intersection">[docs]</a><span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
+<div class="viewcode-block" id="intersection"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.intersection.html#sphere.great_circle_arc.intersection">[docs]</a><span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot;</span>
 <span class="sd">    Returns the point of intersection between two great circle arcs.</span>
 <span class="sd">    The arcs are defined between the points *AB* and *CD*.  Either *A*</span>
@@ -269,7 +269,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">equals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">cross</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="length"><a class="viewcode-back" href="../../sphere/api.html#sphere.great_circle_arc.length">[docs]</a><span class="k">def</span> <span class="nf">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="length"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.length.html#sphere.great_circle_arc.length">[docs]</a><span class="k">def</span> <span class="nf">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot;</span>
 <span class="sd">    Returns the angular distance between two points (in vector space)</span>
 <span class="sd">    on the unit sphere.</span>
@@ -310,7 +310,7 @@
         <span class="k">return</span> <span class="n">result</span>
 
 </div>
-<div class="viewcode-block" id="intersects"><a class="viewcode-back" href="../../sphere/api.html#sphere.great_circle_arc.intersects">[docs]</a><span class="k">def</span> <span class="nf">intersects</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
+<div class="viewcode-block" id="intersects"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.intersects.html#sphere.great_circle_arc.intersects">[docs]</a><span class="k">def</span> <span class="nf">intersects</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns `True` if the great circle arcs between *AB* and *CD*</span>
 <span class="sd">    intersect.  Either *A* and *B* or *C* and *D* may be arrays of</span>
@@ -335,7 +335,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">intersections</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
 </div>
-<div class="viewcode-block" id="angle"><a class="viewcode-back" href="../../sphere/api.html#sphere.great_circle_arc.angle">[docs]</a><span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="angle"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.angle.html#sphere.great_circle_arc.angle">[docs]</a><span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the angle at *B* between *AB* and *BC*.</span>
 
@@ -379,7 +379,7 @@
     <span class="k">return</span> <span class="n">angle</span>
 
 </div>
-<div class="viewcode-block" id="midpoint"><a class="viewcode-back" href="../../sphere/api.html#sphere.great_circle_arc.midpoint">[docs]</a><span class="k">def</span> <span class="nf">midpoint</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+<div class="viewcode-block" id="midpoint"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.midpoint.html#sphere.great_circle_arc.midpoint">[docs]</a><span class="k">def</span> <span class="nf">midpoint</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the midpoint on the great circle arc between *A* and *B*.</span>
 
@@ -402,7 +402,7 @@
     <span class="k">return</span> <span class="n">P</span> <span class="o">/</span> <span class="n">l</span>
 
 </div>
-<div class="viewcode-block" id="interpolate"><a class="viewcode-back" href="../../sphere/api.html#sphere.great_circle_arc.interpolate">[docs]</a><span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<div class="viewcode-block" id="interpolate"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.interpolate.html#sphere.great_circle_arc.interpolate">[docs]</a><span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot;</span>
 <span class="sd">    Interpolate along the great circle arc.</span>
 

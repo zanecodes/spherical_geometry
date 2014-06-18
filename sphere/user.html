@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>User documentation &mdash; sphere v0.0.dev18</title>
+    <title>User documentation &mdash; sphere v0.0.dev23</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.dev18',
+        VERSION:     '0.0.dev23',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
-    <link rel="top" title="sphere v0.0.dev18" href="../index.html" />
+    <link rel="top" title="sphere v0.0.dev23" href="../index.html" />
     <link rel="up" title="Welcome to Spherical Geometry Toolkit’s documentation!" href="index.html" />
     <link rel="next" title="API Documentation" href="api.html" />
     <link rel="prev" title="Welcome to Spherical Geometry Toolkit’s documentation!" href="index.html" />
@@ -70,7 +70,7 @@
 	 |
       </li>
       <li>
-	<a href="../index.html">sphere v0.0.dev18</a>
+	<a href="../index.html">sphere v0.0.dev23</a>
 	 &raquo;
       </li>
       <li><a href="index.html" accesskey="U">Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
@@ -87,7 +87,7 @@
             
   <div class="section" id="user-documentation">
 <h1>User documentation<a class="headerlink" href="#user-documentation" title="Permalink to this headline">¶</a></h1>
-<p>The <tt class="xref py py-obj docutils literal"><span class="pre">stsci.sphere</span></tt> library is a pure Python package for handling spherical
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">sphere</span></tt> library is a Python package for handling spherical
 polygons that represent arbitrary regions of the sky.</p>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
@@ -105,7 +105,7 @@ While these representations are convenient, they have discontinuities
 at the poles, making operations on them trickier at arbitrary
 locations on the sky sphere.  Therefore, all internal operations of
 this library are done in 3D vector space, where coordinates are
-represented as (<em>x</em>, <em>y</em>, <em>z</em>) vectors.  The <tt class="xref py py-obj docutils literal"><span class="pre">stsci.sphere.vector</span></tt> module
+represented as (<em>x</em>, <em>y</em>, <em>z</em>) vectors.  The <a class="reference internal" href="api.html#module-sphere.vector" title="sphere.vector"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.vector</span></tt></a> module
 contains functions to convert between (<em>ra</em>, <em>dec</em>) and (<em>x</em>, <em>y</em>,
 <em>z</em>) representations.</p>
 <p>While any (<em>x</em>, <em>y</em>, <em>z</em>) triple represents a vector and therefore a
@@ -117,7 +117,7 @@ defined as a vector whose length is 1, i.e.:</p>
 <p><img src="../_images/math/3fb4e5bd9656bbccf48ef6027552b99f1c7e605c.png" alt="\sqrt{x^2 + y^2 + z^2} = 1"/></p>
 </div><p>To prevent unnecessary recomputation, many methods in this library
 assume that the vectors passed in are already normalized.  If this is
-not the case, <tt class="xref py py-obj docutils literal"><span class="pre">stsci.sphere.vector.normalize_vector</span></tt> can be used to
+not the case, <tt class="xref py py-obj docutils literal"><span class="pre">sphere.vector.normalize_vector</span></tt> can be used to
 normalize an array of vectors.</p>
 <p>When not working in Cartesian vectors, the library allows the user to
 work in either degrees or radians.  All methods that require or return
@@ -221,7 +221,7 @@ primarily for debugging purposes.</li>
 <div class="section" id="great-circle-arcs">
 <h2>Great circle arcs<a class="headerlink" href="#great-circle-arcs" title="Permalink to this headline">¶</a></h2>
 <p>As seen above, great circle arcs are used to define the edges of the
-polygon.  The <tt class="xref py py-obj docutils literal"><span class="pre">stsci.sphere.great_circle_arc</span></tt> module contains a number of
+polygon.  The <a class="reference internal" href="api.html#module-sphere.great_circle_arc" title="sphere.great_circle_arc"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.great_circle_arc</span></tt></a> module contains a number of
 functions that are useful for dealing with them.</p>
 <ul class="simple">
 <li><tt class="xref py py-obj docutils literal"><span class="pre">length</span></tt>: Returns the angular distance between two points on the sphere.</li>

@@ -1,0 +1,8 @@
+
+
+radec_to_vector
+=============================
+
+.. currentmodule:: sphere.vector
+
+.. autofunction:: radec_to_vector

@@ -1,0 +1,8 @@
+
+
+interpolate
+===================================
+
+.. currentmodule:: sphere.great_circle_arc
+
+.. autofunction:: interpolate
