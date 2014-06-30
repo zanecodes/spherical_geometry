@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API Documentation &mdash; sphere v0.0.dev29</title>
+    <title>API Documentation &mdash; sphere v0.0.dev67</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.dev29',
+        VERSION:     '0.0.dev67',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
-    <link rel="top" title="sphere v0.0.dev29" href="../index.html" />
+    <link rel="top" title="sphere v0.0.dev67" href="../index.html" />
     <link rel="up" title="Welcome to Spherical Geometry Toolkit’s documentation!" href="index.html" />
     <link rel="next" title="radec_to_vector" href="../api/sphere.vector.radec_to_vector.html" />
     <link rel="prev" title="User documentation" href="user.html" />
@@ -70,7 +70,7 @@
 	 |
       </li>
       <li>
-	<a href="../index.html">sphere v0.0.dev29</a>
+	<a href="../index.html">sphere v0.0.dev67</a>
 	 &raquo;
       </li>
       <li><a href="index.html" accesskey="U">Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
@@ -139,13 +139,16 @@ section of those circles between two points on the unit sphere.</p>
 <tr class="row-odd"><td><a class="reference internal" href="../api/sphere.great_circle_arc.intersects.html#sphere.great_circle_arc.intersects" title="sphere.great_circle_arc.intersects"><tt class="xref py py-obj docutils literal"><span class="pre">intersects</span></tt></a>(A,&nbsp;B,&nbsp;C,&nbsp;D)</td>
 <td>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the great circle arcs between <em>AB</em> and <em>CD</em> intersect.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="../api/sphere.great_circle_arc.length.html#sphere.great_circle_arc.length" title="sphere.great_circle_arc.length"><tt class="xref py py-obj docutils literal"><span class="pre">length</span></tt></a>(A,&nbsp;B[,&nbsp;degrees])</td>
+<tr class="row-even"><td><a class="reference internal" href="../api/sphere.great_circle_arc.intersects_point.html#sphere.great_circle_arc.intersects_point" title="sphere.great_circle_arc.intersects_point"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_point</span></tt></a>(A,&nbsp;B,&nbsp;C)</td>
+<td>Returns True if point C is along the great circle arc <em>AB</em>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.great_circle_arc.length.html#sphere.great_circle_arc.length" title="sphere.great_circle_arc.length"><tt class="xref py py-obj docutils literal"><span class="pre">length</span></tt></a>(A,&nbsp;B[,&nbsp;degrees])</td>
 <td>Returns the angular distance between two points (in vector space) on the unit sphere.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.great_circle_arc.midpoint.html#sphere.great_circle_arc.midpoint" title="sphere.great_circle_arc.midpoint"><tt class="xref py py-obj docutils literal"><span class="pre">midpoint</span></tt></a>(A,&nbsp;B)</td>
+<tr class="row-even"><td><a class="reference internal" href="../api/sphere.great_circle_arc.midpoint.html#sphere.great_circle_arc.midpoint" title="sphere.great_circle_arc.midpoint"><tt class="xref py py-obj docutils literal"><span class="pre">midpoint</span></tt></a>(A,&nbsp;B)</td>
 <td>Returns the midpoint on the great circle arc between <em>A</em> and <em>B</em>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="../api/sphere.great_circle_arc.interpolate.html#sphere.great_circle_arc.interpolate" title="sphere.great_circle_arc.interpolate"><tt class="xref py py-obj docutils literal"><span class="pre">interpolate</span></tt></a>(A,&nbsp;B[,&nbsp;steps])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../api/sphere.great_circle_arc.interpolate.html#sphere.great_circle_arc.interpolate" title="sphere.great_circle_arc.interpolate"><tt class="xref py py-obj docutils literal"><span class="pre">interpolate</span></tt></a>(A,&nbsp;B[,&nbsp;steps])</td>
 <td>Interpolate along the great circle arc.</td>
 </tr>
 </tbody>
@@ -154,8 +157,8 @@ section of those circles between two points on the unit sphere.</p>
 </div>
 <div class="section" id="module-sphere.polygon">
 <span id="sphere-polygon-module"></span><h2>sphere.polygon Module<a class="headerlink" href="#module-sphere.polygon" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="xref py py-obj docutils literal"><span class="pre">polygon</span></tt> module defines the <a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> class for managing
-polygons on the unit sphere.</p>
+<p>The <a class="reference internal" href="#module-sphere.polygon" title="sphere.polygon"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.polygon</span></tt></a> module defines the <a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> class for
+managing polygons on the unit sphere.</p>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
@@ -184,9 +187,6 @@ polygons on the unit sphere.</p>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="../api/sphere.graph.Graph.html#sphere.graph.Graph" title="sphere.graph.Graph"><tt class="xref py py-obj docutils literal"><span class="pre">Graph</span></tt></a>(polygons)</td>
 <td>A graph of nodes connected by edges.</td>
-</tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">xrange</span></tt></td>
-<td>xrange(stop) -&gt; xrange object</td>
 </tr>
 </tbody>
 </table>

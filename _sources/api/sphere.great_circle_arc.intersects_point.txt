@@ -1,0 +1,8 @@
+
+
+intersects_point
+========================================
+
+.. currentmodule:: sphere.great_circle_arc
+
+.. autofunction:: intersects_point

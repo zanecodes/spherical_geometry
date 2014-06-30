@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SphericalPolygon &mdash; sphere v0.0.dev29</title>
+    <title>SphericalPolygon &mdash; sphere v0.0.dev67</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.dev29',
+        VERSION:     '0.0.dev67',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
-    <link rel="top" title="sphere v0.0.dev29" href="../index.html" />
+    <link rel="top" title="sphere v0.0.dev67" href="../index.html" />
     <link rel="up" title="API Documentation" href="../sphere/api.html" />
     <link rel="next" title="Graph" href="sphere.graph.Graph.html" />
     <link rel="prev" title="interpolate" href="sphere.great_circle_arc.interpolate.html" />
@@ -70,7 +70,7 @@
 	 |
       </li>
       <li>
-	<a href="../index.html">sphere v0.0.dev29</a>
+	<a href="../index.html">sphere v0.0.dev67</a>
 	 &raquo;
       </li>
       <li><a href="../sphere/index.html" >Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
@@ -363,12 +363,13 @@ otherwise in radians.</p>
 <em class="property">classmethod </em><tt class="descname">from_wcs</tt><big>(</big><em>fitspath</em>, <em>steps=1</em>, <em>crval=None</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.from_wcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.from_wcs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from the footprint of a FITS
 WCS specification.</p>
-<p>This method requires having <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> installed.</p>
+<p>This method requires having <a class="reference external" href="http://astropy.org">astropy</a>
+installed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fitspath</strong> : path to a FITS file, <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v0.3.2)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a>, or <tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fitspath</strong> : path to a FITS file, <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v0.3.2)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a>, or <a class="reference external" href="http://docs.astropy.org/en/stable/api/astropy.wcs.wcs.WCS.html#astropy.wcs.wcs.WCS" title="(in Astropy v0.3.2)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.wcs.WCS</span></tt></a></p>
 <blockquote>
 <div><p>Refers to a FITS header containing a WCS specification.</p>
 </div></blockquote>
@@ -556,7 +557,7 @@ defined as:</p>
 <tt class="descname">same_points_as</tt><big>(</big><em>other</em>, <em>do_sort=True</em>, <em>thres=0.01</em><big>)</big><a class="reference internal" href="../_modules/sphere/polygon.html#SphericalPolygon.same_points_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sphere.polygon.SphericalPolygon.same_points_as" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines if this <a class="reference internal" href="#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> points are the same
 as the other. Number of points and areas are also compared.</p>
-<p>When <tt class="xref py py-obj docutils literal"><span class="pre">do_sort</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, even when <em>self</em> and <em>other</em>
+<p>When <em>do_sort</em> is <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, even when <em>self</em> and <em>other</em>
 have same points, they might not be equivalent because
 the order of the points defines the polygon.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -662,7 +663,7 @@ module.</p>
   <p>
     &copy; Copyright 2014, Michael Droettboom.<br/>
     Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
-    Last built 23 Jun 2014. <br/>
+    Last built 30 Jun 2014. <br/>
   </p>
 </footer>
   </body>
