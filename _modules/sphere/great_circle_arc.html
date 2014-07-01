@@ -75,37 +75,7 @@
   <h1>Source code for sphere.great_circle_arc</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
 
-<span class="c"># Copyright (C) 2011 Association of Universities for Research in</span>
-<span class="c"># Astronomy (AURA)</span>
-<span class="c">#</span>
-<span class="c"># Redistribution and use in source and binary forms, with or without</span>
-<span class="c"># modification, are permitted provided that the following conditions</span>
-<span class="c"># are met:</span>
-<span class="c">#</span>
-<span class="c">#     1. Redistributions of source code must retain the above</span>
-<span class="c">#       copyright notice, this list of conditions and the following</span>
-<span class="c">#       disclaimer.</span>
-<span class="c">#</span>
-<span class="c">#     2. Redistributions in binary form must reproduce the above</span>
-<span class="c">#       copyright notice, this list of conditions and the following</span>
-<span class="c">#       disclaimer in the documentation and/or other materials</span>
-<span class="c">#       provided with the distribution.</span>
-<span class="c">#</span>
-<span class="c">#     3. The name of AURA and its representatives may not be used to</span>
-<span class="c">#       endorse or promote products derived from this software without</span>
-<span class="c">#       specific prior written permission.</span>
-<span class="c">#</span>
-<span class="c"># THIS SOFTWARE IS PROVIDED BY AURA ``AS IS&#39;&#39; AND ANY EXPRESS OR</span>
-<span class="c"># IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
-<span class="c"># WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE</span>
-<span class="c"># ARE DISCLAIMED. IN NO EVENT SHALL AURA BE LIABLE FOR ANY DIRECT,</span>
-<span class="c"># INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
-<span class="c"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
-<span class="c"># SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
-<span class="c"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
-<span class="c"># STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)</span>
-<span class="c"># ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED</span>
-<span class="c"># OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The `sphere.great_circle_arc` module contains functions for computing</span>
@@ -134,8 +104,9 @@
     <span class="kn">from</span> <span class="nn">numpy.core.umath_tests</span> <span class="kn">import</span> <span class="n">inner1d</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;angle&#39;</span><span class="p">,</span> <span class="s">&#39;intersection&#39;</span><span class="p">,</span> <span class="s">&#39;intersects&#39;</span><span class="p">,</span> <span class="s">&#39;length&#39;</span><span class="p">,</span> <span class="s">&#39;midpoint&#39;</span><span class="p">,</span>
-           <span class="s">&#39;interpolate&#39;</span><span class="p">]</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;angle&#39;</span><span class="p">,</span> <span class="s">&#39;intersection&#39;</span><span class="p">,</span> <span class="s">&#39;intersects&#39;</span><span class="p">,</span> <span class="s">&#39;intersects_point&#39;</span><span class="p">,</span> 
+           <span class="s">&#39;length&#39;</span><span class="p">,</span> <span class="s">&#39;midpoint&#39;</span><span class="p">,</span> <span class="s">&#39;interpolate&#39;</span><span class="p">]</span>
 
 
 <span class="k">def</span> <span class="nf">_fast_cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -146,7 +117,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">HAS_C_UFUNCS</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">math_util</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    
+
     <span class="n">cp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">aT</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">T</span>
     <span class="n">bT</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">T</span>
@@ -158,10 +129,12 @@
 
     <span class="k">return</span> <span class="n">cp</span>
 
-<span class="k">def</span> <span class="nf">_cross_and_normalize</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">HAS_C_UFUNCS</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">math_util</span><span class="o">.</span><span class="n">cross_and_norm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
 
+<span class="k">if</span> <span class="n">HAS_C_UFUNCS</span><span class="p">:</span>
+    <span class="n">_fast_cross</span> <span class="o">=</span> <span class="n">math_util</span><span class="o">.</span><span class="n">cross</span>
+
+
+<span class="k">def</span> <span class="nf">_cross_and_normalize</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">_fast_cross</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
     <span class="c"># Normalization</span>
     <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">T</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
@@ -170,6 +143,12 @@
     <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s">&#39;ignore&#39;</span><span class="p">):</span>
         <span class="n">TN</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">l</span>
     <span class="k">return</span> <span class="n">TN</span>
+
+
+<span class="k">if</span> <span class="n">HAS_C_UFUNCS</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_cross_and_normalize</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s">&#39;ignore&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">math_util</span><span class="o">.</span><span class="n">cross_and_norm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="intersection"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.intersection.html#sphere.great_circle_arc.intersection">[docs]</a><span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
@@ -206,13 +185,13 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        s_1 = ((A × B) × A) · T</span>
+<span class="sd">        s_1 = ((A × B) × A) \cdot T</span>
 
-<span class="sd">        s_2 = (B × (A × B)) · T</span>
+<span class="sd">        s_2 = (B × (A × B)) \cdot T</span>
 
-<span class="sd">        s_3 = ((C × D) × C) · T</span>
+<span class="sd">        s_3 = ((C × D) × C) \cdot T</span>
 
-<span class="sd">        s_4 = (D × (C × D)) · T</span>
+<span class="sd">        s_4 = (D × (C × D)) \cdot T</span>
 
 <span class="sd">    For :math:`s_n`, if all positive :math:`T` is returned as-is.  If</span>
 <span class="sd">    all negative, :math:`T` is multiplied by :math:`-1`.  Otherwise</span>
@@ -229,7 +208,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">HAS_C_UFUNCS</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">math_util</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
-    
+
     <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
     <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
     <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
@@ -259,10 +238,10 @@
     <span class="c"># If they share a common point, it&#39;s not an intersection.  This</span>
     <span class="c"># gets around some rounding-error/numerical problems with the</span>
     <span class="c"># above.</span>
-    <span class="n">equals</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">A</span> <span class="o">==</span> <span class="n">C</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
-              <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">A</span> <span class="o">==</span> <span class="n">D</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
-              <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">B</span> <span class="o">==</span> <span class="n">C</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
-              <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">B</span> <span class="o">==</span> <span class="n">D</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">equals</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">A</span> <span class="o">==</span> <span class="n">C</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
+              <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">A</span> <span class="o">==</span> <span class="n">D</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
+              <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">B</span> <span class="o">==</span> <span class="n">C</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span>
+              <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">B</span> <span class="o">==</span> <span class="n">D</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
 
     <span class="n">equals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">equals</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
@@ -294,15 +273,26 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">       \Delta = \arccos(A \dot B)</span>
+<span class="sd">       \Delta = \arccos(A \cdot B)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">HAS_C_UFUNCS</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">math_util</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
 
-    <span class="n">dot</span> <span class="o">=</span> <span class="n">inner1d</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
-    <span class="n">dot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s">&#39;ignore&#39;</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span>
+        <span class="n">A2</span> <span class="o">=</span> <span class="n">A</span> <span class="o">**</span> <span class="mf">2.0</span>
+        <span class="n">Al</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">A2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">B2</span> <span class="o">=</span> <span class="n">B</span> <span class="o">**</span> <span class="mf">2.0</span>
+        <span class="n">Bl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">B2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">A</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Al</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">B</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Bl</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">dot</span> <span class="o">=</span> <span class="n">inner1d</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+        <span class="n">dot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s">&#39;ignore&#39;</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">degrees</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
@@ -332,7 +322,36 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s">&#39;ignore&#39;</span><span class="p">):</span>
         <span class="n">intersections</span> <span class="o">=</span> <span class="n">intersection</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">intersections</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="intersects_point"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.intersects_point.html#sphere.great_circle_arc.intersects_point">[docs]</a><span class="k">def</span> <span class="nf">intersects_point</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns True if point C is along the great circle arc *AB*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A, B : (*x*, *y*, *z*) triples or Nx3 arrays of triples</span>
+<span class="sd">        Endpoints of the great circle arc.</span>
+
+<span class="sd">    C : (*x*, *y*, *z*) triples or array of triples of points</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    intersects : bool or array of bool</span>
+<span class="sd">        If the point is on the line, returns `True`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">HAS_C_UFUNCS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">math_util</span><span class="o">.</span><span class="n">intersects_point</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+
+    <span class="n">total_length</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+    <span class="n">left_length</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+    <span class="n">right_length</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+    <span class="n">length_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">left_length</span> <span class="o">+</span> <span class="n">right_length</span><span class="p">)</span> <span class="o">-</span> <span class="n">total_length</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">length_diff</span> <span class="o">&lt;</span> <span class="mf">1e-10</span>
 
 </div>
 <div class="viewcode-block" id="angle"><a class="viewcode-back" href="../../api/sphere.great_circle_arc.angle.html#sphere.great_circle_arc.angle">[docs]</a><span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
@@ -430,7 +449,7 @@
 
 <span class="sd">        \frac{\sin((1 - t)\Omega)}{\sin \Omega}A + \frac{\sin(t \Omega)}{\sin \Omega}B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">steps</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="n">omega</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
@@ -460,7 +479,7 @@
   <p>
     &copy; Copyright 2014, Michael Droettboom.<br/>
     Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
-    Last built 30 Jun 2014. <br/>
+    Last built 01 Jul 2014. <br/>
   </p>
 </footer>
   </body>

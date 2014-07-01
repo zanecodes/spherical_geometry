@@ -75,41 +75,11 @@
   <h1>Source code for sphere.polygon</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
 
-<span class="c"># Copyright (C) 2011 Association of Universities for Research in</span>
-<span class="c"># Astronomy (AURA)</span>
-<span class="c">#</span>
-<span class="c"># Redistribution and use in source and binary forms, with or without</span>
-<span class="c"># modification, are permitted provided that the following conditions</span>
-<span class="c"># are met:</span>
-<span class="c">#</span>
-<span class="c">#     1. Redistributions of source code must retain the above</span>
-<span class="c">#       copyright notice, this list of conditions and the following</span>
-<span class="c">#       disclaimer.</span>
-<span class="c">#</span>
-<span class="c">#     2. Redistributions in binary form must reproduce the above</span>
-<span class="c">#       copyright notice, this list of conditions and the following</span>
-<span class="c">#       disclaimer in the documentation and/or other materials</span>
-<span class="c">#       provided with the distribution.</span>
-<span class="c">#</span>
-<span class="c">#     3. The name of AURA and its representatives may not be used to</span>
-<span class="c">#       endorse or promote products derived from this software without</span>
-<span class="c">#       specific prior written permission.</span>
-<span class="c">#</span>
-<span class="c"># THIS SOFTWARE IS PROVIDED BY AURA ``AS IS&#39;&#39; AND ANY EXPRESS OR</span>
-<span class="c"># IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
-<span class="c"># WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE</span>
-<span class="c"># ARE DISCLAIMED. IN NO EVENT SHALL AURA BE LIABLE FOR ANY DIRECT,</span>
-<span class="c"># INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
-<span class="c"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
-<span class="c"># SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
-<span class="c"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
-<span class="c"># STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)</span>
-<span class="c"># ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED</span>
-<span class="c"># OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">The `polygon` module defines the `SphericalPolygon` class for managing</span>
-<span class="sd">polygons on the unit sphere.</span>
+<span class="sd">The `sphere.polygon` module defines the `SphericalPolygon` class for</span>
+<span class="sd">managing polygons on the unit sphere.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
 
@@ -179,6 +149,9 @@
         <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">, </span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
                                <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inside</span><span class="p">)</span>
 
+<div class="viewcode-block" id="SphericalPolygon.copy"><a class="viewcode-back" href="../../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+</div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -205,6 +178,8 @@
 <span class="sd">            List of *ra* and *dec* in degrees corresponding</span>
 <span class="sd">            to `points`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="k">return</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
                                       <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
@@ -238,11 +213,11 @@
         <span class="c"># Convert to Cartesian</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">radec_to_vector</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span>
 
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
         <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">xc</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">yc</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">zc</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-            <span class="n">center</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">zc</span><span class="p">)</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">center</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">radec_to_vector</span><span class="p">(</span><span class="o">*</span><span class="n">center</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span>
 
@@ -314,11 +289,12 @@
 <span class="sd">        Create a new `SphericalPolygon` from the footprint of a FITS</span>
 <span class="sd">        WCS specification.</span>
 
-<span class="sd">        This method requires having `astropy` installed.</span>
+<span class="sd">        This method requires having `astropy &lt;http://astropy.org&gt;`__</span>
+<span class="sd">        installed.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        fitspath : path to a FITS file, `astropy.io.fits.Header`, or `astropy.wcs.WCS`</span>
+<span class="sd">        fitspath : path to a FITS file, `astropy.io.fits.Header`, or `astropy.wcs.wcs.WCS`</span>
 <span class="sd">            Refers to a FITS header containing a WCS specification.</span>
 
 <span class="sd">        steps : int, optional</span>
@@ -427,7 +403,7 @@
 <span class="sd">        Determines if this `SphericalPolygon` points are the same</span>
 <span class="sd">        as the other. Number of points and areas are also compared.</span>
 
-<span class="sd">        When `do_sort` is `True`, even when *self* and *other*</span>
+<span class="sd">        When *do_sort* is `True`, even when *self* and *other*</span>
 <span class="sd">        have same points, they might not be equivalent because</span>
 <span class="sd">        the order of the points defines the polygon.</span>
 
@@ -573,16 +549,20 @@
 <span class="sd">        Determines if this `SphericalPolygon` intersects or contains</span>
 <span class="sd">        the given arc.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">great_circle_arc</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">True</span>
-
         <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span>
-        <span class="n">intersects</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">intersects</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_arc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">intersects</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">intersects</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.contains_arc"><a class="viewcode-back" href="../../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.contains_arc">[docs]</a>    <span class="k">def</span> <span class="nf">contains_arc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns `True` if the polygon fully encloses the arc given by a</span>
+<span class="sd">        and b.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="SphericalPolygon.area"><a class="viewcode-back" href="../../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.area">[docs]</a>    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">r&quot;&quot;&quot;</span>
@@ -622,24 +602,21 @@
 
         <span class="c"># Rotate polygon so that center of polygon is at north pole</span>
         <span class="n">centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">centroid</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="o">*</span><span class="n">centroid</span><span class="p">)</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">centroid</span><span class="p">)</span>
         <span class="n">points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span> <span class="o">-</span> <span class="p">(</span><span class="n">centroid</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
-        <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span>
-            <span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">points</span><span class="p">)</span>
 
-        <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">Y</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">XYs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
             <span class="n">length</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
             <span class="n">interp</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">length</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
-            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span>
-                <span class="n">interp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">interp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">interp</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">equal_area_proj</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-            <span class="n">X</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-            <span class="n">Y</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">interp</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">interp</span><span class="p">)</span>
+            <span class="n">XY</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">equal_area_proj</span><span class="p">(</span><span class="n">interp</span><span class="p">)</span>
+            <span class="n">XYs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XY</span><span class="p">)</span>
 
-        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+        <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">XYs</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">XY</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">XY</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 </div>
@@ -675,6 +652,11 @@
 <span class="sd">        module.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
         <span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span>
 
         <span class="n">polygon</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">union</span><span class="p">()</span>
@@ -923,7 +905,7 @@
   <p>
     &copy; Copyright 2014, Michael Droettboom.<br/>
     Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
-    Last built 30 Jun 2014. <br/>
+    Last built 01 Jul 2014. <br/>
   </p>
 </footer>
   </body>

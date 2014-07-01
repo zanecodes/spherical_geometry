@@ -23,14 +23,9 @@ Graph
 
    .. autosummary::
    
-      ~Graph.add_edge
-      ~Graph.add_node
       ~Graph.add_polygon
       ~Graph.add_polygons
       ~Graph.intersection
-      ~Graph.remove_edge
-      ~Graph.remove_node
-      ~Graph.split_edge
       ~Graph.union
 
    
@@ -46,14 +41,9 @@ Graph
    .. rubric:: Methods Documentation
 
    
-   .. automethod:: add_edge
-   .. automethod:: add_node
    .. automethod:: add_polygon
    .. automethod:: add_polygons
    .. automethod:: intersection
-   .. automethod:: remove_edge
-   .. automethod:: remove_node
-   .. automethod:: split_edge
    .. automethod:: union
 
    

@@ -75,37 +75,7 @@
   <h1>Source code for sphere.graph</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
 
-<span class="c"># Copyright (C) 2011 Association of Universities for Research in</span>
-<span class="c"># Astronomy (AURA)</span>
-<span class="c">#</span>
-<span class="c"># Redistribution and use in source and binary forms, with or without</span>
-<span class="c"># modification, are permitted provided that the following conditions</span>
-<span class="c"># are met:</span>
-<span class="c">#</span>
-<span class="c">#     1. Redistributions of source code must retain the above</span>
-<span class="c">#       copyright notice, this list of conditions and the following</span>
-<span class="c">#       disclaimer.</span>
-<span class="c">#</span>
-<span class="c">#     2. Redistributions in binary form must reproduce the above</span>
-<span class="c">#       copyright notice, this list of conditions and the following</span>
-<span class="c">#       disclaimer in the documentation and/or other materials</span>
-<span class="c">#       provided with the distribution.</span>
-<span class="c">#</span>
-<span class="c">#     3. The name of AURA and its representatives may not be used to</span>
-<span class="c">#       endorse or promote products derived from this software without</span>
-<span class="c">#       specific prior written permission.</span>
-<span class="c">#</span>
-<span class="c"># THIS SOFTWARE IS PROVIDED BY AURA ``AS IS&#39;&#39; AND ANY EXPRESS OR</span>
-<span class="c"># IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
-<span class="c"># WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE</span>
-<span class="c"># ARE DISCLAIMED. IN NO EVENT SHALL AURA BE LIABLE FOR ANY DIRECT,</span>
-<span class="c"># INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
-<span class="c"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
-<span class="c"># SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
-<span class="c"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
-<span class="c"># STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)</span>
-<span class="c"># ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED</span>
-<span class="c"># OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This contains the code that does the actual unioning of regions.</span>
@@ -115,14 +85,17 @@
 
 <span class="c"># STDLIB</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">weakref</span>
+<span class="kn">from</span> <span class="nn">.utils.compat</span> <span class="kn">import</span> <span class="n">weakref</span>
 
 <span class="c"># THIRD-PARTY</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy.extern.six.moves</span> <span class="kn">import</span> <span class="nb">xrange</span>
 
 <span class="c"># LOCAL</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">great_circle_arc</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vector</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Graph&#39;</span><span class="p">]</span>
 
 <span class="c"># Set to True to enable some sanity checks</span>
 <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
@@ -139,7 +112,7 @@
 <span class="sd">       `~sphere.polygon.SphericalPolygon.intersection`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Graph.Node"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.Node">[docs]</a>    <span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A `~Graph.Node` represents a single point, connected by an arbitrary</span>
 <span class="sd">        number of `~Graph.Edge` objects to other `~Graph.Node` objects.</span>
@@ -153,16 +126,14 @@
 <span class="sd">            source_polygon : `~sphere.polygon.SphericalPolygon` instance, optional</span>
 <span class="sd">                The polygon(s) this node came from.  Used for bookkeeping.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="n">point</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="o">*</span><span class="n">point</span><span class="p">)</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">source_polygons</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakSet</span><span class="p">()</span>
-
+            
         <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="s">&quot;Node(</span><span class="si">%s</span><span class="s"> </span><span class="si">%d</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_point</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Graph.Node.follow"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.Node.follow">[docs]</a>        <span class="k">def</span> <span class="nf">follow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">follow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Follows from one edge to another across this node.</span>
 
@@ -182,8 +153,8 @@
                 <span class="k">return</span> <span class="n">edges</span><span class="p">[</span><span class="ow">not</span> <span class="n">edges</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">edge</span><span class="p">)]</span>
             <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Following from disconnected edge&quot;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Graph.Node.equals"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.Node.equals">[docs]</a>        <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">2e-8</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">2e-8</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns `True` if the location of this and the *other*</span>
 <span class="sd">            `~Graph.Node` are the same.</span>
@@ -199,12 +170,10 @@
 <span class="sd">                empirical test cases. Relative threshold based on</span>
 <span class="sd">                the actual sizes of polygons is not implemented.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="c"># return np.array_equal(self._point, other._point)</span>
-            <span class="k">return</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span>
-                                           <span class="n">degrees</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">thres</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_point</span><span class="p">)</span>
 
-</div></div>
-<div class="viewcode-block" id="Graph.Edge"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.Edge">[docs]</a>    <span class="k">class</span> <span class="nc">Edge</span><span class="p">:</span>
+
+    <span class="k">class</span> <span class="nc">Edge</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        An `~Graph.Edge` represents a connection between exactly two</span>
 <span class="sd">        `~Graph.Node` objects.  This `~Graph.Edge` class has no direction.</span>
@@ -227,7 +196,7 @@
             <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span>
             <span class="k">return</span> <span class="s">&quot;Edge(</span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.Edge.follow"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.Edge.follow">[docs]</a>        <span class="k">def</span> <span class="nf">follow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">follow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Follow along the edge from the given *node* to the other</span>
 <span class="sd">            node.</span>
@@ -245,8 +214,8 @@
                 <span class="k">return</span> <span class="n">nodes</span><span class="p">[</span><span class="ow">not</span> <span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">node</span><span class="p">)]</span>
             <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Following from disconnected node&quot;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Graph.Edge.equals"><a class="viewcode-back" href="../../sphere/api.html#sphere.graph.Graph.Edge.equals">[docs]</a>        <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns `True` if the other edge is between the same two nodes.</span>
 
@@ -266,7 +235,7 @@
                 <span class="k">return</span> <span class="bp">True</span>
             <span class="k">return</span> <span class="bp">False</span>
 
-</div></div>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygons</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -277,7 +246,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_start_node</span> <span class="o">=</span> <span class="bp">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_polygons</span><span class="p">(</span><span class="n">polygons</span><span class="p">)</span>
 
@@ -311,26 +279,24 @@
         <span class="n">points</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">_points</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Too few points in polygon&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_source_polygons</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span>
 
-        <span class="n">start_node</span> <span class="o">=</span> <span class="n">nodeA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_node</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_start_node</span> <span class="o">=</span> <span class="n">start_node</span>
+        <span class="n">start_node</span> <span class="o">=</span> <span class="n">nodeA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">nodeB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
+            <span class="n">nodeB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
             <span class="c"># Don&#39;t create self-pointing edges</span>
             <span class="k">if</span> <span class="n">nodeB</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">nodeA</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">nodeA</span><span class="p">,</span> <span class="n">nodeB</span><span class="p">,</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">nodeA</span><span class="p">,</span> <span class="n">nodeB</span><span class="p">,</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
                 <span class="n">nodeA</span> <span class="o">=</span> <span class="n">nodeB</span>
         <span class="c"># Close the polygon</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">nodeA</span><span class="p">,</span> <span class="n">start_node</span><span class="p">,</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">nodeA</span><span class="p">,</span> <span class="n">start_node</span><span class="p">,</span> <span class="p">[</span><span class="n">polygon</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Graph.add_node"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.add_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="k">def</span> <span class="nf">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a node to the graph.  It will be disconnected until used</span>
-<span class="sd">        in a call to `add_edge`.</span>
+<span class="sd">        in a call to `_add_edge`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -344,19 +310,33 @@
 <span class="sd">        node : `~Graph.Node` instance</span>
 <span class="sd">            The new node</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">new_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">source_polygons</span><span class="p">)</span>
+        <span class="c"># Any nodes whose Cartesian coordinates are closer together</span>
+        <span class="c"># than 2 ** -32 will cause numerical problems in the</span>
+        <span class="c"># intersection calculations, so we merge any nodes that</span>
+        <span class="c"># are closer together than that.</span>
 
         <span class="c"># Don&#39;t add nodes that already exist.  Update the existing</span>
         <span class="c"># node&#39;s source_polygons list to include the new polygon.</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">new_node</span><span class="p">):</span>
+
+        <span class="n">point</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">):</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">)</span>
+            <span class="n">node_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">node</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">])</span>
+
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">point</span> <span class="o">-</span> <span class="n">node_array</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">**</span> <span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">diff</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">):</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
                 <span class="n">node</span><span class="o">.</span><span class="n">_source_polygons</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">source_polygons</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">node</span>
 
+        <span class="n">new_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">source_polygons</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_node</span>
-</div>
-<div class="viewcode-block" id="Graph.remove_node"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.remove_node">[docs]</a>    <span class="k">def</span> <span class="nf">remove_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_remove_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes a node and all of the edges that touch it.</span>
 
@@ -372,10 +352,13 @@
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">_edges</span><span class="p">):</span>
             <span class="n">nodeB</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">follow</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
             <span class="n">nodeB</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodeB</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nodeB</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Graph.add_edge"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">source_polygons</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add an edge between two nodes.</span>
 
@@ -403,18 +386,18 @@
         <span class="c"># one, otherwise the Edge will get hooked up to the nodes but</span>
         <span class="c"># be orphaned.</span>
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">((</span><span class="n">A</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span>
-                 <span class="n">B</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span>
-                 <span class="n">A</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]))):</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">A</span> <span class="ow">is</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span>
+                 <span class="n">B</span> <span class="ow">is</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="n">A</span> <span class="ow">is</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span>
+                 <span class="n">B</span> <span class="ow">is</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
                 <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">source_polygons</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">edge</span>
 
         <span class="n">new_edge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Edge</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">source_polygons</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_edge</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_edge</span>
-</div>
-<div class="viewcode-block" id="Graph.remove_edge"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.remove_edge">[docs]</a>    <span class="k">def</span> <span class="nf">remove_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_remove_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove an edge from the graph.  The nodes it points to remain intact.</span>
 
@@ -430,14 +413,14 @@
         <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span>
         <span class="n">A</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_node</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">A</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">B</span><span class="p">:</span>
             <span class="n">B</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_node</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Graph.split_edge"><a class="viewcode-back" href="../../api/sphere.graph.Graph.html#sphere.graph.Graph.split_edge">[docs]</a>    <span class="k">def</span> <span class="nf">split_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_split_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Splits an `~Graph.Edge` *edge* at `~Graph.Node` *node*, removing</span>
 <span class="sd">        *edge* and replacing it with two new `~Graph.Edge` instances.</span>
@@ -461,12 +444,12 @@
         <span class="k">assert</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span>
 
         <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span>
-        <span class="n">edgeA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
-        <span class="n">edgeB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
+        <span class="n">edgeA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
+        <span class="n">edgeB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">edge</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">edgeA</span><span class="p">,</span> <span class="n">edgeB</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">edgeA</span><span class="p">,</span> <span class="n">edgeB</span><span class="p">]</span>
-</div>
+
     <span class="k">def</span> <span class="nf">_sanity_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">node_is_2</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        For debugging purposes: assert that edges and nodes are</span>
@@ -503,11 +486,28 @@
             <span class="k">raise</span>
 
     <span class="k">def</span> <span class="nf">_dump_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lon_0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lat_0</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-                    <span class="n">projection</span><span class="o">=</span><span class="s">&#39;vandg&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_edges</span><span class="p">)):</span>
+                    <span class="n">projection</span><span class="o">=</span><span class="s">&#39;vandg&#39;</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_edges</span><span class="p">),</span>
+                    <span class="n">highlight_edge</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">intersections</span><span class="o">=</span><span class="p">[]):</span>
         <span class="kn">from</span> <span class="nn">mpl_toolkits.basemap</span> <span class="kn">import</span> <span class="n">Basemap</span>
         <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">Basemap</span><span class="p">()</span>
+
+        <span class="n">minx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">miny</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">maxx</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">maxy</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">:</span>
+            <span class="n">polygon</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">_points</span>
+            <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="n">v</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x0</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">minx</span><span class="p">)</span>
+                <span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">y0</span> <span class="ow">in</span> <span class="n">y</span><span class="p">:</span>
+                <span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">miny</span><span class="p">)</span>
+                <span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
 
         <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
@@ -515,10 +515,18 @@
             <span class="n">counts</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="p">[])</span>
             <span class="n">counts</span><span class="p">[</span><span class="n">count</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">_point</span><span class="p">))</span>
 
-        <span class="n">minx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-        <span class="n">miny</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-        <span class="n">maxx</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-        <span class="n">maxy</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">):</span>
+            <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">]</span>
+            <span class="n">r0</span><span class="p">,</span> <span class="n">d0</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">r1</span><span class="p">,</span> <span class="n">d1</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">edge</span> <span class="ow">is</span> <span class="n">highlight_edge</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="s">&#39;red&#39;</span>
+                <span class="n">lw</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="s">&#39;blue&#39;</span>
+                <span class="n">lw</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">drawgreatcircle</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="n">v</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
@@ -531,11 +539,11 @@
                 <span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">miny</span><span class="p">)</span>
                 <span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">):</span>
-            <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">]</span>
-            <span class="n">r0</span><span class="p">,</span> <span class="n">d0</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-            <span class="n">r1</span><span class="p">,</span> <span class="n">d1</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">B</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-            <span class="n">m</span><span class="o">.</span><span class="n">drawgreatcircle</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">intersections</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)):</span>
+                <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
         <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
@@ -589,8 +597,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_sanity_check</span><span class="p">(</span><span class="s">&quot;intersection - find all intersections&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remove_exterior_edges</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sanity_check</span><span class="p">(</span><span class="s">&quot;intersection - remove exterior edges&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_3ary_edges</span><span class="p">(</span><span class="n">large_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sanity_check</span><span class="p">(</span><span class="s">&quot;intersection - remove 3ary edges&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_cut_lines</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sanity_check</span><span class="p">(</span><span class="s">&quot;intersection - remove cut lines [2]&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remove_orphaned_nodes</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sanity_check</span><span class="p">(</span><span class="s">&quot;intersection - remove orphan nodes&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trace</span><span class="p">()</span>
@@ -639,41 +647,51 @@
             <span class="k">if</span> <span class="n">AB</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">AB</span><span class="o">.</span><span class="n">_nodes</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)):</span>
-                <span class="n">CD</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">CD</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">C</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">CD</span><span class="o">.</span><span class="n">_nodes</span>
-                <span class="c"># To be a cutline, the candidate edges need to run in</span>
-                <span class="c"># the opposite direction, hence A == D and B == C, not</span>
-                <span class="c"># A == C and B == D.</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="ow">and</span> <span class="n">B</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">C</span><span class="p">)):</span>
-                    <span class="c"># Create new edges A -&gt; D&#39; and C -&gt; B&#39;</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span>
-                        <span class="n">A</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">follow</span><span class="p">(</span><span class="n">CD</span><span class="p">)</span><span class="o">.</span><span class="n">follow</span><span class="p">(</span><span class="n">D</span><span class="p">),</span>
-                        <span class="n">AB</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="o">|</span> <span class="n">CD</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span>
-                        <span class="n">C</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">follow</span><span class="p">(</span><span class="n">AB</span><span class="p">)</span><span class="o">.</span><span class="n">follow</span><span class="p">(</span><span class="n">B</span><span class="p">),</span>
-                        <span class="n">AB</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="o">|</span> <span class="n">CD</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_edge</span><span class="p">(</span><span class="n">AB</span><span class="p">)</span>
 
-                    <span class="c"># Remove B and D which are identical to C and A</span>
-                    <span class="c"># respectively.  We do not need to remove AB and</span>
-                    <span class="c"># CD because this will remove it for us.</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_get_edge_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edges</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]))</span>
 
+    <span class="k">def</span> <span class="nf">_find_point_to_arc_intersections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># For speed, we want to vectorize all of the intersection</span>
+        <span class="c"># calculations.  Therefore, there is a list of edges, and an</span>
+        <span class="c"># array of points for all of the nodes.  Then calculating the</span>
+        <span class="c"># intersection between an edge and all other nodes becomes a</span>
+        <span class="c"># fast, vectorized operation.</span>
+
+        <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span>
+        <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_edge_points</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+
+        <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">)</span>
+        <span class="n">nodes_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">])</span>
+
+        <span class="c"># Split all edges by any nodes that intersect them</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">AB</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">AB</span><span class="o">.</span><span class="n">_nodes</span><span class="p">)</span>
+
+            <span class="n">intersects</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">intersects_point</span><span class="p">(</span>
+                <span class="n">A</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">nodes_array</span><span class="p">)</span>
+            <span class="n">intersection_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">intersects</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">intersection_indices</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">AB</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
+                    <span class="n">newA</span><span class="p">,</span> <span class="n">newB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_edge</span><span class="p">(</span><span class="n">AB</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+
+                    <span class="n">new_edges</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="p">(</span><span class="n">newA</span><span class="p">,</span> <span class="n">newB</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">edge</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]</span>
+
+                    <span class="k">for</span> <span class="n">end_point</span> <span class="ow">in</span> <span class="n">AB</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
+                        <span class="n">node</span><span class="o">.</span><span class="n">_source_polygons</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                            <span class="n">end_point</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
+                    <span class="n">edges</span> <span class="o">=</span> <span class="n">new_edges</span> <span class="o">+</span> <span class="n">edges</span>
                     <span class="k">break</span>
 
-    <span class="k">def</span> <span class="nf">_find_all_intersections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Find all the intersecting edges in the graph.  For each</span>
-<span class="sd">        intersecting pair, four new edges are created around the</span>
-<span class="sd">        intersection point.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">get_edge_points</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]),</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]))</span>
-
+    <span class="k">def</span> <span class="nf">_find_arc_to_arc_intersections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c"># For speed, we want to vectorize all of the intersection</span>
         <span class="c"># calculations.  Therefore, there is a list of edges, and two</span>
         <span class="c"># arrays containing the end points of those edges.  They all</span>
@@ -682,38 +700,9 @@
         <span class="c"># doing so is different between Python lists and numpy arrays.</span>
 
         <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span>
-        <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span> <span class="o">=</span> <span class="n">get_edge_points</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+        <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_edge_points</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
 
-        <span class="c"># First, split all edges by any nodes that intersect them</span>
-        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">AB</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">A</span> <span class="o">=</span> <span class="n">starts</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="n">starts</span> <span class="o">=</span> <span class="n">starts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c"># numpy equiv of &quot;pop(0)&quot;</span>
-            <span class="n">B</span> <span class="o">=</span> <span class="n">ends</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>   <span class="n">ends</span> <span class="o">=</span> <span class="n">ends</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>      <span class="c"># numpy equiv of &quot;pop(0)&quot;</span>
-
-            <span class="n">distance</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">AB</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
-                    <span class="n">distanceA</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
-                    <span class="n">distanceB</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">distanceA</span> <span class="o">+</span> <span class="n">distanceB</span><span class="p">)</span> <span class="o">-</span> <span class="n">distance</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-8</span><span class="p">:</span>
-                        <span class="n">newA</span><span class="p">,</span> <span class="n">newB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_edge</span><span class="p">(</span><span class="n">AB</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
-
-                        <span class="n">new_edges</span> <span class="o">=</span> <span class="p">[</span>
-                            <span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="p">(</span><span class="n">newA</span><span class="p">,</span> <span class="n">newB</span><span class="p">)</span>
-                            <span class="k">if</span> <span class="n">edge</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]</span>
-
-                        <span class="n">edges</span> <span class="o">=</span> <span class="n">new_edges</span> <span class="o">+</span> <span class="n">edges</span>
-                        <span class="n">new_starts</span><span class="p">,</span> <span class="n">new_ends</span> <span class="o">=</span> <span class="n">get_edge_points</span><span class="p">(</span><span class="n">new_edges</span><span class="p">)</span>
-                        <span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
-                            <span class="p">(</span><span class="n">new_starts</span><span class="p">,</span> <span class="n">starts</span><span class="p">))</span>
-                        <span class="n">ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
-                            <span class="p">(</span><span class="n">new_ends</span><span class="p">,</span> <span class="n">ends</span><span class="p">))</span>
-                        <span class="k">break</span>
-
-        <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span>
-        <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span> <span class="o">=</span> <span class="n">get_edge_points</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
-
-        <span class="c"># Next, calculate edge-to-edge intersections and break</span>
+        <span class="c"># Calculate edge-to-edge intersections and break</span>
         <span class="c"># edges on the intersection point.</span>
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">AB</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -735,8 +724,6 @@
             <span class="c"># we want to eliminate intersections that only intersect</span>
             <span class="c"># at the end points</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">intersection_indices</span><span class="p">:</span>
-                <span class="n">C</span> <span class="o">=</span> <span class="n">starts</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                <span class="n">D</span> <span class="o">=</span> <span class="n">ends</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
                 <span class="n">CD</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
                 <span class="n">E</span> <span class="o">=</span> <span class="n">intersections</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
 
@@ -752,10 +739,10 @@
                 <span class="c">#                |</span>
                 <span class="c">#                B</span>
 
-                <span class="n">E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span>
+                <span class="n">E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span>
                     <span class="n">E</span><span class="p">,</span> <span class="n">AB</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="o">|</span> <span class="n">CD</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">)</span>
-                <span class="n">newA</span><span class="p">,</span> <span class="n">newB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_edge</span><span class="p">(</span><span class="n">AB</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
-                <span class="n">newC</span><span class="p">,</span> <span class="n">newD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_edge</span><span class="p">(</span><span class="n">CD</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+                <span class="n">newA</span><span class="p">,</span> <span class="n">newB</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_edge</span><span class="p">(</span><span class="n">AB</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+                <span class="n">newC</span><span class="p">,</span> <span class="n">newD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_edge</span><span class="p">(</span><span class="n">CD</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
 
                 <span class="n">new_edges</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="p">(</span><span class="n">newA</span><span class="p">,</span> <span class="n">newB</span><span class="p">,</span> <span class="n">newC</span><span class="p">,</span> <span class="n">newD</span><span class="p">)</span>
@@ -766,12 +753,21 @@
                 <span class="c"># against all remaining edges.</span>
                 <span class="k">del</span> <span class="n">edges</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>  <span class="c"># CD</span>
                 <span class="n">edges</span> <span class="o">=</span> <span class="n">new_edges</span> <span class="o">+</span> <span class="n">edges</span>
-                <span class="n">new_starts</span><span class="p">,</span> <span class="n">new_ends</span> <span class="o">=</span> <span class="n">get_edge_points</span><span class="p">(</span><span class="n">new_edges</span><span class="p">)</span>
+                <span class="n">new_starts</span><span class="p">,</span> <span class="n">new_ends</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_edge_points</span><span class="p">(</span><span class="n">new_edges</span><span class="p">)</span>
                 <span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
                     <span class="p">(</span><span class="n">new_starts</span><span class="p">,</span> <span class="n">starts</span><span class="p">[:</span><span class="n">j</span><span class="p">],</span> <span class="n">starts</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]))</span>
                 <span class="n">ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
                     <span class="p">(</span><span class="n">new_ends</span><span class="p">,</span> <span class="n">ends</span><span class="p">[:</span><span class="n">j</span><span class="p">],</span> <span class="n">ends</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]))</span>
                 <span class="k">break</span>
+
+    <span class="k">def</span> <span class="nf">_find_all_intersections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find all the intersecting edges in the graph.  For each</span>
+<span class="sd">        intersecting pair, four new edges are created around the</span>
+<span class="sd">        intersection point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_find_point_to_arc_intersections</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_find_arc_to_arc_intersections</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_remove_interior_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -782,15 +778,22 @@
 
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">:</span>
             <span class="n">edge</span><span class="o">.</span><span class="n">_count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span>
             <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="ow">and</span>
-                    <span class="n">polygon</span><span class="o">.</span><span class="n">intersects_arc</span><span class="p">(</span>
-                        <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span><span class="p">)):</span>
+                    <span class="p">((</span><span class="n">polygon</span> <span class="ow">in</span> <span class="n">A</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="ow">or</span>
+                      <span class="n">polygon</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">_point</span><span class="p">))</span> <span class="ow">and</span>
+                     <span class="p">(</span><span class="n">polygon</span> <span class="ow">in</span> <span class="n">B</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="ow">or</span>
+                      <span class="n">polygon</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">_point</span><span class="p">)))</span> <span class="ow">and</span>
+                    <span class="n">polygon</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span>
+                        <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">_point</span><span class="p">))):</span>
                     <span class="n">edge</span><span class="o">.</span><span class="n">_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">_count</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_orphaned_nodes</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_remove_exterior_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -801,15 +804,23 @@
 
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">:</span>
             <span class="n">edge</span><span class="o">.</span><span class="n">_count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span>
             <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">polygon</span> <span class="ow">in</span> <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="ow">or</span>
-                    <span class="n">polygon</span><span class="o">.</span><span class="n">intersects_arc</span><span class="p">(</span>
-                        <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_point</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">edge</span><span class="o">.</span><span class="n">_source_polygons</span><span class="p">:</span>
+                    <span class="n">edge</span><span class="o">.</span><span class="n">_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="p">((</span><span class="n">polygon</span> <span class="ow">in</span> <span class="n">A</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="ow">or</span>
+                       <span class="n">polygon</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">_point</span><span class="p">))</span> <span class="ow">and</span>
+                      <span class="p">(</span><span class="n">polygon</span> <span class="ow">in</span> <span class="n">B</span><span class="o">.</span><span class="n">_source_polygons</span> <span class="ow">or</span>
+                       <span class="n">polygon</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">_point</span><span class="p">))</span> <span class="ow">and</span>
+                      <span class="n">polygon</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span>
+                          <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">_point</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">_point</span><span class="p">))):</span>
                     <span class="n">edge</span><span class="o">.</span><span class="n">_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">_count</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">polygons</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_orphaned_nodes</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_remove_3ary_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">large_first</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -833,7 +844,7 @@
 
             <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">removals</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_remove_orphaned_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -846,7 +857,8 @@
                     <span class="n">removes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">removes</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">removes</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodes</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
 
@@ -858,7 +870,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">polygons</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edges</span><span class="p">)</span>  <span class="c"># copy</span>
-        <span class="n">seen_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
             <span class="n">polygon</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="c"># Carefully pick out an &quot;original&quot; edge first.  Synthetic</span>
@@ -1001,7 +1012,7 @@
   <p>
     &copy; Copyright 2014, Michael Droettboom.<br/>
     Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
-    Last built 30 Jun 2014. <br/>
+    Last built 01 Jul 2014. <br/>
   </p>
 </footer>
   </body>
