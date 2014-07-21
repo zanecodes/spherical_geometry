@@ -1,0 +1,250 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API Documentation &mdash; stsci_sphere v1.0</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="stsci_sphere v1.0" href="../index.html" />
+    <link rel="up" title="Welcome to Spherical Geometry Toolkit’s documentation!" href="index.html" />
+    <link rel="next" title="radec_to_vector" href="../api/stsci_sphere.vector.radec_to_vector.html" />
+    <link rel="prev" title="User documentation" href="user.html" />
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../api/stsci_sphere.vector.radec_to_vector.html" title="radec_to_vector">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="user.html" title="User documentation">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">stsci_sphere v1.0</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
+      
+      <li>API Documentation</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api-documentation">
+<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-stsci_sphere.vector">
+<span id="stsci-sphere-vector-module"></span><h2>stsci_sphere.vector Module<a class="headerlink" href="#module-stsci_sphere.vector" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-stsci_sphere.vector" title="stsci_sphere.vector"><tt class="xref py py-obj docutils literal"><span class="pre">stsci_sphere.vector</span></tt></a> module contains the basic operations for handling
+vectors and converting them to and from other representations.</p>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.vector.radec_to_vector.html#stsci_sphere.vector.radec_to_vector" title="stsci_sphere.vector.radec_to_vector"><tt class="xref py py-obj docutils literal"><span class="pre">radec_to_vector</span></tt></a>(ra,&nbsp;dec[,&nbsp;degrees])</td>
+<td>Converts a location on the unit sphere from right-ascension and declination to an <em>x</em>, <em>y</em>, <em>z</em> vector.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/stsci_sphere.vector.vector_to_radec.html#stsci_sphere.vector.vector_to_radec" title="stsci_sphere.vector.vector_to_radec"><tt class="xref py py-obj docutils literal"><span class="pre">vector_to_radec</span></tt></a>(x,&nbsp;y,&nbsp;z[,&nbsp;degrees])</td>
+<td>Converts a vector to right-ascension and declination.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.vector.normalize_vector.html#stsci_sphere.vector.normalize_vector" title="stsci_sphere.vector.normalize_vector"><tt class="xref py py-obj docutils literal"><span class="pre">normalize_vector</span></tt></a>(xyz[,&nbsp;output])</td>
+<td>Normalizes a vector so it falls on the unit sphere.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/stsci_sphere.vector.rotate_around.html#stsci_sphere.vector.rotate_around" title="stsci_sphere.vector.rotate_around"><tt class="xref py py-obj docutils literal"><span class="pre">rotate_around</span></tt></a>(x,&nbsp;y,&nbsp;z,&nbsp;u,&nbsp;v,&nbsp;w,&nbsp;theta[,&nbsp;degrees])</td>
+<td>Rotates the vector (<em>x</em>, <em>y</em>, <em>z</em>) around the arbitrary axis defined by vector (<em>u</em>, <em>v</em>, <em>w</em>) by <em>theta</em>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-stsci_sphere.great_circle_arc">
+<span id="stsci-sphere-great-circle-arc-module"></span><h2>stsci_sphere.great_circle_arc Module<a class="headerlink" href="#module-stsci_sphere.great_circle_arc" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-stsci_sphere.great_circle_arc" title="stsci_sphere.great_circle_arc"><tt class="xref py py-obj docutils literal"><span class="pre">stsci_sphere.great_circle_arc</span></tt></a> module contains functions for computing
+the length, intersection, angle and midpoint of great circle arcs.</p>
+<p>Great circles are circles on the unit sphere whose center is
+coincident with the center of the sphere.  Great circle arcs are the
+section of those circles between two points on the unit sphere.</p>
+<div class="section" id="id1">
+<h3>Functions<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.angle.html#stsci_sphere.great_circle_arc.angle" title="stsci_sphere.great_circle_arc.angle"><tt class="xref py py-obj docutils literal"><span class="pre">angle</span></tt></a>(A,&nbsp;B,&nbsp;C[,&nbsp;degrees])</td>
+<td>Returns the angle at <em>B</em> between <em>AB</em> and <em>BC</em>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.intersection.html#stsci_sphere.great_circle_arc.intersection" title="stsci_sphere.great_circle_arc.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>(A,&nbsp;B,&nbsp;C,&nbsp;D)</td>
+<td>Returns the point of intersection between two great circle arcs.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.intersects.html#stsci_sphere.great_circle_arc.intersects" title="stsci_sphere.great_circle_arc.intersects"><tt class="xref py py-obj docutils literal"><span class="pre">intersects</span></tt></a>(A,&nbsp;B,&nbsp;C,&nbsp;D)</td>
+<td>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the great circle arcs between <em>AB</em> and <em>CD</em> intersect.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.intersects_point.html#stsci_sphere.great_circle_arc.intersects_point" title="stsci_sphere.great_circle_arc.intersects_point"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_point</span></tt></a>(A,&nbsp;B,&nbsp;C)</td>
+<td>Returns True if point C is along the great circle arc <em>AB</em>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.length.html#stsci_sphere.great_circle_arc.length" title="stsci_sphere.great_circle_arc.length"><tt class="xref py py-obj docutils literal"><span class="pre">length</span></tt></a>(A,&nbsp;B[,&nbsp;degrees])</td>
+<td>Returns the angular distance between two points (in vector space) on the unit sphere.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.midpoint.html#stsci_sphere.great_circle_arc.midpoint" title="stsci_sphere.great_circle_arc.midpoint"><tt class="xref py py-obj docutils literal"><span class="pre">midpoint</span></tt></a>(A,&nbsp;B)</td>
+<td>Returns the midpoint on the great circle arc between <em>A</em> and <em>B</em>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.interpolate.html#stsci_sphere.great_circle_arc.interpolate" title="stsci_sphere.great_circle_arc.interpolate"><tt class="xref py py-obj docutils literal"><span class="pre">interpolate</span></tt></a>(A,&nbsp;B[,&nbsp;steps])</td>
+<td>Interpolate along the great circle arc.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-stsci_sphere.polygon">
+<span id="stsci-sphere-polygon-module"></span><h2>stsci_sphere.polygon Module<a class="headerlink" href="#module-stsci_sphere.polygon" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-stsci_sphere.polygon" title="stsci_sphere.polygon"><tt class="xref py py-obj docutils literal"><span class="pre">stsci_sphere.polygon</span></tt></a> module defines the <a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon" title="stsci_sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> class for
+managing polygons on the unit sphere.</p>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon" title="stsci_sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>(points[,&nbsp;inside])</td>
+<td>Polygons are represented by both a set of points (in Cartesian (<em>x</em>, <em>y</em>, <em>z</em>) normalized on the unit sphere), and an inside point.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-stsci_sphere.graph">
+<span id="stsci-sphere-graph-module"></span><h2>stsci_sphere.graph Module<a class="headerlink" href="#module-stsci_sphere.graph" title="Permalink to this headline">¶</a></h2>
+<p>This contains the code that does the actual unioning of regions.</p>
+<div class="section" id="id2">
+<h3>Classes<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/stsci_sphere.graph.Graph.html#stsci_sphere.graph.Graph" title="stsci_sphere.graph.Graph"><tt class="xref py py-obj docutils literal"><span class="pre">Graph</span></tt></a>(polygons)</td>
+<td>A graph of nodes connected by edges.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">API Documentation</a><ul>
+<li><a class="reference internal" href="#module-stsci_sphere.vector">stsci_sphere.vector Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-stsci_sphere.great_circle_arc">stsci_sphere.great_circle_arc Module</a><ul>
+<li><a class="reference internal" href="#id1">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-stsci_sphere.polygon">stsci_sphere.polygon Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-stsci_sphere.graph">stsci_sphere.graph Module</a><ul>
+<li><a class="reference internal" href="#id2">Classes</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/stsci_sphere/api.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2014, Michael Droettboom.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
+    Last built 21 Jul 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

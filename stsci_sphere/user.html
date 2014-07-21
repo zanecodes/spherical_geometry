@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>User documentation &mdash; sphere v0.0.dev67</title>
+    <title>User documentation &mdash; stsci_sphere v1.0</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.dev67',
+        VERSION:     '1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
-    <link rel="top" title="sphere v0.0.dev67" href="../index.html" />
+    <link rel="top" title="stsci_sphere v1.0" href="../index.html" />
     <link rel="up" title="Welcome to Spherical Geometry Toolkit’s documentation!" href="index.html" />
     <link rel="next" title="API Documentation" href="api.html" />
     <link rel="prev" title="Welcome to Spherical Geometry Toolkit’s documentation!" href="index.html" />
@@ -70,7 +70,7 @@
 	 |
       </li>
       <li>
-	<a href="../index.html">sphere v0.0.dev67</a>
+	<a href="../index.html">stsci_sphere v1.0</a>
 	 &raquo;
       </li>
       <li><a href="index.html" accesskey="U">Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
@@ -87,7 +87,7 @@
             
   <div class="section" id="user-documentation">
 <h1>User documentation<a class="headerlink" href="#user-documentation" title="Permalink to this headline">¶</a></h1>
-<p>The <tt class="docutils literal"><span class="pre">sphere</span></tt> library is a Python package for handling spherical
+<p>The <tt class="docutils literal"><span class="pre">stsci_sphere</span></tt> library is a Python package for handling spherical
 polygons that represent arbitrary regions of the sky.</p>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
@@ -108,7 +108,7 @@ While these representations are convenient, they have discontinuities
 at the poles, making operations on them trickier at arbitrary
 locations on the sky sphere.  Therefore, all internal operations of
 this library are done in 3D vector space, where coordinates are
-represented as (<em>x</em>, <em>y</em>, <em>z</em>) vectors.  The <a class="reference internal" href="api.html#module-sphere.vector" title="sphere.vector"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.vector</span></tt></a> module
+represented as (<em>x</em>, <em>y</em>, <em>z</em>) vectors.  The <a class="reference internal" href="api.html#module-stsci_sphere.vector" title="stsci_sphere.vector"><tt class="xref py py-obj docutils literal"><span class="pre">stsci_sphere.vector</span></tt></a> module
 contains functions to convert between (<em>ra</em>, <em>dec</em>) and (<em>x</em>, <em>y</em>,
 <em>z</em>) representations.</p>
 <p>While any (<em>x</em>, <em>y</em>, <em>z</em>) triple represents a vector and therefore a
@@ -120,7 +120,7 @@ defined as a vector whose length is 1, i.e.:</p>
 <p><img src="../_images/math/3fb4e5bd9656bbccf48ef6027552b99f1c7e605c.png" alt="\sqrt{x^2 + y^2 + z^2} = 1"/></p>
 </div><p>To prevent unnecessary recomputation, many methods in this library
 assume that the vectors passed in are already normalized.  If this is
-not the case, <a class="reference internal" href="../api/sphere.vector.normalize_vector.html#sphere.vector.normalize_vector" title="sphere.vector.normalize_vector"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.vector.normalize_vector</span></tt></a> can be used to
+not the case, <a class="reference internal" href="../api/stsci_sphere.vector.normalize_vector.html#stsci_sphere.vector.normalize_vector" title="stsci_sphere.vector.normalize_vector"><tt class="xref py py-obj docutils literal"><span class="pre">stsci_sphere.vector.normalize_vector</span></tt></a> can be used to
 normalize an array of vectors.</p>
 <p>When not working in Cartesian vectors, the library allows the user to
 work in either degrees or radians.  All methods that require or return
@@ -141,11 +141,11 @@ deal with points that need to be closer together.</p>
 <h2>Spherical polygons<a class="headerlink" href="#spherical-polygons" title="Permalink to this headline">¶</a></h2>
 <p>Spherical polygons are arbitrary areas on the sky sphere enclosed by
 great circle arcs.  They are represented by the
-<a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> class.</p>
+<a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon" title="stsci_sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> class.</p>
 <div class="section" id="representation">
 <h3>Representation<a class="headerlink" href="#representation" title="Permalink to this headline">¶</a></h3>
 <p>The points defining the polygon are available from the
-<a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.points" title="sphere.polygon.SphericalPolygon.points"><tt class="xref py py-obj docutils literal"><span class="pre">points</span></tt></a> property.  It is a Nx3 array where
+<a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.points" title="stsci_sphere.polygon.SphericalPolygon.points"><tt class="xref py py-obj docutils literal"><span class="pre">points</span></tt></a> property.  It is a Nx3 array where
 each row is an (<em>x</em>, <em>y</em>, <em>z</em>) vector, normalized.  The polygon points
 are explicitly closed, i.e., the first and last points are the same.</p>
 <div class="section" id="where-is-the-inside">
@@ -164,7 +164,7 @@ declares that the area of the polygon is the green region, and not the
 white region.</p>
 <img alt="../_images/inside.png" src="../_images/inside.png" />
 <p>The inside point of the the polygon can be obtained from the
-<a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.inside" title="sphere.polygon.SphericalPolygon.inside"><tt class="xref py py-obj docutils literal"><span class="pre">inside</span></tt></a> property.</p>
+<a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.inside" title="stsci_sphere.polygon.SphericalPolygon.inside"><tt class="xref py py-obj docutils literal"><span class="pre">inside</span></tt></a> property.</p>
 </div>
 <div class="section" id="cut-lines">
 <h4>Cut lines<a class="headerlink" href="#cut-lines" title="Permalink to this headline">¶</a></h4>
@@ -177,44 +177,44 @@ a hole and a disjoint region connected by cut lines.</p>
 </div>
 <div class="section" id="creating-spherical-polygons">
 <h3>Creating spherical polygons<a class="headerlink" href="#creating-spherical-polygons" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> objects have 4 different constructors:</p>
+<p><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon" title="stsci_sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> objects have 4 different constructors:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>: Takes an array of (<em>x</em>, <em>y</em>, <em>z</em>)
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon" title="stsci_sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>: Takes an array of (<em>x</em>, <em>y</em>, <em>z</em>)
 points and an inside point.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.from_radec" title="sphere.polygon.SphericalPolygon.from_radec"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_radec</span></tt></a>: Takes an array of (<em>ra</em>, <em>dec</em>)
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.from_radec" title="stsci_sphere.polygon.SphericalPolygon.from_radec"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_radec</span></tt></a>: Takes an array of (<em>ra</em>, <em>dec</em>)
 points and an inside point.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.from_cone" title="sphere.polygon.SphericalPolygon.from_cone"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_cone</span></tt></a>: Creates a polygon from a cone on the
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.from_cone" title="stsci_sphere.polygon.SphericalPolygon.from_cone"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_cone</span></tt></a>: Creates a polygon from a cone on the
 sky shere.  Takes (<em>ra</em>, <em>dec</em>, <em>radius</em>).</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.from_wcs" title="sphere.polygon.SphericalPolygon.from_wcs"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_wcs</span></tt></a>: Creates a polygon from the footprint
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.from_wcs" title="stsci_sphere.polygon.SphericalPolygon.from_wcs"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_wcs</span></tt></a>: Creates a polygon from the footprint
 of a FITS image using its WCS header keywords.  Takes a FITS
-filename or a <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v0.3.2)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a> object.</li>
+filename or a <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v0.4)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a> object.</li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="operations-on-spherical-polygons">
 <h3>Operations on Spherical Polygons<a class="headerlink" href="#operations-on-spherical-polygons" title="Permalink to this headline">¶</a></h3>
-<p>Once one has a <a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon" title="sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object, there are a number of
+<p>Once one has a <a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon" title="stsci_sphere.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object, there are a number of
 operations available:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.contains_point" title="sphere.polygon.SphericalPolygon.contains_point"><tt class="xref py py-obj docutils literal"><span class="pre">contains_point</span></tt></a>: Determines if the given point is inside the polygon.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.intersects_poly" title="sphere.polygon.SphericalPolygon.intersects_poly"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_poly</span></tt></a>: Determines if one polygon intersects with another.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.area" title="sphere.polygon.SphericalPolygon.area"><tt class="xref py py-obj docutils literal"><span class="pre">area</span></tt></a>: Determine the area of a polygon.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.union" title="sphere.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> and <a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.multi_union" title="sphere.polygon.SphericalPolygon.multi_union"><tt class="xref py py-obj docutils literal"><span class="pre">multi_union</span></tt></a>:
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.contains_point" title="stsci_sphere.polygon.SphericalPolygon.contains_point"><tt class="xref py py-obj docutils literal"><span class="pre">contains_point</span></tt></a>: Determines if the given point is inside the polygon.</li>
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.intersects_poly" title="stsci_sphere.polygon.SphericalPolygon.intersects_poly"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_poly</span></tt></a>: Determines if one polygon intersects with another.</li>
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.area" title="stsci_sphere.polygon.SphericalPolygon.area"><tt class="xref py py-obj docutils literal"><span class="pre">area</span></tt></a>: Determine the area of a polygon.</li>
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.union" title="stsci_sphere.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> and <a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.multi_union" title="stsci_sphere.polygon.SphericalPolygon.multi_union"><tt class="xref py py-obj docutils literal"><span class="pre">multi_union</span></tt></a>:
 Return a new polygon that is the union of two or more polygons.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.intersection" title="sphere.polygon.SphericalPolygon.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a> and
-<a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.multi_intersection" title="sphere.polygon.SphericalPolygon.multi_intersection"><tt class="xref py py-obj docutils literal"><span class="pre">multi_intersection</span></tt></a>: Return a new polygon that
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.intersection" title="stsci_sphere.polygon.SphericalPolygon.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a> and
+<a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.multi_intersection" title="stsci_sphere.polygon.SphericalPolygon.multi_intersection"><tt class="xref py py-obj docutils literal"><span class="pre">multi_intersection</span></tt></a>: Return a new polygon that
 is the intersection of two or more polygons.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.overlap" title="sphere.polygon.SphericalPolygon.overlap"><tt class="xref py py-obj docutils literal"><span class="pre">overlap</span></tt></a>: Determine how much a given polygon
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.overlap" title="stsci_sphere.polygon.SphericalPolygon.overlap"><tt class="xref py py-obj docutils literal"><span class="pre">overlap</span></tt></a>: Determine how much a given polygon
 overlaps another.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.to_radec" title="sphere.polygon.SphericalPolygon.to_radec"><tt class="xref py py-obj docutils literal"><span class="pre">to_radec</span></tt></a>: Convert (<em>x</em>, <em>y</em>, <em>z</em>) points in the
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.to_radec" title="stsci_sphere.polygon.SphericalPolygon.to_radec"><tt class="xref py py-obj docutils literal"><span class="pre">to_radec</span></tt></a>: Convert (<em>x</em>, <em>y</em>, <em>z</em>) points in the
 polygon to (<em>ra</em>, <em>dec</em>) points.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.same_points_as" title="sphere.polygon.SphericalPolygon.same_points_as"><tt class="xref py py-obj docutils literal"><span class="pre">same_points_as</span></tt></a>: Determines if one polygon has the
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.same_points_as" title="stsci_sphere.polygon.SphericalPolygon.same_points_as"><tt class="xref py py-obj docutils literal"><span class="pre">same_points_as</span></tt></a>: Determines if one polygon has the
 same points as another. When only sorted unique points are considered
 (default behavior), polygons with same points might not be the same
 polygons because the order of the points matter.</li>
-<li><a class="reference internal" href="../api/sphere.polygon.SphericalPolygon.html#sphere.polygon.SphericalPolygon.draw" title="sphere.polygon.SphericalPolygon.draw"><tt class="xref py py-obj docutils literal"><span class="pre">draw</span></tt></a>: Plots the polygon using matplotlib’s
+<li><a class="reference internal" href="../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.draw" title="stsci_sphere.polygon.SphericalPolygon.draw"><tt class="xref py py-obj docutils literal"><span class="pre">draw</span></tt></a>: Plots the polygon using matplotlib’s
 Basemap toolkit.  This feature is rather bare and intended
 primarily for debugging purposes.</li>
 </ul>
@@ -224,17 +224,17 @@ primarily for debugging purposes.</li>
 <div class="section" id="great-circle-arcs">
 <h2>Great circle arcs<a class="headerlink" href="#great-circle-arcs" title="Permalink to this headline">¶</a></h2>
 <p>As seen above, great circle arcs are used to define the edges of the
-polygon.  The <a class="reference internal" href="api.html#module-sphere.great_circle_arc" title="sphere.great_circle_arc"><tt class="xref py py-obj docutils literal"><span class="pre">sphere.great_circle_arc</span></tt></a> module contains a number of
+polygon.  The <a class="reference internal" href="api.html#module-stsci_sphere.great_circle_arc" title="stsci_sphere.great_circle_arc"><tt class="xref py py-obj docutils literal"><span class="pre">stsci_sphere.great_circle_arc</span></tt></a> module contains a number of
 functions that are useful for dealing with them.</p>
 <ul class="simple">
-<li><a class="reference internal" href="../api/sphere.great_circle_arc.length.html#sphere.great_circle_arc.length" title="sphere.great_circle_arc.length"><tt class="xref py py-obj docutils literal"><span class="pre">length</span></tt></a>: Returns the angular distance between two points on the sphere.</li>
-<li><a class="reference internal" href="../api/sphere.great_circle_arc.intersection.html#sphere.great_circle_arc.intersection" title="sphere.great_circle_arc.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>: Returns the intersection point between two great
+<li><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.length.html#stsci_sphere.great_circle_arc.length" title="stsci_sphere.great_circle_arc.length"><tt class="xref py py-obj docutils literal"><span class="pre">length</span></tt></a>: Returns the angular distance between two points on the sphere.</li>
+<li><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.intersection.html#stsci_sphere.great_circle_arc.intersection" title="stsci_sphere.great_circle_arc.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>: Returns the intersection point between two great
 circle arcs.</li>
-<li><a class="reference internal" href="../api/sphere.great_circle_arc.intersects.html#sphere.great_circle_arc.intersects" title="sphere.great_circle_arc.intersects"><tt class="xref py py-obj docutils literal"><span class="pre">intersects</span></tt></a>: Determines if two great circle arcs intersect.</li>
-<li><a class="reference internal" href="../api/sphere.great_circle_arc.intersects_point.html#sphere.great_circle_arc.intersects_point" title="sphere.great_circle_arc.intersects_point"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_point</span></tt></a>: Determines if a point is along the great circle
+<li><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.intersects.html#stsci_sphere.great_circle_arc.intersects" title="stsci_sphere.great_circle_arc.intersects"><tt class="xref py py-obj docutils literal"><span class="pre">intersects</span></tt></a>: Determines if two great circle arcs intersect.</li>
+<li><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.intersects_point.html#stsci_sphere.great_circle_arc.intersects_point" title="stsci_sphere.great_circle_arc.intersects_point"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_point</span></tt></a>: Determines if a point is along the great circle
 arc.</li>
-<li><a class="reference internal" href="../api/sphere.great_circle_arc.angle.html#sphere.great_circle_arc.angle" title="sphere.great_circle_arc.angle"><tt class="xref py py-obj docutils literal"><span class="pre">angle</span></tt></a>: Calculate the angle between two great circle arcs.</li>
-<li><a class="reference internal" href="../api/sphere.great_circle_arc.midpoint.html#sphere.great_circle_arc.midpoint" title="sphere.great_circle_arc.midpoint"><tt class="xref py py-obj docutils literal"><span class="pre">midpoint</span></tt></a>: Calculate the midpoint along a great circle arc.</li>
+<li><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.angle.html#stsci_sphere.great_circle_arc.angle" title="stsci_sphere.great_circle_arc.angle"><tt class="xref py py-obj docutils literal"><span class="pre">angle</span></tt></a>: Calculate the angle between two great circle arcs.</li>
+<li><a class="reference internal" href="../api/stsci_sphere.great_circle_arc.midpoint.html#stsci_sphere.great_circle_arc.midpoint" title="stsci_sphere.great_circle_arc.midpoint"><tt class="xref py py-obj docutils literal"><span class="pre">midpoint</span></tt></a>: Calculate the midpoint along a great circle arc.</li>
 </ul>
 </div>
 </div>
@@ -271,13 +271,13 @@ arc.</li>
     </div>
 <footer class="footer">
   <p class="pull-right">
-    <a href="../_sources/sphere/user.txt"
+    <a href="../_sources/stsci_sphere/user.txt"
        rel="nofollow">Page Source</a> &nbsp;
     <a href="#">Back to Top</a></p>
   <p>
     &copy; Copyright 2014, Michael Droettboom.<br/>
     Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
-    Last built 30 Jun 2014. <br/>
+    Last built 21 Jul 2014. <br/>
   </p>
 </footer>
   </body>

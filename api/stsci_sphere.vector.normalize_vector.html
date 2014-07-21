@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overview: module code &mdash; stsci_sphere v1.0</title>
+    <title>normalize_vector &mdash; stsci_sphere v1.0</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -27,6 +27,9 @@
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
     <link rel="top" title="stsci_sphere v1.0" href="../index.html" />
+    <link rel="up" title="API Documentation" href="../stsci_sphere/api.html" />
+    <link rel="next" title="rotate_around" href="stsci_sphere.vector.rotate_around.html" />
+    <link rel="prev" title="vector_to_radec" href="stsci_sphere.vector.vector_to_radec.html" />
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../_static/copybutton.js"></script>
 
@@ -55,12 +58,25 @@
 <div class="related">
     <h3>Navigation</h3>
     <ul>
+      <li class="right">
+	<a href="stsci_sphere.vector.rotate_around.html" title="rotate_around">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="stsci_sphere.vector.vector_to_radec.html" title="vector_to_radec">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
       <li>
 	<a href="../index.html">stsci_sphere v1.0</a>
 	 &raquo;
       </li>
+      <li><a href="../stsci_sphere/index.html" >Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
+      <li><a href="../stsci_sphere/api.html" accesskey="U">API Documentation</a> &raquo;</li>
       
-       
+      <li>normalize_vector</li> 
     </ul>
 </div>
   
@@ -70,18 +86,45 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="stsci_sphere/graph.html">stsci_sphere.graph</a></li>
-<li><a href="stsci_sphere/great_circle_arc.html">stsci_sphere.great_circle_arc</a></li>
-<li><a href="stsci_sphere/polygon.html">stsci_sphere.polygon</a></li>
-<li><a href="stsci_sphere/vector.html">stsci_sphere.vector</a></li>
-</ul>
+  <div class="section" id="normalize-vector">
+<h1>normalize_vector<a class="headerlink" href="#normalize-vector" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="stsci_sphere.vector.normalize_vector">
+<tt class="descclassname">stsci_sphere.vector.</tt><tt class="descname">normalize_vector</tt><big>(</big><em>xyz</em>, <em>output=None</em><big>)</big><a class="reference internal" href="../_modules/stsci_sphere/vector.html#normalize_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stsci_sphere.vector.normalize_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes a vector so it falls on the unit sphere.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>xyz</strong> : Nx3 array of vectors</p>
+<blockquote>
+<div><p>The input vectors</p>
+</div></blockquote>
+<p><strong>output</strong> : Nx3 array of vectors, optional</p>
+<blockquote>
+<div><p>The array to store the results in.  If <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, a new array
+will be created and returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>output</strong> : Nx3 array of vectors</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">normalize_vector</a></li>
+</ul>
 
 
         </div>
@@ -89,7 +132,9 @@
       <div class="clearer"></div>
     </div>
 <footer class="footer">
-  <p class="pull-right"> &nbsp;
+  <p class="pull-right">
+    <a href="../_sources/api/stsci_sphere.vector.normalize_vector.txt"
+       rel="nofollow">Page Source</a> &nbsp;
     <a href="#">Back to Top</a></p>
   <p>
     &copy; Copyright 2014, Michael Droettboom.<br/>

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overview: module code &mdash; stsci_sphere v1.0</title>
+    <title>midpoint &mdash; stsci_sphere v1.0</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -27,6 +27,9 @@
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
     <link rel="top" title="stsci_sphere v1.0" href="../index.html" />
+    <link rel="up" title="API Documentation" href="../stsci_sphere/api.html" />
+    <link rel="next" title="interpolate" href="stsci_sphere.great_circle_arc.interpolate.html" />
+    <link rel="prev" title="length" href="stsci_sphere.great_circle_arc.length.html" />
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../_static/copybutton.js"></script>
 
@@ -55,12 +58,25 @@
 <div class="related">
     <h3>Navigation</h3>
     <ul>
+      <li class="right">
+	<a href="stsci_sphere.great_circle_arc.interpolate.html" title="interpolate">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="stsci_sphere.great_circle_arc.length.html" title="length">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
       <li>
 	<a href="../index.html">stsci_sphere v1.0</a>
 	 &raquo;
       </li>
+      <li><a href="../stsci_sphere/index.html" >Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
+      <li><a href="../stsci_sphere/api.html" accesskey="U">API Documentation</a> &raquo;</li>
       
-       
+      <li>midpoint</li> 
     </ul>
 </div>
   
@@ -70,18 +86,45 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="stsci_sphere/graph.html">stsci_sphere.graph</a></li>
-<li><a href="stsci_sphere/great_circle_arc.html">stsci_sphere.great_circle_arc</a></li>
-<li><a href="stsci_sphere/polygon.html">stsci_sphere.polygon</a></li>
-<li><a href="stsci_sphere/vector.html">stsci_sphere.vector</a></li>
-</ul>
+  <div class="section" id="midpoint">
+<h1>midpoint<a class="headerlink" href="#midpoint" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="stsci_sphere.great_circle_arc.midpoint">
+<tt class="descclassname">stsci_sphere.great_circle_arc.</tt><tt class="descname">midpoint</tt><big>(</big><em>A</em>, <em>B</em><big>)</big><a class="reference internal" href="../_modules/stsci_sphere/great_circle_arc.html#midpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stsci_sphere.great_circle_arc.midpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the midpoint on the great circle arc between <em>A</em> and <em>B</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triples or Nx3 arrays of triples</p>
+<blockquote>
+<div><p>The endpoints of the great circle arc.  It is assumed that
+these points are already normalized.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>midpoint</strong> : (<em>x</em>, <em>y</em>, <em>z</em>) triple or Nx3 arrays of triples</p>
+<blockquote class="last">
+<div><p>The midpoint between <em>A</em> and <em>B</em>, normalized on the unit
+sphere.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">midpoint</a></li>
+</ul>
 
 
         </div>
@@ -89,7 +132,9 @@
       <div class="clearer"></div>
     </div>
 <footer class="footer">
-  <p class="pull-right"> &nbsp;
+  <p class="pull-right">
+    <a href="../_sources/api/stsci_sphere.great_circle_arc.midpoint.txt"
+       rel="nofollow">Page Source</a> &nbsp;
     <a href="#">Back to Top</a></p>
   <p>
     &copy; Copyright 2014, Michael Droettboom.<br/>

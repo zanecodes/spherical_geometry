@@ -1,0 +1,93 @@
+
+
+SphericalPolygon
+=====================================
+
+.. currentmodule:: stsci_sphere.polygon
+
+.. autoclass:: SphericalPolygon
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~SphericalPolygon.inside
+      ~SphericalPolygon.points
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~SphericalPolygon.area
+      ~SphericalPolygon.contains_arc
+      ~SphericalPolygon.contains_point
+      ~SphericalPolygon.copy
+      ~SphericalPolygon.draw
+      ~SphericalPolygon.from_cone
+      ~SphericalPolygon.from_radec
+      ~SphericalPolygon.from_wcs
+      ~SphericalPolygon.intersection
+      ~SphericalPolygon.intersects_arc
+      ~SphericalPolygon.intersects_poly
+      ~SphericalPolygon.multi_intersection
+      ~SphericalPolygon.multi_union
+      ~SphericalPolygon.overlap
+      ~SphericalPolygon.same_points_as
+      ~SphericalPolygon.to_radec
+      ~SphericalPolygon.union
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: inside
+   .. autoattribute:: points
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: area
+   .. automethod:: contains_arc
+   .. automethod:: contains_point
+   .. automethod:: copy
+   .. automethod:: draw
+   .. automethod:: from_cone
+   .. automethod:: from_radec
+   .. automethod:: from_wcs
+   .. automethod:: intersection
+   .. automethod:: intersects_arc
+   .. automethod:: intersects_poly
+   .. automethod:: multi_intersection
+   .. automethod:: multi_union
+   .. automethod:: overlap
+   .. automethod:: same_points_as
+   .. automethod:: to_radec
+   .. automethod:: union
+
+   
+   

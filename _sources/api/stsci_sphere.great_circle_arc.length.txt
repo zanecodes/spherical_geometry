@@ -1,0 +1,8 @@
+
+
+length
+====================================
+
+.. currentmodule:: stsci_sphere.great_circle_arc
+
+.. autofunction:: length

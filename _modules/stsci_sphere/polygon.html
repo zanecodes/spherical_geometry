@@ -1,0 +1,912 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>stsci_sphere.polygon &mdash; stsci_sphere v1.0</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
+    <link rel="top" title="stsci_sphere v1.0" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="../../_static/copybutton.js"></script>
+
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../index.html">stsci_sphere v1.0</a>
+	 &raquo;
+      </li>
+      <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for stsci_sphere.polygon</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The `stsci_sphere.polygon` module defines the `SphericalPolygon` class for</span>
+<span class="sd">managing polygons on the unit sphere.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
+
+<span class="c"># STDLIB</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">deepcopy</span>
+
+<span class="c"># THIRD-PARTY</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c"># LOCAL</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">great_circle_arc</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vector</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;SphericalPolygon&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="SphericalPolygon"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon">[docs]</a><span class="k">class</span> <span class="nc">SphericalPolygon</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Polygons are represented by both a set of points (in Cartesian</span>
+<span class="sd">    (*x*, *y*, *z*) normalized on the unit sphere), and an inside</span>
+<span class="sd">    point.  The inside point is necessary, because both the inside and</span>
+<span class="sd">    outside of the polygon are finite areas on the great sphere, and</span>
+<span class="sd">    therefore we need a way of specifying which is which.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">inside</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        points : An Nx3 array of (*x*, *y*, *z*) triples in vector space</span>
+<span class="sd">            These points define the boundary of the polygon.  It must</span>
+<span class="sd">            be &quot;closed&quot;, i.e., the last point is the same as the first.</span>
+
+<span class="sd">            It may contain zero points, in which it defines the null</span>
+<span class="sd">            polygon.  It may not contain one, two or three points.</span>
+<span class="sd">            Four points are needed to define a triangle, since the</span>
+<span class="sd">            polygon must be closed.</span>
+
+<span class="sd">        inside : An (*x*, *y*, *z*) triple, optional</span>
+<span class="sd">            This point must be inside the polygon.  If not provided, the</span>
+<span class="sd">            mean of the points will be used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># handle special case of initializing with an empty list of</span>
+            <span class="c"># vertices (ticket #1079).</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Polygon made of too few points&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="s">&#39;Polygon is not closed&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">inside</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">inside</span><span class="p">)</span>
+
+        <span class="c"># TODO: Detect self-intersection and fix</span>
+
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">, </span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inside</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SphericalPolygon.copy"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The points defining the polygon.  It is an Nx3 array of</span>
+<span class="sd">        (*x*, *y*, *z*) vectors.  The polygon will be explicitly</span>
+<span class="sd">        closed, i.e., the first and last points are the same.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">inside</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the inside point of the polygon.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span>
+
+<div class="viewcode-block" id="SphericalPolygon.to_radec"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.to_radec">[docs]</a>    <span class="k">def</span> <span class="nf">to_radec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert `SphericalPolygon` footprint to RA and DEC.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ra, dec : list of float</span>
+<span class="sd">            List of *ra* and *dec* in degrees corresponding</span>
+<span class="sd">            to `points`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">return</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalPolygon.from_radec"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.from_radec">[docs]</a>    <span class="k">def</span> <span class="nf">from_radec</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Create a new `SphericalPolygon` from a list of (*ra*, *dec*)</span>
+<span class="sd">        points.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ra, dec : 1-D arrays of the same length</span>
+<span class="sd">            The vertices of the polygon in right-ascension and</span>
+<span class="sd">            declination.  It must be \&quot;closed\&quot;, i.e., that is, the</span>
+<span class="sd">            last point is the same as the first.</span>
+
+<span class="sd">        center : (*ra*, *dec*) pair, optional</span>
+<span class="sd">            A point inside of the polygon to define its inside.  If no</span>
+<span class="sd">            *center* point is provided, the mean of the polygon&#39;s</span>
+<span class="sd">            points in vector space will be used.  That approach may</span>
+<span class="sd">            not work for concave polygons.</span>
+
+<span class="sd">        degrees : bool, optional</span>
+<span class="sd">            If `True`, (default) *ra* and *dec* are in decimal degrees,</span>
+<span class="sd">            otherwise in radians.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        polygon : `SphericalPolygon` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Convert to Cartesian</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">radec_to_vector</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span>
+
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">radec_to_vector</span><span class="p">(</span><span class="o">*</span><span class="n">center</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">],</span> <span class="n">center</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalPolygon.from_cone"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.from_cone">[docs]</a>    <span class="k">def</span> <span class="nf">from_cone</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mf">16.0</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Create a new `SphericalPolygon` from a cone (otherwise known</span>
+<span class="sd">        as a &quot;small circle&quot;) defined using (*ra*, *dec*, *radius*).</span>
+
+<span class="sd">        The cone is not represented as an ideal circle on the sphere,</span>
+<span class="sd">        but as a series of great circle arcs.  The resolution of this</span>
+<span class="sd">        conversion can be controlled using the *steps* parameter.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ra, dec : float scalars</span>
+<span class="sd">            This defines the center of the cone</span>
+
+<span class="sd">        radius : float scalar</span>
+<span class="sd">            The radius of the cone</span>
+
+<span class="sd">        degrees : bool, optional</span>
+<span class="sd">            If `True`, (default) *ra*, *dec* and *radius* are in</span>
+<span class="sd">            decimal degrees, otherwise in radians.</span>
+
+<span class="sd">        steps : int, optional</span>
+<span class="sd">            The number of steps to use when converting the small</span>
+<span class="sd">            circle to a polygon.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        polygon : `SphericalPolygon` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">radec_to_vector</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="n">degrees</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">degrees</span><span class="p">:</span>
+            <span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+
+        <span class="c"># Get an arbitrary perpendicular vector.  This be be obtained</span>
+        <span class="c"># by crossing (u, v, w) with any unit vector that is not itself.</span>
+        <span class="n">which_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">which_min</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">perp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">which_min</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">perp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">perp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+
+        <span class="c"># Rotate by radius around the perpendicular vector to get the</span>
+        <span class="c"># &quot;pen&quot;</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">rotate_around</span><span class="p">(</span>
+            <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">perp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">perp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">perp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">radius</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="c"># Then rotate the pen around the center point all 360 degrees</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+        <span class="c"># Ensure that the first and last elements are exactly the</span>
+        <span class="c"># same.  2π should equal 0, but with rounding error that isn&#39;t</span>
+        <span class="c"># always the case.</span>
+        <span class="n">C</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">rotate_around</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">))[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalPolygon.from_wcs"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.from_wcs">[docs]</a>    <span class="k">def</span> <span class="nf">from_wcs</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fitspath</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">crval</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Create a new `SphericalPolygon` from the footprint of a FITS</span>
+<span class="sd">        WCS specification.</span>
+
+<span class="sd">        This method requires having `astropy &lt;http://astropy.org&gt;`__</span>
+<span class="sd">        installed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fitspath : path to a FITS file, `astropy.io.fits.Header`, or `astropy.wcs.WCS`</span>
+<span class="sd">            Refers to a FITS header containing a WCS specification.</span>
+
+<span class="sd">        steps : int, optional</span>
+<span class="sd">            The number of steps along each edge to convert into</span>
+<span class="sd">            polygon edges.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        polygon : `SphericalPolygon` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">wcs</span> <span class="k">as</span> <span class="n">pywcs</span>
+        <span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fitspath</span><span class="p">,</span> <span class="n">fits</span><span class="o">.</span><span class="n">Header</span><span class="p">):</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">fitspath</span>
+            <span class="n">wcs</span> <span class="o">=</span> <span class="n">pywcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fitspath</span><span class="p">,</span> <span class="n">pywcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">):</span>
+            <span class="n">wcs</span> <span class="o">=</span> <span class="n">fitspath</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wcs</span> <span class="o">=</span> <span class="n">pywcs</span><span class="o">.</span><span class="n">WCS</span><span class="p">(</span><span class="n">fitspath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">crval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">wcs</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">crval</span> <span class="o">=</span> <span class="n">crval</span>
+        <span class="n">xa</span><span class="p">,</span> <span class="n">ya</span> <span class="o">=</span> <span class="p">[</span><span class="n">wcs</span><span class="o">.</span><span class="n">_naxis1</span><span class="p">,</span> <span class="n">wcs</span><span class="o">.</span><span class="n">_naxis2</span><span class="p">]</span>
+
+        <span class="n">length</span> <span class="o">=</span> <span class="n">steps</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+
+        <span class="c"># Now define each of the 4 edges of the quadrilateral</span>
+        <span class="n">X</span><span class="p">[</span><span class="mi">0</span>      <span class="p">:</span><span class="n">steps</span>  <span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">xa</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="n">Y</span><span class="p">[</span><span class="mi">0</span>      <span class="p">:</span><span class="n">steps</span>  <span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">steps</span>  <span class="p">:</span><span class="n">steps</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">xa</span>
+        <span class="n">Y</span><span class="p">[</span><span class="n">steps</span>  <span class="p">:</span><span class="n">steps</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ya</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">steps</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">steps</span><span class="o">*</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xa</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="n">Y</span><span class="p">[</span><span class="n">steps</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">steps</span><span class="o">*</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">ya</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">steps</span><span class="o">*</span><span class="mi">3</span><span class="p">:</span><span class="n">steps</span><span class="o">*</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">Y</span><span class="p">[</span><span class="n">steps</span><span class="o">*</span><span class="mi">3</span><span class="p">:</span><span class="n">steps</span><span class="o">*</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ya</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>              <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>              <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c"># Use wcslib to convert to (ra, dec)</span>
+        <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">all_pix2world</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c"># Convert to Cartesian</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">radec_to_vector</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+
+        <span class="c"># Calculate an inside point</span>
+        <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">all_pix2world</span><span class="p">(</span><span class="n">xa</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">ya</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">zc</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">radec_to_vector</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">zc</span><span class="p">))</span>
+</div>
+    <span class="k">def</span> <span class="nf">_unique_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a copy of `points` with duplicates removed.</span>
+<span class="sd">        Order is preserved.</span>
+
+<span class="sd">        .. note:: Output cannot be used to build a new</span>
+<span class="sd">            polygon.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
+                <span class="n">val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sorted_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preserve_order</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a copy of `points` sorted such that smallest</span>
+<span class="sd">        (*x*, *y*, *z*) is on top.</span>
+
+<span class="sd">        .. note:: Output cannot be used to build a new</span>
+<span class="sd">            polygon.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        preserve_order : bool</span>
+<span class="sd">            Preserve original order? If `True`, polygon is</span>
+<span class="sd">            rotated around min point. If `False`, all points</span>
+<span class="sd">            are sorted in ascending order.</span>
+
+<span class="sd">        unique : bool</span>
+<span class="sd">            Exclude duplicates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">unique</span><span class="p">:</span>
+            <span class="n">pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_points</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span>
+
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">((</span><span class="n">pts</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pts</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="n">preserve_order</span><span class="p">:</span>
+            <span class="n">i_min</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">pts</span><span class="p">[</span><span class="n">i_min</span><span class="p">:],</span> <span class="n">pts</span><span class="p">[:</span><span class="n">i_min</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">pts</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">val</span>
+
+<div class="viewcode-block" id="SphericalPolygon.same_points_as"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.same_points_as">[docs]</a>    <span class="k">def</span> <span class="nf">same_points_as</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">do_sort</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if this `SphericalPolygon` points are the same</span>
+<span class="sd">        as the other. Number of points and areas are also compared.</span>
+
+<span class="sd">        When *do_sort* is `True`, even when *self* and *other*</span>
+<span class="sd">        have same points, they might not be equivalent because</span>
+<span class="sd">        the order of the points defines the polygon.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : `SphericalPolygon`</span>
+
+<span class="sd">        do_sort : bool</span>
+<span class="sd">            Compare sorted unique points.</span>
+
+<span class="sd">        thres : float</span>
+<span class="sd">            Fraction of area to use in equality decision.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        is_eq : bool</span>
+<span class="sd">            `True` or `False`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">self_n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">self_n</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">points</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="n">self_n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="n">self_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="p">()</span>
+        <span class="n">is_same_limit</span> <span class="o">=</span> <span class="n">thres</span> <span class="o">*</span> <span class="n">self_a</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">self_a</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">area</span><span class="p">())</span> <span class="o">&gt;</span> <span class="n">is_same_limit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="n">do_sort</span><span class="p">:</span>
+            <span class="n">self_pts</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sorted_points</span><span class="p">(</span><span class="n">preserve_order</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">other_pts</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_sorted_points</span><span class="p">(</span><span class="n">preserve_order</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">self_pts</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span>
+            <span class="n">other_pts</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">points</span>
+
+        <span class="n">is_eq</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">for</span> <span class="n">self_p</span><span class="p">,</span> <span class="n">other_p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">self_pts</span><span class="p">,</span> <span class="n">other_pts</span><span class="p">):</span>
+            <span class="n">x_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">self_p</span><span class="p">,</span> <span class="n">other_p</span><span class="p">):</span>
+                <span class="n">x_sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_sum</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">is_same_limit</span><span class="p">:</span>
+                <span class="n">is_eq</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">is_eq</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.contains_point"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.contains_point">[docs]</a>    <span class="k">def</span> <span class="nf">contains_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Determines if this `SphericalPolygon` contains a given point.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        point : an (*x*, *y*, *z*) triple</span>
+<span class="sd">            The point to test.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        contains : bool</span>
+<span class="sd">            Returns `True` if the polygon contains the given *point*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+        <span class="n">intersects</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">r</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span>
+        <span class="n">crossings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">intersects</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">crossings</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.intersects_poly"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.intersects_poly">[docs]</a>    <span class="k">def</span> <span class="nf">intersects_poly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Determines if this `SphericalPolygon` intersects another</span>
+<span class="sd">        `SphericalPolygon`.</span>
+
+<span class="sd">        This method is much faster than actually computing the</span>
+<span class="sd">        intersection region between two polygons.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : `SphericalPolygon`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        intersects : bool</span>
+<span class="sd">            Returns `True` if this polygon intersects the *other*</span>
+<span class="sd">            polygon.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        The algorithm proceeds as follows:</span>
+
+<span class="sd">            1. Determine if any single point of one polygon is contained</span>
+<span class="sd">               within the other.</span>
+
+<span class="sd">            2. Deal with the case where only the edges overlap as in::</span>
+
+<span class="sd">               :       o---------o</span>
+<span class="sd">               :  o----+---------+----o</span>
+<span class="sd">               :  |    |         |    |</span>
+<span class="sd">               :  o----+---------+----o</span>
+<span class="sd">               :       o---------o</span>
+
+<span class="sd">               In this case, an edge from one polygon must cross an</span>
+<span class="sd">               edge from the other polygon.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">SphericalPolygon</span><span class="p">)</span>
+
+        <span class="c"># The easy case is in which a point of one polygon is</span>
+        <span class="c"># contained in the other polygon.</span>
+        <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_points</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="c"># The hard case is when only the edges overlap, as in:</span>
+        <span class="c">#</span>
+        <span class="c">#         o---------o</span>
+        <span class="c">#    o----+---------+----o</span>
+        <span class="c">#    |    |         |    |</span>
+        <span class="c">#    o----+---------+----o</span>
+        <span class="c">#         o---------o</span>
+        <span class="c">#</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">great_circle_arc</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span>
+                <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">other</span><span class="o">.</span><span class="n">_points</span><span class="p">[</span><span class="mi">1</span><span class="p">:])):</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.intersects_arc"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.intersects_arc">[docs]</a>    <span class="k">def</span> <span class="nf">intersects_arc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if this `SphericalPolygon` intersects or contains</span>
+<span class="sd">        the given arc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_arc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="n">intersects</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">P</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">intersects</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.contains_arc"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.contains_arc">[docs]</a>    <span class="k">def</span> <span class="nf">contains_arc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns `True` if the polygon fully encloses the arc given by a</span>
+<span class="sd">        and b.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.area"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.area">[docs]</a>    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Returns the area of the polygon on the unit sphere.</span>
+
+<span class="sd">        The algorithm is not able to compute the area of polygons</span>
+<span class="sd">        that are larger than half of the sphere.  Therefore, the</span>
+<span class="sd">        area will always be less than 2π.</span>
+
+<span class="sd">        The area is computed by transforming the polygon to two</span>
+<span class="sd">        dimensions using the `Lambert azimuthal equal-area projection</span>
+<span class="sd">        &lt;http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection&gt;`_</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            X = \sqrt{\frac{2}{1-z}}x</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            Y = \sqrt{\frac{2}{1-z}}y</span>
+
+<span class="sd">        The individual great arc circle segments are interpolated</span>
+<span class="sd">        before doing the transformation so that the curves are not</span>
+<span class="sd">        straightened in the process.</span>
+
+<span class="sd">        It then uses a standard 2D algorithm to compute the area.</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            A = \left| \sum^n_{i=0} X_i Y_{i+1} - X_{i+1}Y_i \right|</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c">#return np.float64(0.0)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="n">points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c"># Rotate polygon so that center of polygon is at north pole</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">centroid</span><span class="p">)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span> <span class="o">-</span> <span class="p">(</span><span class="n">centroid</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">points</span><span class="p">)</span>
+
+        <span class="n">XYs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">interp</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">length</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="n">vector</span><span class="o">.</span><span class="n">normalize_vector</span><span class="p">(</span><span class="n">interp</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">interp</span><span class="p">)</span>
+            <span class="n">XY</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">equal_area_proj</span><span class="p">(</span><span class="n">interp</span><span class="p">)</span>
+            <span class="n">XYs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XY</span><span class="p">)</span>
+
+        <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">XYs</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">XY</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">XY</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.union"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new `SphericalPolygon` that is the union of *self*</span>
+<span class="sd">        and *other*.</span>
+
+<span class="sd">        If the polygons are disjoint, they result will be connected</span>
+<span class="sd">        using cut lines.  For example::</span>
+
+<span class="sd">            : o---------o</span>
+<span class="sd">            : |         |</span>
+<span class="sd">            : o---------o=====o----------o</span>
+<span class="sd">            :                 |          |</span>
+<span class="sd">            :                 o----------o</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : `SphericalPolygon`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        polygon : `SphericalPolygon` object</span>
+
+<span class="sd">        See also</span>
+<span class="sd">        --------</span>
+<span class="sd">        multi_union</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        For implementation details, see the :mod:`~stsci_sphere.graph`</span>
+<span class="sd">        module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span>
+
+        <span class="n">polygon</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">union</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inside</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalPolygon.multi_union"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.multi_union">[docs]</a>    <span class="k">def</span> <span class="nf">multi_union</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">polygons</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new `SphericalPolygon` that is the union of all of the</span>
+<span class="sd">        polygons in *polygons*.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        polygons : sequence of `SphericalPolygon`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        polygon : `SphericalPolygon` object</span>
+
+<span class="sd">        See also</span>
+<span class="sd">        --------</span>
+<span class="sd">        union</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">polygons</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">SphericalPolygon</span><span class="p">)</span>
+
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">polygons</span><span class="p">)</span>
+        <span class="n">polygon</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">union</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">polygons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_inside</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_find_new_inside</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">polygons</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds an acceptable inside point inside of *points* that is</span>
+<span class="sd">        also inside of *polygons*.  Used by the intersection</span>
+<span class="sd">        algorithm, and is really only useful in that context because</span>
+<span class="sd">        it requires existing polygons with known inside points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+        <span class="c"># Special case for a triangle</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">points</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mf">3.0</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="c"># Skip the adjacent point, since it is by definition on</span>
+            <span class="c"># the edge of the polygon, not potentially running through</span>
+            <span class="c"># the middle.</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">B</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">midpoint</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+                <span class="n">in_all</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">polygon</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+                        <span class="n">in_all</span> <span class="o">=</span> <span class="bp">False</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="n">in_all</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">C</span>
+
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Suitable inside point could not be found&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SphericalPolygon.intersection"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.intersection">[docs]</a>    <span class="k">def</span> <span class="nf">intersection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new `SphericalPolygon` that is the intersection of</span>
+<span class="sd">        *self* and *other*.</span>
+
+<span class="sd">        If the intersection is empty, a `SphericalPolygon` with zero</span>
+<span class="sd">        points will be returned.</span>
+
+<span class="sd">        If the result is disjoint, the pieces will be connected using</span>
+<span class="sd">        cut lines.  For example::</span>
+
+<span class="sd">            : o---------o</span>
+<span class="sd">            : |         |</span>
+<span class="sd">            : o---------o=====o----------o</span>
+<span class="sd">            :                 |          |</span>
+<span class="sd">            :                 o----------o</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : `SphericalPolygon`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        polygon : `SphericalPolygon` object</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        For implementation details, see the :mod:`~stsci_sphere.graph`</span>
+<span class="sd">        module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># if not self.intersects_poly(other):</span>
+        <span class="c">#     return self.__class__([], [0, 0, 0])</span>
+
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">([],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span>
+
+        <span class="n">polygon</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">intersection</span><span class="p">()</span>
+
+        <span class="n">inside</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_new_inside</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">inside</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalPolygon.multi_intersection"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.multi_intersection">[docs]</a>    <span class="k">def</span> <span class="nf">multi_intersection</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">polygons</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;parallel&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new `SphericalPolygon` that is the intersection of</span>
+<span class="sd">        all of the polygons in *polygons*.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        polygons : sequence of `SphericalPolygon`</span>
+
+<span class="sd">        method : &#39;parallel&#39; or &#39;serial&#39;, optional</span>
+<span class="sd">            Specifies the method that is used to perform the</span>
+<span class="sd">            intersections:</span>
+
+<span class="sd">               - &#39;parallel&#39; (default): A graph is built using all of</span>
+<span class="sd">                 the polygons, and the intersection operation is computed on</span>
+<span class="sd">                 the entire thing globally.</span>
+
+<span class="sd">               - &#39;serial&#39;: The polygon is built in steps by adding one</span>
+<span class="sd">                 polygon at a time and computing the intersection at</span>
+<span class="sd">                 each step.</span>
+
+<span class="sd">            This option is provided because one may be faster than the</span>
+<span class="sd">            other depending on context, but it primarily exposed for</span>
+<span class="sd">            testing reasons.  Both modes should theoretically provide</span>
+<span class="sd">            equivalent results.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        polygon : `SphericalPolygon` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">polygons</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">SphericalPolygon</span><span class="p">)</span>
+
+        <span class="c"># for i in range(len(polygons)):</span>
+        <span class="c">#     polyA = polygons[i]</span>
+        <span class="c">#     for j in range(i + 1, len(polygons)):</span>
+        <span class="c">#         polyB = polygons[j]</span>
+        <span class="c">#         if not polyA.intersects_poly(polyB):</span>
+        <span class="c">#             return cls([], [0, 0, 0])</span>
+
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph</span>
+
+        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;parallel&#39;</span><span class="p">:</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">polygons</span><span class="p">)</span>
+            <span class="n">polygon</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">intersection</span><span class="p">()</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_find_new_inside</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">polygons</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">inside</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;serial&#39;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">polygons</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span>
+                <span class="c"># If we have a null intersection already, we don&#39;t</span>
+                <span class="c"># need to go any further.</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">_points</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">result</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;method must be &#39;parallel&#39; or &#39;serial&#39;&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.overlap"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.overlap">[docs]</a>    <span class="k">def</span> <span class="nf">overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Returns the fraction of *self* that is overlapped by *other*.</span>
+
+<span class="sd">        Let *self* be *a* and *other* be *b*, then the overlap is</span>
+<span class="sd">        defined as:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \frac{S_a}{S_{a \cap b}}</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : `SphericalPolygon`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        frac : float</span>
+<span class="sd">            The fraction of *self* that is overlapped by *other*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="p">()</span>
+        <span class="n">intersection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="n">s2</span> <span class="o">=</span> <span class="n">intersection</span><span class="o">.</span><span class="n">area</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">s2</span> <span class="o">/</span> <span class="n">s1</span>
+</div>
+<div class="viewcode-block" id="SphericalPolygon.draw"><a class="viewcode-back" href="../../api/stsci_sphere.polygon.SphericalPolygon.html#stsci_sphere.polygon.SphericalPolygon.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws the polygon in a matplotlib.Basemap axes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        m : Basemap axes object</span>
+
+<span class="sd">        **plot_args : Any plot arguments to pass to basemap</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_points</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot_args</span><span class="p">):</span>
+            <span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;blue&#39;</span><span class="p">}</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_points</span>
+
+        <span class="k">for</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+                <span class="n">length</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">interpolated</span> <span class="o">=</span> <span class="n">great_circle_arc</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">length</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span>
+                <span class="n">interpolated</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">interpolated</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">interpolated</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">r0</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">d1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ra</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dec</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ra</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dec</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">drawgreatcircle</span><span class="p">(</span><span class="n">r0</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_args</span><span class="p">)</span>
+
+        <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">vector_to_radec</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_inside</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_args</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2014, Michael Droettboom.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2. &nbsp;
+    Last built 21 Jul 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>
