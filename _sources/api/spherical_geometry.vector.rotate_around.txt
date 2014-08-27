@@ -1,0 +1,8 @@
+
+
+rotate_around
+=======================================
+
+.. currentmodule:: spherical_geometry.vector
+
+.. autofunction:: rotate_around

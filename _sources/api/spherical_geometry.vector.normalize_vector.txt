@@ -1,0 +1,8 @@
+
+
+normalize_vector
+==========================================
+
+.. currentmodule:: spherical_geometry.vector
+
+.. autofunction:: normalize_vector

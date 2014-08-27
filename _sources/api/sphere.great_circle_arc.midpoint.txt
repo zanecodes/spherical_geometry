@@ -1,8 +1,0 @@
-
-
-midpoint
-================================
-
-.. currentmodule:: sphere.great_circle_arc
-
-.. autofunction:: midpoint

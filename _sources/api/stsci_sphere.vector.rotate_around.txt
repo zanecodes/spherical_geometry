@@ -1,8 +1,0 @@
-
-
-rotate_around
-=================================
-
-.. currentmodule:: stsci_sphere.vector
-
-.. autofunction:: rotate_around

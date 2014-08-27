@@ -1,0 +1,8 @@
+
+
+angle
+=========================================
+
+.. currentmodule:: spherical_geometry.great_circle_arc
+
+.. autofunction:: angle

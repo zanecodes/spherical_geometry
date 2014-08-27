@@ -1,8 +1,0 @@
-
-
-length
-==============================
-
-.. currentmodule:: sphere.great_circle_arc
-
-.. autofunction:: length

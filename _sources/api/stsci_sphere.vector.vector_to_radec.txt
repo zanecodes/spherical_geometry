@@ -1,8 +1,0 @@
-
-
-vector_to_radec
-===================================
-
-.. currentmodule:: stsci_sphere.vector
-
-.. autofunction:: vector_to_radec

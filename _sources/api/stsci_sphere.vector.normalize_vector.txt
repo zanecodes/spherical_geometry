@@ -1,8 +1,0 @@
-
-
-normalize_vector
-====================================
-
-.. currentmodule:: stsci_sphere.vector
-
-.. autofunction:: normalize_vector
