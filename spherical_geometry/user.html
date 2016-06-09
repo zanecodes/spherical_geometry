@@ -179,15 +179,15 @@ a hole and a disjoint region connected by cut lines.</p>
 <p><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> objects have 4 different constructors:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>: Takes an array of (<em>x</em>, <em>y</em>, <em>z</em>)
-points and an inside point.</li>
+<li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>: Takes an array of (<em>x</em>, <em>y</em>, <em>z</em>) points, or a
+list of disjoint <a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> instances.</li>
 <li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.from_radec" title="spherical_geometry.polygon.SphericalPolygon.from_radec"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_radec</span></tt></a>: Takes an array of (<em>ra</em>, <em>dec</em>)
 points and an inside point.</li>
 <li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.from_cone" title="spherical_geometry.polygon.SphericalPolygon.from_cone"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_cone</span></tt></a>: Creates a polygon from a cone on the
 sky shere.  Takes (<em>ra</em>, <em>dec</em>, <em>radius</em>).</li>
 <li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.from_wcs" title="spherical_geometry.polygon.SphericalPolygon.from_wcs"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.from_wcs</span></tt></a>: Creates a polygon from the footprint
 of a FITS image using its WCS header keywords.  Takes a FITS
-filename or a <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v0.4.1)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a> object.</li>
+filename or a <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v1.0.2)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a> object.</li>
 </ul>
 </div></blockquote>
 </div>
@@ -197,8 +197,10 @@ filename or a <a class="reference external" href="http://docs.astropy.org/en/sta
 operations available:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.contains_point" title="spherical_geometry.polygon.SphericalPolygon.contains_point"><tt class="xref py py-obj docutils literal"><span class="pre">contains_point</span></tt></a>: Determines if the given point is inside the polygon.</li>
-<li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.intersects_poly" title="spherical_geometry.polygon.SphericalPolygon.intersects_poly"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_poly</span></tt></a>: Determines if one polygon intersects with another.</li>
+<li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.contains_point" title="spherical_geometry.polygon.SphericalPolygon.contains_point"><tt class="xref py py-obj docutils literal"><span class="pre">contains_point</span></tt></a>: Determines if the given point
+is inside the polygon.</li>
+<li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.intersects_poly" title="spherical_geometry.polygon.SphericalPolygon.intersects_poly"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_poly</span></tt></a>: Determines if one polygon
+intersects with another.</li>
 <li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.area" title="spherical_geometry.polygon.SphericalPolygon.area"><tt class="xref py py-obj docutils literal"><span class="pre">area</span></tt></a>: Determine the area of a polygon.</li>
 <li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.union" title="spherical_geometry.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a> and <a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.multi_union" title="spherical_geometry.polygon.SphericalPolygon.multi_union"><tt class="xref py py-obj docutils literal"><span class="pre">multi_union</span></tt></a>:
 Return a new polygon that is the union of two or more polygons.</li>
@@ -209,10 +211,6 @@ is the intersection of two or more polygons.</li>
 overlaps another.</li>
 <li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.to_radec" title="spherical_geometry.polygon.SphericalPolygon.to_radec"><tt class="xref py py-obj docutils literal"><span class="pre">to_radec</span></tt></a>: Convert (<em>x</em>, <em>y</em>, <em>z</em>) points in the
 polygon to (<em>ra</em>, <em>dec</em>) points.</li>
-<li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.same_points_as" title="spherical_geometry.polygon.SphericalPolygon.same_points_as"><tt class="xref py py-obj docutils literal"><span class="pre">same_points_as</span></tt></a>: Determines if one polygon has the
-same points as another. When only sorted unique points are considered
-(default behavior), polygons with same points might not be the same
-polygons because the order of the points matter.</li>
 <li><a class="reference internal" href="../api/spherical_geometry.polygon.SphericalPolygon.html#spherical_geometry.polygon.SphericalPolygon.draw" title="spherical_geometry.polygon.SphericalPolygon.draw"><tt class="xref py py-obj docutils literal"><span class="pre">draw</span></tt></a>: Plots the polygon using matplotlib’s
 Basemap toolkit.  This feature is rather bare and intended
 primarily for debugging purposes.</li>
@@ -274,9 +272,9 @@ arc.</li>
        rel="nofollow">Page Source</a> &nbsp;
     <a href="#">Back to Top</a></p>
   <p>
-    &copy; Copyright 2014, Michael Droettboom.<br/>
+    &copy; Copyright 2015, Michael Droettboom.<br/>
     Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2. &nbsp;
-    Last built 29 Aug 2014. <br/>
+    Last built 18 May 2015. <br/>
   </p>
 </footer>
   </body>

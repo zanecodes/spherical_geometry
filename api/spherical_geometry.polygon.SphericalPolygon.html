@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SphericalPolygon &mdash; spherical_geometry v1.0.4</title>
+    <title>SphericalPolygon &mdash; spherical_geometry v1.0.7</title>
     
     <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.4',
+        VERSION:     '1.0.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,16 +25,16 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
     <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
-    <link rel="top" title="spherical_geometry v1.0.4" href="../index.html" />
+    <link rel="top" title="spherical_geometry v1.0.7" href="../index.html" />
     <link rel="up" title="API Documentation" href="../spherical_geometry/api.html" />
     <link rel="next" title="Graph" href="spherical_geometry.graph.Graph.html" />
     <link rel="prev" title="interpolate" href="spherical_geometry.great_circle_arc.interpolate.html" />
-<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
 <script type="text/javascript" src="../_static/copybutton.js"></script>
 
 
   </head>
-  <body>
+  <body role="document">
 <div class="topbar">
   <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
   <ul>
@@ -69,7 +69,7 @@
 	 |
       </li>
       <li>
-	<a href="../index.html">spherical_geometry v1.0.4</a>
+	<a href="../index.html">spherical_geometry v1.0.7</a>
 	 &raquo;
       </li>
       <li><a href="../spherical_geometry/index.html" >Welcome to Spherical Geometry Toolkit&#8217;s documentation!</a> &raquo;</li>
@@ -83,36 +83,49 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="sphericalpolygon">
 <h1>SphericalPolygon<a class="headerlink" href="#sphericalpolygon" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="spherical_geometry.polygon.SphericalPolygon">
-<em class="property">class </em><tt class="descclassname">spherical_geometry.polygon.</tt><tt class="descname">SphericalPolygon</tt><big>(</big><em>points</em>, <em>inside=None</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.4)"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">spherical_geometry.polygon.</code><code class="descname">SphericalPolygon</code><span class="sig-paren">(</span><em>init</em>, <em>inside=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="http://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Polygons are represented by both a set of points (in Cartesian
 (<em>x</em>, <em>y</em>, <em>z</em>) normalized on the unit sphere), and an inside
 point.  The inside point is necessary, because both the inside and
 outside of the polygon are finite areas on the great sphere, and
 therefore we need a way of specifying which is which.</p>
+<p>This class contains a list of disjoint closed polygons.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points</strong> : An Nx3 array of (<em>x</em>, <em>y</em>, <em>z</em>) triples in vector space</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>init</strong> : object</p>
 <blockquote>
-<div><p>These points define the boundary of the polygon.  It must
-be &#8220;closed&#8221;, i.e., the last point is the same as the first.</p>
-<p>It may contain zero points, in which it defines the null
-polygon.  It may not contain one, two or three points.
-Four points are needed to define a triangle, since the
-polygon must be closed.</p>
+<div><dl class="docutils">
+<dt>May be either:</dt>
+<dd><ul class="first last">
+<li><p class="first">A list of disjoint <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> objects.</p>
+</li>
+<li><p class="first">An Nx3 array of (<em>x</em>, <em>y</em>, <em>z</em>) triples in Cartesian
+space.  These points define the boundary of the
+polygon.  It must be &#8220;closed&#8221;, i.e., the last point
+is the same as the first.</p>
+<p>It may contain zero points, in which it defines the
+null polygon.  It may not contain one, two or three
+points.  Four points are needed to define a triangle,
+since the polygon must be closed.</p>
+</li>
+</ul>
+</dd>
+</dl>
 </div></blockquote>
 <p><strong>inside</strong> : An (<em>x</em>, <em>y</em>, <em>z</em>) triple, optional</p>
 <blockquote class="last">
-<div><p>This point must be inside the polygon.  If not provided, the
-mean of the points will be used.</p>
+<div><p>If <em>init</em> is an array of points, this point must be inside
+the polygon.  If not provided, the mean of the points will
+be used.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -125,11 +138,11 @@ mean of the points will be used.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.inside" title="spherical_geometry.polygon.SphericalPolygon.inside"><tt class="xref py py-obj docutils literal"><span class="pre">inside</span></tt></a></td>
-<td>Get the inside point of the polygon.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.inside" title="spherical_geometry.polygon.SphericalPolygon.inside"><code class="xref py py-obj docutils literal"><span class="pre">inside</span></code></a></td>
+<td>Iterate over the inside point of each of the polygons.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.points" title="spherical_geometry.polygon.SphericalPolygon.points"><tt class="xref py py-obj docutils literal"><span class="pre">points</span></tt></a></td>
-<td>The points defining the polygon.</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.points" title="spherical_geometry.polygon.SphericalPolygon.points"><code class="xref py py-obj docutils literal"><span class="pre">points</span></code></a></td>
+<td>The points defining the polygons.</td>
 </tr>
 </tbody>
 </table>
@@ -140,107 +153,99 @@ mean of the points will be used.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.area" title="spherical_geometry.polygon.SphericalPolygon.area"><tt class="xref py py-obj docutils literal"><span class="pre">area</span></tt></a>()</td>
-<td>Returns the area of the polygon on the unit sphere.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.area" title="spherical_geometry.polygon.SphericalPolygon.area"><code class="xref py py-obj docutils literal"><span class="pre">area</span></code></a>()</td>
+<td>Returns the area of the polygon on the unit sphere in steradians.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.contains_arc" title="spherical_geometry.polygon.SphericalPolygon.contains_arc"><tt class="xref py py-obj docutils literal"><span class="pre">contains_arc</span></tt></a>(a,&nbsp;b)</td>
-<td>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the polygon fully encloses the arc given by a and b.</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.contains_arc" title="spherical_geometry.polygon.SphericalPolygon.contains_arc"><code class="xref py py-obj docutils literal"><span class="pre">contains_arc</span></code></a>(a,&nbsp;b)</td>
+<td>Returns <a class="reference external" href="http://docs.python.org/2/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> if the polygon fully encloses the arc given by a and b.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.contains_point" title="spherical_geometry.polygon.SphericalPolygon.contains_point"><tt class="xref py py-obj docutils literal"><span class="pre">contains_point</span></tt></a>(point)</td>
-<td>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> contains a given point.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.contains_point" title="spherical_geometry.polygon.SphericalPolygon.contains_point"><code class="xref py py-obj docutils literal"><span class="pre">contains_point</span></code></a>(point)</td>
+<td>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> contains a given point.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.copy" title="spherical_geometry.polygon.SphericalPolygon.copy"><tt class="xref py py-obj docutils literal"><span class="pre">copy</span></tt></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.copy" title="spherical_geometry.polygon.SphericalPolygon.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.draw" title="spherical_geometry.polygon.SphericalPolygon.draw"><tt class="xref py py-obj docutils literal"><span class="pre">draw</span></tt></a>(m,&nbsp;**plot_args)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.draw" title="spherical_geometry.polygon.SphericalPolygon.draw"><code class="xref py py-obj docutils literal"><span class="pre">draw</span></code></a>(m,&nbsp;**plot_args)</td>
 <td>Draws the polygon in a matplotlib.Basemap axes.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.from_cone" title="spherical_geometry.polygon.SphericalPolygon.from_cone"><tt class="xref py py-obj docutils literal"><span class="pre">from_cone</span></tt></a>(ra,&nbsp;dec,&nbsp;radius[,&nbsp;degrees,&nbsp;steps])</td>
-<td>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from a cone (otherwise known as a &#8220;small circle&#8221;) defined using (<em>ra</em>, <em>dec</em>, <em>radius</em>).</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.from_cone" title="spherical_geometry.polygon.SphericalPolygon.from_cone"><code class="xref py py-obj docutils literal"><span class="pre">from_cone</span></code></a>(ra,&nbsp;dec,&nbsp;radius[,&nbsp;degrees,&nbsp;steps])</td>
+<td>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> from a cone (otherwise known as a &#8220;small circle&#8221;) defined using (<em>ra</em>, <em>dec</em>, <em>radius</em>).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.from_radec" title="spherical_geometry.polygon.SphericalPolygon.from_radec"><tt class="xref py py-obj docutils literal"><span class="pre">from_radec</span></tt></a>(ra,&nbsp;dec[,&nbsp;center,&nbsp;degrees])</td>
-<td>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from a list of (<em>ra</em>, <em>dec</em>) points.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.from_radec" title="spherical_geometry.polygon.SphericalPolygon.from_radec"><code class="xref py py-obj docutils literal"><span class="pre">from_radec</span></code></a>(ra,&nbsp;dec[,&nbsp;center,&nbsp;degrees])</td>
+<td>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> from a list of (<em>ra</em>, <em>dec</em>) points.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.from_wcs" title="spherical_geometry.polygon.SphericalPolygon.from_wcs"><tt class="xref py py-obj docutils literal"><span class="pre">from_wcs</span></tt></a>(fitspath[,&nbsp;steps,&nbsp;crval])</td>
-<td>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from the footprint of a FITS WCS specification.</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.from_wcs" title="spherical_geometry.polygon.SphericalPolygon.from_wcs"><code class="xref py py-obj docutils literal"><span class="pre">from_wcs</span></code></a>(fitspath[,&nbsp;steps,&nbsp;crval])</td>
+<td>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> from the footprint of a FITS WCS specification.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.intersection" title="spherical_geometry.polygon.SphericalPolygon.intersection"><tt class="xref py py-obj docutils literal"><span class="pre">intersection</span></tt></a>(other)</td>
-<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the intersection of <em>self</em> and <em>other</em>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.intersection" title="spherical_geometry.polygon.SphericalPolygon.intersection"><code class="xref py py-obj docutils literal"><span class="pre">intersection</span></code></a>(other)</td>
+<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the intersection of <em>self</em> and <em>other</em>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.intersects_arc" title="spherical_geometry.polygon.SphericalPolygon.intersects_arc"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_arc</span></tt></a>(a,&nbsp;b)</td>
-<td>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> intersects or contains the given arc.</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.intersects_arc" title="spherical_geometry.polygon.SphericalPolygon.intersects_arc"><code class="xref py py-obj docutils literal"><span class="pre">intersects_arc</span></code></a>(a,&nbsp;b)</td>
+<td>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> intersects or contains the given arc.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.intersects_poly" title="spherical_geometry.polygon.SphericalPolygon.intersects_poly"><tt class="xref py py-obj docutils literal"><span class="pre">intersects_poly</span></tt></a>(other)</td>
-<td>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> intersects another <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.intersects_poly" title="spherical_geometry.polygon.SphericalPolygon.intersects_poly"><code class="xref py py-obj docutils literal"><span class="pre">intersects_poly</span></code></a>(other)</td>
+<td>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> intersects another <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.multi_intersection" title="spherical_geometry.polygon.SphericalPolygon.multi_intersection"><tt class="xref py py-obj docutils literal"><span class="pre">multi_intersection</span></tt></a>(polygons[,&nbsp;method])</td>
-<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the intersection of all of the polygons in <em>polygons</em>.</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.multi_intersection" title="spherical_geometry.polygon.SphericalPolygon.multi_intersection"><code class="xref py py-obj docutils literal"><span class="pre">multi_intersection</span></code></a>(polygons)</td>
+<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the intersection of all of the polygons in <em>polygons</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.multi_union" title="spherical_geometry.polygon.SphericalPolygon.multi_union"><tt class="xref py py-obj docutils literal"><span class="pre">multi_union</span></tt></a>(polygons)</td>
-<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the union of all of the polygons in <em>polygons</em>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.multi_union" title="spherical_geometry.polygon.SphericalPolygon.multi_union"><code class="xref py py-obj docutils literal"><span class="pre">multi_union</span></code></a>(polygons)</td>
+<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the union of all of the polygons in <em>polygons</em>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.overlap" title="spherical_geometry.polygon.SphericalPolygon.overlap"><tt class="xref py py-obj docutils literal"><span class="pre">overlap</span></tt></a>(other)</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.overlap" title="spherical_geometry.polygon.SphericalPolygon.overlap"><code class="xref py py-obj docutils literal"><span class="pre">overlap</span></code></a>(other)</td>
 <td>Returns the fraction of <em>self</em> that is overlapped by <em>other</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.same_points_as" title="spherical_geometry.polygon.SphericalPolygon.same_points_as"><tt class="xref py py-obj docutils literal"><span class="pre">same_points_as</span></tt></a>(other[,&nbsp;do_sort,&nbsp;thres])</td>
-<td>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> points are the same as the other.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon.same_points_as</span></code></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.to_radec" title="spherical_geometry.polygon.SphericalPolygon.to_radec"><tt class="xref py py-obj docutils literal"><span class="pre">to_radec</span></tt></a>()</td>
-<td>Convert <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> footprint to RA and DEC.</td>
+<tr class="row-even"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.to_radec" title="spherical_geometry.polygon.SphericalPolygon.to_radec"><code class="xref py py-obj docutils literal"><span class="pre">to_radec</span></code></a>()</td>
+<td>Convert the <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> footprint to RA and DEC coordinates.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.union" title="spherical_geometry.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a>(other)</td>
-<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the union of <em>self</em> and <em>other</em>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.union" title="spherical_geometry.polygon.SphericalPolygon.union"><code class="xref py py-obj docutils literal"><span class="pre">union</span></code></a>(other)</td>
+<td>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the union of <em>self</em> and <em>other</em>.</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
 <dl class="attribute">
 <dt id="spherical_geometry.polygon.SphericalPolygon.inside">
-<tt class="descname">inside</tt><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.inside" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the inside point of the polygon.</p>
+<code class="descname">inside</code><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.inside" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over the inside point of each of the polygons.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="spherical_geometry.polygon.SphericalPolygon.points">
-<tt class="descname">points</tt><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.points" title="Permalink to this definition">¶</a></dt>
-<dd><p>The points defining the polygon.  It is an Nx3 array of
-(<em>x</em>, <em>y</em>, <em>z</em>) vectors.  The polygon will be explicitly
+<code class="descname">points</code><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.points" title="Permalink to this definition">¶</a></dt>
+<dd><p>The points defining the polygons.  It is an iterator over
+disjoint closed polygons, where each element is an Nx3 array
+of (<em>x</em>, <em>y</em>, <em>z</em>) vectors.  Each polygon is explicitly
 closed, i.e., the first and last points are the same.</p>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.area">
-<tt class="descname">area</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.area" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the area of the polygon on the unit sphere.</p>
-<p>The algorithm is not able to compute the area of polygons
-that are larger than half of the sphere.  Therefore, the
-area will always be less than 2π.</p>
-<p>The area is computed by transforming the polygon to two
-dimensions using the <a class="reference external" href="http://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area projection</a></p>
+<code class="descname">area</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the area of the polygon on the unit sphere in
+steradians.</p>
+<p>The area is computed using a generalization of Girard&#8217;s Theorem.</p>
+<p>if <img class="math" src="../_images/math/a9cfbeb8ebee1f365919e147a79e242dcb67ee5d.png" alt="\theta"/> is the sum of the internal angles of the
+polygon, and <em>n</em> is the number of vertices, the area is:</p>
 <div class="math">
-<p><img src="../_images/math/6d485986f84818a66b863a1c83909fa23000e1de.png" alt="X = \sqrt{\frac{2}{1-z}}x"/></p>
-</div><div class="math">
-<p><img src="../_images/math/287866c1298eb30e5ecccf5117b043af88e01681.png" alt="Y = \sqrt{\frac{2}{1-z}}y"/></p>
-</div><p>The individual great arc circle segments are interpolated
-before doing the transformation so that the curves are not
-straightened in the process.</p>
-<p>It then uses a standard 2D algorithm to compute the area.</p>
-<div class="math">
-<p><img src="../_images/math/3dd9f9611d2ca405016bafd4f84ce4c979b62387.png" alt="A = \left| \sum^n_{i=0} X_i Y_{i+1} - X_{i+1}Y_i \right|"/></p>
+<p><img src="../_images/math/104d496a9ad62957b636dfa75376ccac30954cff.png" alt="S = \theta - (n - 2) \pi"/></p>
 </div></dd></dl>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.contains_arc">
-<tt class="descname">contains_arc</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.contains_arc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.contains_arc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the polygon fully encloses the arc given by a
+<code class="descname">contains_arc</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.contains_arc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.contains_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <a class="reference external" href="http://docs.python.org/2/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> if the polygon fully encloses the arc given by a
 and b.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.contains_point">
-<tt class="descname">contains_point</tt><big>(</big><em>point</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.contains_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.contains_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> contains a given point.</p>
+<code class="descname">contains_point</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.contains_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.contains_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> contains a given point.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -253,7 +258,7 @@ and b.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>contains</strong> : bool</p>
 <blockquote class="last">
-<div><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if the polygon contains the given <em>point</em>.</p>
+<div><p>Returns <a class="reference external" href="http://docs.python.org/2/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> if the polygon contains the given <em>point</em>.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -263,12 +268,12 @@ and b.</p>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.copy">
-<tt class="descname">copy</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.copy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.draw">
-<tt class="descname">draw</tt><big>(</big><em>m</em>, <em>**plot_args</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>m</em>, <em>**plot_args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the polygon in a matplotlib.Basemap axes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -284,8 +289,8 @@ and b.</p>
 
 <dl class="classmethod">
 <dt id="spherical_geometry.polygon.SphericalPolygon.from_cone">
-<em class="property">classmethod </em><tt class="descname">from_cone</tt><big>(</big><em>ra</em>, <em>dec</em>, <em>radius</em>, <em>degrees=True</em>, <em>steps=16.0</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.from_cone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.from_cone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from a cone (otherwise known
+<em class="property">classmethod </em><code class="descname">from_cone</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>radius</em>, <em>degrees=True</em>, <em>steps=16.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.from_cone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.from_cone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> from a cone (otherwise known
 as a &#8220;small circle&#8221;) defined using (<em>ra</em>, <em>dec</em>, <em>radius</em>).</p>
 <p>The cone is not represented as an ideal circle on the sphere,
 but as a series of great circle arcs.  The resolution of this
@@ -304,7 +309,7 @@ conversion can be controlled using the <em>steps</em> parameter.</p>
 </div></blockquote>
 <p><strong>degrees</strong> : bool, optional</p>
 <blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, (default) <em>ra</em>, <em>dec</em> and <em>radius</em> are in
+<div><p>If <a class="reference external" href="http://docs.python.org/2/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a>, (default) <em>ra</em>, <em>dec</em> and <em>radius</em> are in
 decimal degrees, otherwise in radians.</p>
 </div></blockquote>
 <p><strong>steps</strong> : int, optional</p>
@@ -314,7 +319,7 @@ circle to a polygon.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> object</p>
 </td>
 </tr>
 </tbody>
@@ -323,8 +328,8 @@ circle to a polygon.</p>
 
 <dl class="classmethod">
 <dt id="spherical_geometry.polygon.SphericalPolygon.from_radec">
-<em class="property">classmethod </em><tt class="descname">from_radec</tt><big>(</big><em>ra</em>, <em>dec</em>, <em>center=None</em>, <em>degrees=True</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.from_radec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.from_radec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from a list of (<em>ra</em>, <em>dec</em>)
+<em class="property">classmethod </em><code class="descname">from_radec</code><span class="sig-paren">(</span><em>ra</em>, <em>dec</em>, <em>center=None</em>, <em>degrees=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.from_radec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.from_radec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> from a list of (<em>ra</em>, <em>dec</em>)
 points.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -345,12 +350,12 @@ not work for concave polygons.</p>
 </div></blockquote>
 <p><strong>degrees</strong> : bool, optional</p>
 <blockquote>
-<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, (default) <em>ra</em> and <em>dec</em> are in decimal degrees,
+<div><p>If <a class="reference external" href="http://docs.python.org/2/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a>, (default) <em>ra</em> and <em>dec</em> are in decimal degrees,
 otherwise in radians.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> object</p>
 </td>
 </tr>
 </tbody>
@@ -359,8 +364,8 @@ otherwise in radians.</p>
 
 <dl class="classmethod">
 <dt id="spherical_geometry.polygon.SphericalPolygon.from_wcs">
-<em class="property">classmethod </em><tt class="descname">from_wcs</tt><big>(</big><em>fitspath</em>, <em>steps=1</em>, <em>crval=None</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.from_wcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.from_wcs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> from the footprint of a FITS
+<em class="property">classmethod </em><code class="descname">from_wcs</code><span class="sig-paren">(</span><em>fitspath</em>, <em>steps=1</em>, <em>crval=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.from_wcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.from_wcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> from the footprint of a FITS
 WCS specification.</p>
 <p>This method requires having <a class="reference external" href="http://astropy.org">astropy</a>
 installed.</p>
@@ -368,7 +373,7 @@ installed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fitspath</strong> : path to a FITS file, <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v0.4.1)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></tt></a>, or <a class="reference external" href="http://docs.astropy.org/en/stable/api/astropy.wcs.WCS.html#astropy.wcs.WCS" title="(in Astropy v0.4.1)"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS</span></tt></a></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fitspath</strong> : path to a FITS file, <a class="reference external" href="http://docs.astropy.org/en/stable/io/fits/api/headers.html#astropy.io.fits.Header" title="(in Astropy v1.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.Header</span></code></a>, or <a class="reference external" href="http://docs.astropy.org/en/stable/api/astropy.wcs.WCS.html#astropy.wcs.WCS" title="(in Astropy v1.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS</span></code></a></p>
 <blockquote>
 <div><p>Refers to a FITS header containing a WCS specification.</p>
 </div></blockquote>
@@ -379,7 +384,7 @@ polygon edges.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> object</p>
 </td>
 </tr>
 </tbody>
@@ -388,120 +393,70 @@ polygon edges.</p>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.intersection">
-<tt class="descname">intersection</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.intersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the intersection of
+<code class="descname">intersection</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the intersection of
 <em>self</em> and <em>other</em>.</p>
-<p>If the intersection is empty, a <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> with zero
-points will be returned.</p>
-<p>If the result is disjoint, the pieces will be connected using
-cut lines.  For example:</p>
-<div class="highlight-python"><div class="highlight"><pre>: o---------o
-: |         |
-: o---------o=====o----------o
-:                 |          |
-:                 o----------o
-</pre></div>
-</div>
+<p>If the intersection is empty, a <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> with zero
+subpolygons will be returned.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> object</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>For implementation details, see the <a class="reference internal" href="../spherical_geometry/api.html#module-spherical_geometry.graph" title="spherical_geometry.graph"><tt class="xref py py-mod docutils literal"><span class="pre">graph</span></tt></a>
-module.</p>
+<p>For implementation details, see the
+<a class="reference internal" href="../spherical_geometry/api.html#module-spherical_geometry.graph" title="spherical_geometry.graph"><code class="xref py py-mod docutils literal"><span class="pre">graph</span></code></a> module.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.intersects_arc">
-<tt class="descname">intersects_arc</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.intersects_arc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.intersects_arc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> intersects or contains
+<code class="descname">intersects_arc</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.intersects_arc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.intersects_arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> intersects or contains
 the given arc.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.intersects_poly">
-<tt class="descname">intersects_poly</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.intersects_poly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.intersects_poly" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> intersects another
-<a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a>.</p>
+<code class="descname">intersects_poly</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.intersects_poly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.intersects_poly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> intersects another
+<a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a>.</p>
 <p>This method is much faster than actually computing the
 intersection region between two polygons.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>intersects</strong> : bool</p>
 <blockquote class="last">
-<div><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if this polygon intersects the <em>other</em>
+<div><p>Returns <a class="reference external" href="http://docs.python.org/2/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> if this polygon intersects the <em>other</em>
 polygon.</p>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">Notes</p>
-<p>The algorithm proceeds as follows:</p>
-<blockquote>
-<div><ol class="arabic">
-<li><p class="first">Determine if any single point of one polygon is contained
-within the other.</p>
-</li>
-<li><p class="first">Deal with the case where only the edges overlap as in:</p>
-<div class="highlight-python"><div class="highlight"><pre>:       o---------o
-:  o----+---------+----o
-:  |    |         |    |
-:  o----+---------+----o
-:       o---------o
-</pre></div>
-</div>
-<p>In this case, an edge from one polygon must cross an
-edge from the other polygon.</p>
-</li>
-</ol>
-</div></blockquote>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="spherical_geometry.polygon.SphericalPolygon.multi_intersection">
-<em class="property">classmethod </em><tt class="descname">multi_intersection</tt><big>(</big><em>polygons</em>, <em>method=u'parallel'</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.multi_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.multi_intersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the intersection of
+<em class="property">classmethod </em><code class="descname">multi_intersection</code><span class="sig-paren">(</span><em>polygons</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.multi_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.multi_intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the intersection of
 all of the polygons in <em>polygons</em>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>polygons</strong> : sequence of <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
-<p><strong>method</strong> : &#8216;parallel&#8217; or &#8216;serial&#8217;, optional</p>
-<blockquote>
-<div><p>Specifies the method that is used to perform the
-intersections:</p>
-<blockquote>
-<div><ul class="simple">
-<li>&#8216;parallel&#8217; (default): A graph is built using all of
-the polygons, and the intersection operation is computed on
-the entire thing globally.</li>
-<li>&#8216;serial&#8217;: The polygon is built in steps by adding one
-polygon at a time and computing the intersection at
-each step.</li>
-</ul>
-</div></blockquote>
-<p>This option is provided because one may be faster than the
-other depending on context, but it primarily exposed for
-testing reasons.  Both modes should theoretically provide
-equivalent results.</p>
-</div></blockquote>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>polygons</strong> : sequence of <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> object</td>
 </tr>
 </tbody>
 </table>
@@ -509,28 +464,28 @@ equivalent results.</p>
 
 <dl class="classmethod">
 <dt id="spherical_geometry.polygon.SphericalPolygon.multi_union">
-<em class="property">classmethod </em><tt class="descname">multi_union</tt><big>(</big><em>polygons</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.multi_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.multi_union" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the union of all of the
+<em class="property">classmethod </em><code class="descname">multi_union</code><span class="sig-paren">(</span><em>polygons</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.multi_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.multi_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the union of all of the
 polygons in <em>polygons</em>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>polygons</strong> : sequence of <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>polygons</strong> : sequence of <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> object</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.union" title="spherical_geometry.polygon.SphericalPolygon.union"><tt class="xref py py-obj docutils literal"><span class="pre">union</span></tt></a></p>
+<p class="last"><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.union" title="spherical_geometry.polygon.SphericalPolygon.union"><code class="xref py py-obj docutils literal"><span class="pre">union</span></code></a></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.overlap">
-<tt class="descname">overlap</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.overlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.overlap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">overlap</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.overlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.overlap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the fraction of <em>self</em> that is overlapped by <em>other</em>.</p>
 <p>Let <em>self</em> be <em>a</em> and <em>other</em> be <em>b</em>, then the overlap is
 defined as:</p>
@@ -540,7 +495,7 @@ defined as:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>frac</strong> : float</p>
@@ -554,50 +509,18 @@ defined as:</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="spherical_geometry.polygon.SphericalPolygon.same_points_as">
-<tt class="descname">same_points_as</tt><big>(</big><em>other</em>, <em>do_sort=True</em>, <em>thres=0.01</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.same_points_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.same_points_as" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if this <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> points are the same
-as the other. Number of points and areas are also compared.</p>
-<p>When <em>do_sort</em> is <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, even when <em>self</em> and <em>other</em>
-have same points, they might not be equivalent because
-the order of the points defines the polygon.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></p>
-<p><strong>do_sort</strong> : bool</p>
-<blockquote>
-<div><p>Compare sorted unique points.</p>
-</div></blockquote>
-<p><strong>thres</strong> : float</p>
-<blockquote>
-<div><p>Fraction of area to use in equality decision.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>is_eq</strong> : bool</p>
-<blockquote class="last">
-<div><p><a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> or <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.to_radec">
-<tt class="descname">to_radec</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.to_radec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.to_radec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> footprint to RA and DEC.</p>
+<code class="descname">to_radec</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.to_radec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.to_radec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> footprint to RA and DEC
+coordinates.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ra, dec</strong> : list of float</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>polyons</strong> : iterator</p>
 <blockquote class="last">
-<div><p>List of <em>ra</em> and <em>dec</em> in degrees corresponding
-to <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.points" title="spherical_geometry.polygon.SphericalPolygon.points"><tt class="xref py py-obj docutils literal"><span class="pre">points</span></tt></a>.</p>
+<div><p>Each element in the iterator is a tuple of the form (<em>ra</em>,
+<em>dec</em>), where each is an array of points.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -607,34 +530,25 @@ to <a class="reference internal" href="#spherical_geometry.polygon.SphericalPoly
 
 <dl class="method">
 <dt id="spherical_geometry.polygon.SphericalPolygon.union">
-<tt class="descname">union</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.union" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> that is the union of <em>self</em>
+<code class="descname">union</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spherical_geometry/polygon.html#SphericalPolygon.union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spherical_geometry.polygon.SphericalPolygon.union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> that is the union of <em>self</em>
 and <em>other</em>.</p>
-<p>If the polygons are disjoint, they result will be connected
-using cut lines.  For example:</p>
-<div class="highlight-python"><div class="highlight"><pre>: o---------o
-: |         |
-: o---------o=====o----------o
-:                 |          |
-:                 o----------o
-</pre></div>
-</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></tt></a> object</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>polygon</strong> : <a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon" title="spherical_geometry.polygon.SphericalPolygon"><code class="xref py py-obj docutils literal"><span class="pre">SphericalPolygon</span></code></a> object</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.multi_union" title="spherical_geometry.polygon.SphericalPolygon.multi_union"><tt class="xref py py-obj docutils literal"><span class="pre">multi_union</span></tt></a></p>
+<p class="last"><a class="reference internal" href="#spherical_geometry.polygon.SphericalPolygon.multi_union" title="spherical_geometry.polygon.SphericalPolygon.multi_union"><code class="xref py py-obj docutils literal"><span class="pre">multi_union</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
-<p>For implementation details, see the <a class="reference internal" href="../spherical_geometry/api.html#module-spherical_geometry.graph" title="spherical_geometry.graph"><tt class="xref py py-mod docutils literal"><span class="pre">graph</span></tt></a>
+<p>For implementation details, see the <a class="reference internal" href="../spherical_geometry/api.html#module-spherical_geometry.graph" title="spherical_geometry.graph"><code class="xref py py-mod docutils literal"><span class="pre">graph</span></code></a>
 module.</p>
 </dd></dl>
 
@@ -646,7 +560,7 @@ module.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
 <ul>
 <li><a class="reference internal" href="#">SphericalPolygon</a></li>
@@ -663,9 +577,9 @@ module.</p>
        rel="nofollow">Page Source</a> &nbsp;
     <a href="#">Back to Top</a></p>
   <p>
-    &copy; Copyright 2014, Michael Droettboom.<br/>
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.2. &nbsp;
-    Last built 29 Aug 2014. <br/>
+    &copy; Copyright 2016, Michael Droettboom.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.5. &nbsp;
+    Last built 08 Jun 2016. <br/>
   </p>
 </footer>
   </body>
