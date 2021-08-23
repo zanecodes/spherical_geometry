@@ -26,6 +26,7 @@ jobs:
       - name: Build wheels
         env:
           CIBW_ENVIRONMENT_MACOS: BLAS=None LAPACK=None ATLAS=None
+          CIBW_SKIP: pp37-macosx_x86_64
         uses: pypa/cibuildwheel@v2.1.1
 
       - uses: actions/upload-artifact@v2
