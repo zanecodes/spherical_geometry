@@ -54,8 +54,14 @@ jobs:
         with:
           path: dist/*.tar.gz
 
-  upload_pypi:
+  debug:
     needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hmarr/debug-action@v2
+
+  upload_pypi:
+    needs: [debug]
     runs-on: ubuntu-latest
     # publish when a GitHub Release is created
     if: github.event_name == 'release' && github.event.action == 'published'
