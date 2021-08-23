@@ -24,6 +24,8 @@ jobs:
         run: pip install numpy
 
       - name: Build wheels
+        env:
+          CIBW_ENVIRONMENT_MACOS: BLAS=None LAPACK=None ATLAS=None
         uses: pypa/cibuildwheel@v2.1.1
 
       - uses: actions/upload-artifact@v2
