@@ -19,9 +19,6 @@ jobs:
         name: Install Python
         with:
           python-version: '3.8'
-      
-      - name: Install build dependencies
-        run: pip install numpy
 
       - name: Build wheels
         env:
@@ -43,9 +40,6 @@ jobs:
         name: Install Python
         with:
           python-version: '3.8'
-      
-      - name: Install build dependencies
-        run: pip install numpy
 
       - name: Build sdist
         run: python setup.py sdist
