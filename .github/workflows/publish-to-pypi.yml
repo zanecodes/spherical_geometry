@@ -2,31 +2,40 @@ name: Publish to PyPI
 
 on:
   release:
-    types: [released, published]
+    types: [released]
 
 jobs:
+  validate:
+    name: Validate metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zanecodes/action-publish_to_pypi/validate@refactor
+
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
+    needs: [validate]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-20.04, macos-10.15]
 
     steps:
-      - uses: zanecodes/python-publish/build-wheel@v1
+      - uses: zanecodes/action-publish_to_pypi/build-wheel@refactor
 
   build_sdist:
     name: Build source distribution
+    needs: [validate]
     runs-on: ubuntu-latest
     steps:
-      - uses: zanecodes/python-publish/build-sdist@v1
+      - uses: zanecodes/action-publish_to_pypi/build-sdist@refactor
 
   upload_pypi:
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
-    if: github.event_name == 'release' && github.event.action == 'published'
     steps:
-      - uses: zanecodes/python-publish/publish@v1
+      - uses: zanecodes/action-publish_to_pypi/publish@refactor
         with:
-          repository_url: https://test.pypi.org/legacy/
-          password: ${{ secrets.pypi_password }}
+          test: ${{ secrets.PYPI_TEST }}
+          user: ${{ secrets.PYPI_USERNAME_STSCI_MAINTAINER }}
+          password: ${{ secrets.PYPI_PASSWORD_STSCI_MAINTAINER }}
+          test_password: ${{ secrets.PYPI_PASSWORD_STSCI_MAINTAINER_TEST }}
